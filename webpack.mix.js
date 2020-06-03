@@ -1,9 +1,21 @@
+
 const mix = require('laravel-mix');
+// version does not work in hmr mode
+if (process.env.npm_lifecycle_event !== 'hot') {
+    mix.version();
+}
+
 const glob = require('glob');
 const path = require('path');
 const ReplaceInFileWebpackPlugin = require('replace-in-file-webpack-plugin');
 const rimraf = require('rimraf');
 
+// fix css files 404 issue
+mix.webpackConfig({
+    devServer: {
+        contentBase: path.resolve(__dirname, 'public'),
+    }
+});
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -27,6 +39,12 @@ mix.scripts('resources/metronic/plugins/formvalidation/dist/js/plugins/Tachyons.
     .scripts('resources/metronic/plugins/formvalidation/dist/js/plugins/Transformer.js', 'public/plugins/custom/formvalidation/plugins/Transformer.js');
 
 
+// Metronic js pages (single page use)
+(glob.sync('resources/js/pages/backend/**/*.js') || []).forEach(file => {
+    mix.js(file, `public/${file.replace('resources/', '')}`);
+});
+
+
 // Global jquery
 // mix.autoload({
     // 'jquery': ['$', 'jQuery'],
@@ -41,7 +59,7 @@ mix.sass('resources/plugins/plugins.scss', 'public/plugins/global/plugins.bundle
 })
     // .setResourceRoot('./')
     .options({processCssUrls: false})
-    .js(['resources/plugins/plugins.js'], 'public/plugins/global/plugins.bundle.js').sourceMaps();
+    .js(['resources/plugins/plugins.js'], 'public/plugins/global/plugins.bundle.js');
 
 // Metronic css/js
 mix.sass('resources/metronic/sass/style.scss', 'public/css/style.bundle.css', {

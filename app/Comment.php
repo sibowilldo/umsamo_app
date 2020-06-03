@@ -18,6 +18,7 @@ class Comment extends Model
         'user_id',
         'status_id',
         'reservation_id',
+        'type',
         'content',
     ];
 
@@ -33,6 +34,11 @@ class Comment extends Model
         'reservation_id' => 'integer'
     ];
 
+    public static $types = [
+        'comment',
+        'note',
+        'message'
+    ];
 
     public function user()
     {
@@ -44,8 +50,9 @@ class Comment extends Model
         return $this->belongsTo(\App\Status::class);
     }
 
-    public function reservation()
+    public function appointment()
     {
         return $this->belongsTo(\App\Appointment::class);
     }
+
 }

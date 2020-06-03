@@ -19,6 +19,7 @@ class CreateCommentsTable extends Migration
             $table->foreignId('status_id')->constrained();
             $table->foreignId('appointment_id')->constrained()->onDelete('cascade');
             $table->mediumText('body');
+            $table->string('type')->default('comment');
             $table->softDeletes()->nullable();
             $table->timestamps();
         });

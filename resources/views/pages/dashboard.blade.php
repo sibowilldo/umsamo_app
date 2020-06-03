@@ -3,43 +3,129 @@
 
 {{-- Content --}}
 @section('content')
-
     {{-- Dashboard 1 --}}
-
     <div class="row">
-        <div class="col-lg-12 col-xxl-12">
-            @include('pages.widgets._user-upcoming', ['class' => 'bg-danger bg-hover-state-danger card-stretch gutter-b'])
+        @include('pages.widgets._dashboard-events')
+    </div>
+    <div class="row">
+
+        <div class="col-lg-8 col-xxl-8">
+            @include('pages.widgets._user-upcoming', ['class' => 'card-stretch gutter-b'])
         </div>
 
-        <div class="col-lg-6 col-xxl-4">
-            @include('pages.widgets._widget-3', ['class' => 'card-stretch card-stretch-half gutter-b'])
-            @include('pages.widgets._widget-4', ['class' => 'card-stretch card-stretch-half gutter-b'])
-        </div>
-
-        <div class="col-lg-6 col-xxl-4 order-1 order-xxl-1">
-            @include('pages.widgets._widget-5', ['class' => 'card-stretch gutter-b'])
-        </div>
-
-        <div class="col-xxl-8 order-2 order-xxl-1">
-            @include('pages.widgets._widget-6', ['class' => 'card-stretch gutter-b'])
-        </div>
-
-        <div class="col-lg-6 col-xxl-4 order-1 order-xxl-2">
-            @include('pages.widgets._widget-7', ['class' => 'card-stretch gutter-b'])
-        </div>
-
-        <div class="col-lg-6 col-xxl-4 order-1 order-xxl-2">
-            @include('pages.widgets._widget-8', ['class' => 'card-stretch gutter-b'])
-        </div>
-
-        <div class="col-lg-12 col-xxl-4 order-1 order-xxl-2">
-            @include('pages.widgets._widget-9', ['class' => 'card-stretch gutter-b'])
+        <div class="col-lg-4 col-xxl-4">
+            @include('pages.widgets._comments', ['class' => 'card-stretch gutter-b'])
         </div>
     </div>
-
 @endsection
 
 {{-- Scripts Section --}}
 @section('scripts')
     <script src="{{ asset('js/pages/widgets.js') }}" type="text/javascript"></script>
+    <script>
+        var DashboardScripts = function () {
+            // Private functions
+            var initDashboardMakeAppointment = ()=> {
+                let btnSubmit = $('.btn-make-appointment');
+                btnSubmit.on('click', function(e){
+                    let btn = $(this);
+                    e.preventDefault();
+
+                    let form = btn.closest('form');
+                    let event_date = $(`#event_date_${btn.data('id')}`).selectpicker('val');
+                    let appointment_type = $(`#appointment_type_${btn.data('id')}`).selectpicker('val');
+
+                    if(!event_date){
+                        swal.fire({icon: 'warning', title: 'Request failed',text: 'Please make sure that you have selected a date for your appointment.'});
+                        return
+                    }
+
+                    KTApp.block(form, {
+                        overlayColor: '#ffffff',
+                        state: 'info',
+                        message: 'Please wait...',
+                        opacity: 0.7
+                    });
+
+                    axios.post(form.attr('action'), {
+                        user: $("input[name=_self]").val(),
+                        event_date: event_date,
+                        appointment_type: appointment_type
+                    })
+                        .then(function (response) {
+                            setTimeout(function() {
+                                swal.fire({
+                                    icon: 'success',
+                                    title: 'Your request was successful!',
+                                    text: response.data.message,
+                                    preConfirm: function(){
+                                        window.location.replace(response.data.url)
+                                    }});
+                                btn.removeClass('spinner spinner-sm spinner-white spinner-right').attr('disabled', false);
+                                KTApp.unblock(form);
+                                //
+                            }, 1000);
+
+                        })
+                        .catch(function (error) {
+                            console.log(error.response);
+                            if(error.response.data.code === 409){
+                                swal.fire({icon: 'error', title: error.response.data.title,text: error.response.data.message});
+                                return;
+                            }
+
+                            swal.fire({icon: 'error', title: error.response.statusText,text: error.response.data.message});
+                            setTimeout(function() {
+                                KTApp.unblock(form);
+                            }, 1000);
+
+                        });
+                });
+
+                $('select[name=event_date]').on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+                    let event_date = $(this);
+                    let id = event_date.data('id');
+                    let appointment_types = $(`#appointment_type_${id}`);
+
+                    if(event_date.find(':selected').data('limit') < 1){
+                        appointment_types.find('[value=Consulting]').remove();
+                        appointment_types.selectpicker('refresh');
+                    }
+                    else{
+                        let optionExist = false;
+                        appointment_types.find('option').each(function(){
+                            if($(this).val() === 'Consulting'){
+                                optionExist = true;
+                            }
+                        });
+                        if(!optionExist){
+                            appointment_types.append(`<option value='Consulting'>Consulting</option>`);
+                            appointment_types.selectpicker('refresh');
+                        }
+                    }
+                });
+
+            }
+
+
+            var initBootstrapSelect = function () {
+                // minimum setup
+                $('.kt-selectpicker').selectpicker({
+                    container: 'body'
+                });
+            }
+
+            return {
+                // public functions
+                init: function() {
+                    initBootstrapSelect();
+                    initDashboardMakeAppointment();
+                }
+            };
+        }();
+
+        jQuery(document).ready(function() {
+            DashboardScripts.init();
+        });
+    </script>
 @endsection

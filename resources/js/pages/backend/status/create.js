@@ -1,9 +1,9 @@
 "use strict";
-var StatusEditScript = function(){
+var StatusCreateScript = function(){
 
-    var initStatusEdit = function(){
+    var initStatusCreate = function(){
         FormValidation.formValidation(
-            document.getElementById('statusEditForm'),
+            document.getElementById('statusCreateForm'),
             {
                 fields: {
                     title: {
@@ -14,6 +14,13 @@ var StatusEditScript = function(){
                         }
                     },
                     model_type: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please select 1 option'
+                            },
+                        }
+                    },
+                    color: {
                         validators: {
                             notEmpty: {
                                 message: 'Please select 1 option'
@@ -46,12 +53,13 @@ var StatusEditScript = function(){
 
                 form.find('.alert').remove();
                 alert.prependTo(form);
-            }
+            };
 
-            axios.patch(form.data('action'), {
+            axios.post(form.data('action'), {
                 title: $('input[name=title]').val(),
                 description: $('textarea[name=description]').val(),
                 model_type: $('select[name=model_type]').val(),
+                color: $('select[name=color]').val(),
                 is_active: $('input[name=is_active]').is(':checked')
             })
                 .then(function (response) {
@@ -61,7 +69,7 @@ var StatusEditScript = function(){
                             title: 'Saved Successfully',
                             text: response.data.message,
                             preConfirm: function(){
-                                window.location.replace(response.data.url)
+                                window.location.replace(response.data.url);
                             }});
                         btn.removeClass('spinner spinner-sm spinner-white spinner-right').attr('disabled', false);
                         //
@@ -85,18 +93,18 @@ var StatusEditScript = function(){
                         btn.removeClass('spinner spinner-sm spinner-white spinner-right').attr('disabled', false);
                     }, 1000);
 
-                })
+                });
         });
-    }
+    };
 
     return {
         init: function(){
-            initStatusEdit();
+            initStatusCreate();
         }
     };
 }();
 
 
 jQuery(document).ready(function() {
-    StatusEditScript.init();
+    StatusCreateScript.init();
 });

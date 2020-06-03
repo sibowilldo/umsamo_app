@@ -12,6 +12,6 @@
                 <span class="symbol-label font-weight-bolder font-size-h6">+57</span>
             </span>
         </div>
-        <div id="kt_stats_widget_7_chart" class="card-rounded-bottom" style="height: 150px"></div>
+        <div id="kt_stats_widget_5_chart" class="card-rounded-bottom" style="height: 150px"></div>
     </div>
 </div>

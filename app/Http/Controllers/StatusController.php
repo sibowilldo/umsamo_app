@@ -34,7 +34,8 @@ class StatusController extends Controller
     {
         $model_types = Status::$model_types;
         $page_title = "Create Status";
-        return view('backend.status.create', compact('model_types', 'page_title'));
+        $colors = Status::$colors;
+        return view('backend.status.create', compact('colors','model_types', 'page_title'));
     }
 
     /**

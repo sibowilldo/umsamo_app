@@ -20,7 +20,7 @@ class CreateAppointmentsTable extends Migration
             $table->foreignId('event_date_id')->constrained();
             $table->foreignId('region_id')->constrained();
             $table->foreignId('status_id')->constrained();
-            $table->timestamp('reserved_at');
+            $table->string('type')->default('Consulting');
             $table->timestamps();
         });
     }

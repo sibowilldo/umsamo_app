@@ -17,7 +17,7 @@ class CreateEventDatesTable extends Migration
             $table->id();
             $table->foreignId('event_id')->constrained();
             $table->foreignId('status_id')->constrained();
-            $table->timestamp('date_time');
+            $table->timestamp('date_time')->nullable();
             $table->integer('limit');
             $table->softDeletes();
             $table->timestamps();

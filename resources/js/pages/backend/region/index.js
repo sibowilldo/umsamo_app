@@ -57,11 +57,14 @@ var RegionIndexScript = function() {
             ],
         });
 
+        datatable.on('datatable-on-init, datatable-on-layout-updated', function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
         datatable.on('click', '.deleteBtn', function(){
             let deleteBtn = $(this);
             var record = deleteBtn.data("record");
             var url = deleteBtn.data("url");
-            var token = $("meta[name='csrf-token']").attr("content");
 
             swal.fire({
                 title: 'Are you sure?',
@@ -71,26 +74,24 @@ var RegionIndexScript = function() {
                 showLoaderOnConfirm: true,
                 preConfirm:  function () {
                     return new Promise(function (resolve) {
-                        $.ajax({
-                            url: url,
-                            type: 'delete',
-                            data: {
-                                "id": record,
-                                "_token": token
-                            }
+                        axios.delete(url, {
+                            id: record
                         })
-                            .done(function (response) {
+                            .then(function (response) {
                                 swal.fire({
                                     'icon': 'info',
                                     title: 'Deleted!',
-                                    text: response.message,
-                                    onClose: function () {
-                                        window.location.href = response.url;
-                                    }
-                                });
+                                    text: response.data.message,
+                                    preConfirm: function(){
+                                        window.location.replace(response.data.url);
+                                    }});
                             })
-                            .fail(function () {
-                                swal('Oops...', 'Something went wrong with ajax !', 'error');
+                            .catch(function (error) {
+                                if(error.response.data.code === 409){
+                                    swal.fire({icon: 'error', title: error.response.data.title,text: error.response.data.message});
+                                    return;
+                                }
+                                swal.fire({icon: 'error', title: error.response.statusText,text: error.response.data.message});
                             });
                     });
                 },

@@ -4,7 +4,7 @@
     <div class="card card-custom">
         <div class="card-header flex-wrap pt-6 pb-0">
             <div class="card-title">
-                <h3 class="card-label">Statuses</h3>
+                <h3 class="card-label">Appointments</h3>
             </div>
             <div class="card-toolbar">
                 <!--begin::Dropdown-->
@@ -29,7 +29,7 @@
                             <li class="navi-item">
                                 <a href="#" class="navi-link">
                                 <span class="navi-icon">
-                                    <i class="la la-print"></i>
+                                    <i class="flaticon2-print"></i>
                                 </span>
                                     <span class="navi-text">Print</span>
                                 </a>
@@ -37,31 +37,7 @@
                             <li class="navi-item">
                                 <a href="#" class="navi-link">
                                 <span class="navi-icon">
-                                    <i class="la la-copy"></i>
-                                </span>
-                                    <span class="navi-text">Copy</span>
-                                </a>
-                            </li>
-                            <li class="navi-item">
-                                <a href="#" class="navi-link">
-                                <span class="navi-icon">
-                                    <i class="la la-file-excel-o"></i>
-                                </span>
-                                    <span class="navi-text">Excel</span>
-                                </a>
-                            </li>
-                            <li class="navi-item">
-                                <a href="#" class="navi-link">
-                                <span class="navi-icon">
-                                    <i class="la la-file-text-o"></i>
-                                </span>
-                                    <span class="navi-text">CSV</span>
-                                </a>
-                            </li>
-                            <li class="navi-item">
-                                <a href="#" class="navi-link">
-                                <span class="navi-icon">
-                                    <i class="la la-file-pdf-o"></i>
+                                    <i class="far fa-file-pdf"></i>
                                 </span>
                                     <span class="navi-text">PDF</span>
                                 </a>
@@ -72,20 +48,6 @@
                     <!--end::Dropdown Menu-->
                 </div>
                 <!--end::Dropdown-->
-                <!--begin::Button-->
-                <a href="{{ route('statuses.create') }}" class="btn btn-primary font-weight-bolder">
-            <span class="svg-icon svg-icon-md">
-                <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Flatten.svg-->
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                        <rect x="0" y="0" width="24" height="24" />
-                        <circle fill="#000000" cx="9" cy="15" r="6" />
-                        <path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3" />
-                    </g>
-                </svg>
-                <!--end::Svg Icon-->
-            </span>New Record</a>
-                <!--end::Button-->
             </div>
         </div>
         <div class="card-body">
@@ -103,6 +65,28 @@
                                 </span>
                                 </div>
                             </div>
+                            <div class="col-md-4 my-2 my-md-0">
+                                <div class="d-flex align-items-center">
+                                    <label for="kt_datatable_search_status" class="mr-3 mb-0 d-none d-md-block">Status:</label>
+                                    <select class="form-control" id="kt_datatable_search_status">
+                                        <option value="">All</option>
+                                        @foreach($statuses as $status)
+                                        <option value="{{ $status->title }}">{{ $status->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 my-2 my-md-0">
+                                <div class="d-flex align-items-center">
+                                    <label for="kt_datatable_search_event" class="mr-3 mb-0 d-none d-md-block">Event:</label>
+                                    <select class="form-control" id="kt_datatable_search_event">
+                                        <option value="">All</option>
+                                        @foreach($events as $event)
+                                            <option value="{{ $event->title }}">{{ $event->title }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -110,54 +94,60 @@
             <!--end::Search Form-->
             <!--end: Search Form-->
             <!--begin: Datatable-->
-            <table class="table table-head-bg table-borderless table-head-custom table-hover" id="kt_datatable">
+            <table class="table table-head-bg table-borderless table-head-custom" id="kt_datatable">
                 <thead>
                 <tr>
-                    <th>#</th>
+                    <th>APPOINTMENT DETAILS</th>
                     <th>STATUS</th>
-                    <th>ENABLED</th>
-                    <th>DESCRIPTION</th>
+                    <th>TYPE</th>
+                    <th>RESERVED</th>
+                    <th data-field="EVENT_DETAILS">EVENT DETAILS</th>
                     <th class="text-right">ACTION</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($statuses as $status)
+                @foreach($appointments as $appointment)
                     <tr>
-                        <td>
-                            {{ $status->id }}
-                        </td>
-                        <td>
+                        <td class="pl-3 py-8">
                             <div class="d-flex align-items-center">
-                                <span class="bullet bullet-bar bg-{{ $status->color }} align-self-stretch pb-10 mr-4"></span>
-                                <div class="flex-column d-flex">
-                                    <div class="font-weight-bolder mb-0 ">{{ $status->title }}</div>
-                                    <div class="text-muted font-weight-bold">{{ $model_types[$status->model_type] }}</div>
-
+                                <span class="bullet bullet-bar bg-{{ $appointment->status->color }} align-self-stretch pb-10 mr-4"></span>
+                                <div>
+                                    <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ $appointment->event_date->date_time->format('D M d, Y') }}</a>
+                                    <span class="text-muted d-block">{{ $appointment->event_date->date_time->diffForHumans() }}</span>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <span>
-                            <span class="label font-weight-bolder label-light-{{$status->is_active?'success':'danger'}} label-inline">{{ $status->is_active?'Enabled':'Disabled' }}</span>
-                            </span>
+                        <span>
+                            <span class="label label-inline label-lg font-weight-bolder label-light-{{ $appointment->status->color }}">
+                        {{ $appointment->status->title }}</span>
+                        </span>
                         </td>
                         <td>
-                            <div class="text-truncate">{{ $status->description }}</div>
+                           <span class="text-muted font-weight-bold">{{ $appointment->type }}</span>
                         </td>
-                        <td class="pr-0 text-right">
-                            <div>
-                                <a href="{{ route('statuses.show', $status->id) }}" class="btn btn-icon btn-light btn-hover-primary btn-sm" data-toggle="tooltip" title="View Details">
-                                    {{ Metronic::getSVG('media/svg/icons/General/Settings-1.svg', 'svg-icon svg-icon-md svg-icon-primary') }}
+                        <td>
+                            <span class="text-muted font-weight-bold">{{ $appointment->created_at->diffForHumans() }}</span>
+                        </td>
+                        <td>
+                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ $appointment->event_date->event->title }}</span>
+                            <div class="text-muted font-weight-bold">
+                                <span class="label label-dot label-{{ $appointment->event_date->event->status->color }}"></span> {{ $appointment->event_date->event->status->title }}</div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-end" aria-label="Available Actions">
+                                <a href="{{ route('appointments.show', $appointment->uuid) }}" class="btn btn-light btn-hover-primary btn-sm" data-toggle="tooltip" title="View Details">
+                                    {{ Metronic::getSVG('media/svg/icons/General/Settings-1.svg', 'svg-icon svg-icon-md svg-icon-primary') }} View
                                 </a>
-                                <a href="{{ route('statuses.edit', $status->id) }}" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"  data-toggle="tooltip" title="Edit Details">
-                                    {{ Metronic::getSVG('media/svg/icons/Communication/Write.svg', 'svg-icon svg-icon-md svg-icon-primary') }}
-                                </a>
-                                <button type="button" class="btn btn-icon btn-light btn-hover-danger btn-sm deleteBtn" data-url="{{route('statuses.destroy', $status->id)}}" data-record="{{ $status->id }}" data-placement="top"  data-toggle="tooltip" data-original-title="Delete Record">
-                                    {{ Metronic::getSVG('media/svg/icons/General/Trash.svg', 'svg-icon svg-icon-md svg-icon-danger') }}
+                                @if(!$appointment->status->cancelled)
+                                <button type="button" class="btn btn-light btn-hover-danger btn-sm deleteBtn ml-3" data-url="{{route('appointments.cancel', $appointment->uuid)}}" data-record="{{ $appointment->uuid }}" data-placement="top"  data-toggle="tooltip" data-original-title="Cancel Appointment">
+                                   {{ Metronic::getSVG('media/svg/icons/Code/Stop.svg', 'svg-icon svg-icon-md svg-icon-danger') }}<span class="ml-1">Cancel</span>
                                 </button>
+                                @endif
                             </div>
                         </td>
                     </tr>
+
                 @endforeach
                 </tbody>
             </table>
@@ -167,7 +157,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ mix('js/pages/backend/status/index.js') }}" type="text/javascript" defer></script>
+    <script src="{{ mix('js/pages/backend/appointment/index.js') }}" type="text/javascript" defer></script>
 @endsection
 
 @section('styles')

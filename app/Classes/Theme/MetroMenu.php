@@ -21,6 +21,12 @@ class MetroMenu
         self::checkRecursion($rec);
         if (!$item) { return 'menu misconfiguration'; }
 
+        if(isset($item['roles'])){
+            if(!Auth::user()->hasRole($item['roles'])){
+                return false;
+            }
+        }
+
         if (isset($item['separator'])) {
             echo '<li class="menu-separator"><span></span></li>';
         } elseif (isset($item['section'])) {

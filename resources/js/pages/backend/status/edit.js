@@ -1,9 +1,9 @@
 "use strict";
-var StatusCreateScript = function(){
+var StatusEditScript = function(){
 
-    var initStatusCreate = function(){
+    var initStatusEdit = function(){
         FormValidation.formValidation(
-            document.getElementById('statusCreateForm'),
+            document.getElementById('statusEditForm'),
             {
                 fields: {
                     title: {
@@ -48,7 +48,7 @@ var StatusCreateScript = function(){
                 alert.prependTo(form);
             }
 
-            axios.post(form.data('action'), {
+            axios.patch(form.data('action'), {
                 title: $('input[name=title]').val(),
                 description: $('textarea[name=description]').val(),
                 model_type: $('select[name=model_type]').val(),
@@ -85,18 +85,19 @@ var StatusCreateScript = function(){
                         btn.removeClass('spinner spinner-sm spinner-white spinner-right').attr('disabled', false);
                     }, 1000);
 
-                })
+                });
         });
-    }
+    };
 
     return {
         init: function(){
-            initStatusCreate();
+            $('.selectpicker').selectpicker();
+            initStatusEdit();
         }
     };
 }();
 
 
 jQuery(document).ready(function() {
-    StatusCreateScript.init();
+    StatusEditScript.init();
 });

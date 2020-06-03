@@ -36,6 +36,11 @@ class Event extends Model
         'uuid' => EfficientUuid::class,
     ];
 
+    public function event_dates()
+    {
+        return $this->hasMany(EventDate::class);
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -43,6 +48,7 @@ class Event extends Model
     {
         return $this->belongsToMany(Region::class);
     }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

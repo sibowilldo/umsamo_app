@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionsSeeder::class);
 
         //Statuses
-        factory(App\Status::class, 21)->create();
+        factory(App\Status::class, 26)->create();
 
         //Profile & User
         factory(App\Profile::class, 15)->create();
@@ -88,7 +88,7 @@ class DatabaseSeeder extends Seeder
         factory(App\Appointment::class, 100)->create();
 
         //Comments
-        factory(App\Comment::class, 10)->create();
+        factory(App\Comment::class, 500)->create();
 
         //Attachments
         factory(App\Attachment::class, 5)->create();

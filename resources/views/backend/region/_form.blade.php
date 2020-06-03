@@ -24,7 +24,7 @@
     <div class="form-group row">
         <label class="col-form-label text-right col-lg-3 col-sm-12">Province *</label>
         <div class="col-lg-9 col-md-9 col-sm-12">
-            {{ Form::select('province', $provinces, null, ['class'=>'form-control', 'placeholder' => 'Please select a province']) }}
+            {{ Form::select('province', $provinces, null, ['class'=>'form-control selectpicker', 'placeholder' => 'Please select a province']) }}
         </div>
     </div>
 

@@ -17,8 +17,10 @@ Auth::routes(['verify' => true]);
 //, 'verified'
 Route::middleware(['auth'])->group(function(){
     Route::get('/', 'PagesController@index')->name('dashboard');
-    Route::resource('regions', 'RegionController');
-    Route::resource('statuses', 'StatusController');
+    Route::resource('appointments', 'AppointmentController');
+    Route::patch('appointments/{appointment}/cancel', 'AppointmentController@cancel')->name('appointments.cancel');
+    Route::resource('regions', 'RegionController')->middleware(['role:kingpin']);
+    Route::resource('statuses', 'StatusController')->middleware(['role:kingpin']);
 
 
 

@@ -5,6 +5,7 @@ namespace App;
 use Iatstuti\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Status extends Model
 {
@@ -26,6 +27,7 @@ class Status extends Model
         'title',
         'description',
         'model_type',
+        'color',
         'is_active',
     ];
 
@@ -43,8 +45,21 @@ class Status extends Model
         'App\Appointment' => 'Appointments',
         'App\Comment' => 'Comments',
         'App\Event' => 'Events',
+        'App\EventDate' => 'Event Dates',
         'App\Item' => 'Items',
         'App\Invoice' => 'Invoices'
+    ];
+
+    public static $colors = [
+        "white"=> "white",
+        "primary"=> "primary",
+        "secondary"=> "secondary",
+        "success"=> "success",
+        "info"=> "info",
+        "warning"=> "warning",
+        "danger"=> "danger",
+        "light"=> "light",
+        "dark"=> "dark"
     ];
 
     public static function statusExists($title = null, $model_type = null)
@@ -71,5 +86,10 @@ class Status extends Model
     public function invoices()
     {
         return $this->hasMany(Invoice::class);
+    }
+
+    public function getCancelledAttribute()
+    {
+        return !strcasecmp($this->title, 'cancelled');
     }
 }

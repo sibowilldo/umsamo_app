@@ -16,9 +16,10 @@ class Appointment extends Model
      */
     protected $fillable = [
         'user_id',
-        'event_id',
+        'event_date_id',
+        'region_id',
         'status_id',
-        'reserved_at',
+        'type'
     ];
 
     /**
@@ -34,20 +35,29 @@ class Appointment extends Model
         'uuid' => EfficientUuid::class,
     ];
 
+    public static $types = [
+        'cleansing' => 'Cleansing',
+        'consulting' => 'Consulting'
+    ];
 
-    public function user()
+    public function comments()
     {
-        return $this->belongsTo(\App\User::class);
+        $this->hasMany(Comment::class);
     }
 
-    public function event()
+    public function event_date()
     {
-        return $this->belongsTo(\App\Event::class);
+        return $this->belongsTo(\App\EventDate::class);
     }
 
     public function status()
     {
         return $this->belongsTo(\App\Status::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(\App\User::class);
     }
 
     /**

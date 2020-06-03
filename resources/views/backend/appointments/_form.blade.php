@@ -17,14 +17,7 @@
 <div class="form-group row">
     <label class="col-form-label text-right col-lg-3 col-sm-12">Model Type *</label>
     <div class="col-lg-9 col-md-9 col-sm-12">
-        {{ Form::select('model_type', $model_types, null, ['class'=>'form-control selectpicker', 'placeholder' => 'Please select a model type']) }}
-    </div>
-</div>
-
-<div class="form-group row">
-    <label class="col-form-label text-right col-lg-3 col-sm-12">Color *</label>
-    <div class="col-lg-9 col-md-9 col-sm-12">
-        {{ Form::select('color', $colors, null, ['class'=>'form-control selectpicker', 'placeholder' => 'Please select a color']) }}
+        {{ Form::select('model_type', $model_types, null, ['class'=>'form-control', 'placeholder' => 'Please select a model type']) }}
     </div>
 </div>
 

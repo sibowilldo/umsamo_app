@@ -14,7 +14,20 @@ return [
 
         // Custom
         [
+            'section' => 'User',
+        ],
+        // Dashboard
+        [
+            'title' => 'Appointments',
+            'root' => true,
+            'icon' => 'media/svg/icons/Home/Clock.svg', // or can be 'flaticon-home' or any flaticon-*
+            'page' => 'appointments.index',
+            'new-tab' => false,
+        ],
+        // Custom
+        [
             'section' => 'System',
+            'roles'=>['administrator', 'kingpin'],
         ],
         [
             'title' => 'Regions',
@@ -57,34 +70,7 @@ return [
                     'page' => 'statuses.create'
                 ],
             ]
-        ],
-        [
-            'title' => 'Pages',
-            'icon' => 'media/svg/icons/Shopping/Barcode-read.svg',
-            'bullet' => 'dot',
-            'root' => true,
-            'submenu' => [
-                [
-                    'title' => 'Wizard',
-                    'bullet' => 'dot',
-                    'submenu' => [
-                        [
-                            'title' => 'Wizard 1',
-//                            'page' => 'custom/pages/wizard/wizard-1',
-//                            'new-tab' => false
-                        ],
-                    ]
-                ],
-                [
-                    'title' => 'User Pages',
-                    'bullet' => 'dot',
-                    'label' => [
-                        'type' => 'label-rounded label-primary',
-                        'value' => '2'
-                    ]
-                ]
-            ]
-        ],
+        ]
     ]
 
 ];

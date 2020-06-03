@@ -108,6 +108,7 @@ var RegionEditScript = function(){
 
     return {
         init: function(){
+            $('.selectpicker').selectpicker();
             initRegionEdit();
         }
     };

@@ -57,11 +57,45 @@
 
         {{-- Includable JS --}}
         @yield('scripts')
-        @if(Cache::has('logged_in_user'))
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-            </form>
-        @endif
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
+        <script>
+            "use strict";
+            var SessionTimeout = function () {
+                var initSessionTimeoutModule = function () {
+                    $.sessionTimeout({
+                        title: 'Session Timeout Notification',
+                        message: 'Your session is about to expire.',
+                        keepAlive: false,
+                        logoutUrl: "#",
+                        warnAfter: (60*60*1000)+(55*60*1000), //warn after 1hr55min
+                        redirAfter: 2*59*60*1000, //redirect after 2hr00min,
+                        ignoreUserActivity: true,
+                        countdownMessage: 'Redirecting in {timer}.',
+                        countdownBar: true,
+                        countdownSmart: true,
+                        onRedir: function(){
+                            document.getElementById('logout-form').submit();
+                        }
+                    });
+                    $('#session-timeout-dialog-logout').on('click', function (e) {
+                        e.preventDefault();
+                        document.getElementById('logout-form').submit();
+                    })
+                }
+                return {
+                    //main function to initiate the module
+                    init: function () {
+                        initSessionTimeoutModule();
+                    }
+                };
+            }();
+            jQuery(document).ready(function() {
+                SessionTimeout.init();
+            });
+        </script>
     </body>
 </html>
 

@@ -20,7 +20,7 @@
         <div class="d-flex align-items-center mt-5">
             <div class="symbol symbol-100 mr-5">
                 @if(!Auth::user()->profile)
-                    <img src="{{ Avatar::create(cache('logged_in_user')->email)->toBase64() }}" alt="" class="symbol-label">
+                    <img src="{{ Avatar::create(Auth::user()->email)->toBase64() }}" alt="" class="symbol-label">
                 @else
                     <div class="symbol-label" style="background-image:url('{{ Auth::user()->profile->avatar }}')"></div>
                 @endif
