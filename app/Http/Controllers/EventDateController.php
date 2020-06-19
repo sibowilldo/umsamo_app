@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Event;
 use App\EventDate;
 use Illuminate\Http\Request;
 

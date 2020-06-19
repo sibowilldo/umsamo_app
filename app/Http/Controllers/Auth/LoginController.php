@@ -74,12 +74,7 @@ class LoginController extends Controller
      */
     protected function sendFailedLoginResponse(Request $request)
     {
-
         return response()->json(['title' => 'Incorrect Credentials', 'text' => 'The credentials you gave us did not match our records. Please try again.'], HTTPResponse::HTTP_UNAUTHORIZED);
-
-//        throw ValidationException::withMessages([
-//            $this->username() => [trans('auth.failed')],
-//        ]);
     }
 
 

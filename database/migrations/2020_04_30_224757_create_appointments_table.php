@@ -23,6 +23,16 @@ class CreateAppointmentsTable extends Migration
             $table->string('type')->default('Consulting');
             $table->timestamps();
         });
+
+
+        Schema::create('appointment_item', function (Blueprint $table) {
+            $table->foreignId('appointment_id')->constrained();
+            $table->foreignId('item_id')->constrained();
+            $table->unsignedInteger('quantity');
+            $table->decimal('price',13,2);
+
+            $table->primary(['appointment_id','item_id']);
+        });
     }
 
     /**
@@ -32,6 +42,7 @@ class CreateAppointmentsTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('appointment_item');
         Schema::dropIfExists('appointments');
     }
 }

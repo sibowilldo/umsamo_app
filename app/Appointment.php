@@ -40,6 +40,11 @@ class Appointment extends Model
         'consulting' => 'Consulting'
     ];
 
+    public function attachments()
+    {
+        return $this->hasMany(Attachment::class);
+    }
+
     public function comments()
     {
         $this->hasMany(Comment::class);
@@ -59,6 +64,7 @@ class Appointment extends Model
     {
         return $this->belongsTo(\App\User::class);
     }
+
 
     /**
      * Binds route key to uuid value

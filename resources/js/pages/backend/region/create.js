@@ -104,7 +104,7 @@ var RegionCreateScript = function(){
                 })
         });
         $('input[name=contact_number]').inputmask('(999) 999-9999');
-    }
+    };
 
     return {
         init: function(){

@@ -50,8 +50,11 @@ class DatabaseSeeder extends Seeder
         $admin->assignRole('administrator');
         $admin->profile()->create([
             'avatar' => $faker->imageUrl(300, 300),
+            'id_number' => '8912115460089',
             'first_name' => 'Sibongiseni',
             'last_name' => 'Msomi',
+            'gender' => $faker->randomElement(['M','F']),
+            'date_of_birth' => $faker->date('Y-m-d', Carbon::now()->subDecade()),
             'cell_number' => '(081) 589-2345',
             'address' => '176 Blamey Rd, Montclair',
             'city' => 'Durban',
@@ -71,8 +74,11 @@ class DatabaseSeeder extends Seeder
         $kingpin->assignRole('kingpin');
         $kingpin->profile()->create([
             'avatar' => $faker->imageUrl(300, 300),
+            'id_number' => '7508048081082',
             'first_name' => 'Sibongiseni',
             'last_name' => 'de Kingpin',
+            'gender' => 'M',
+            'date_of_birth' => $faker->date('Y-m-d', Carbon::now()->subDecade()),
             'cell_number' => '(071) 898-8006',
             'address' => '176 Blamey Rd, Montclair',
             'city' => 'Durban',
@@ -84,14 +90,26 @@ class DatabaseSeeder extends Seeder
         //Event Dates
         factory(App\EventDate::class, 15)->create();
 
-        //Appointment
-        factory(App\Appointment::class, 100)->create();
+        /**
+         * Create 100 Appointments and attach a random number of Attachments between 0-3, then assignment those
+         * Appointments to a variable for later use.
+         */
+        $appointments = factory(App\Appointment::class, 100)
+            ->create()
+            ->each(function ($appointment){
+                $appointment->attachments()->saveMany(factory(\App\Attachment::class,rand(0,3) )->make());
+            });
+
+
+        //Attachments Meta
+        $appointments->each(function ($appointment){
+            $appointment->attachments->each(function($attachment){
+                $attachment->attachment_meta()->save(factory(App\AttachmentMeta::class)->make());
+            });
+        });
 
         //Comments
         factory(App\Comment::class, 500)->create();
-
-        //Attachments
-        factory(App\Attachment::class, 5)->create();
 
     }
 }

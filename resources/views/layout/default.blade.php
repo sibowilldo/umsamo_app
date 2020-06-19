@@ -18,7 +18,12 @@
 
         {{-- Fonts --}}
         {{ Metronic::getGoogleFontsInclude() }}
-
+        <style>
+            @font-face {
+                font-family: blowbrush;
+                src: url({{asset('system/fonts/blowbrush.ttf')}});
+            }
+        </style>
         {{-- Global Theme Styles (used by all pages) --}}
         @foreach(config('layout.resources.css') as $style)
             <link href="{{ config('layout.self.rtl') ? asset(Metronic::rtlCssPath($style)) : asset($style) }}" rel="stylesheet" type="text/css"/>

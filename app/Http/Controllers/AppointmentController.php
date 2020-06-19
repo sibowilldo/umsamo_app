@@ -27,14 +27,12 @@ class AppointmentController extends Controller
 
         $appointment_types = Appointment::$types;
 
-        $appointments = Appointment::where('user_id', Auth::id())->with(['status'=> function($query){
-            $query->where('model_type', 'App\Appointment')->select('id', 'title', 'model_type', 'color');
-        },'event_date','event_date.event','event_date.event.status'])->select('uuid', 'event_date_id', 'status_id','type', 'created_at')->get();
+        $appointments = Appointment::where('user_id', Auth::id())->with(['status','event_date','event_date.event','event_date.event.status'])->select('uuid', 'event_date_id', 'status_id','type', 'created_at')->get();
 
-        $statuses = Status::whereIn('id', $appointments->pluck('status_id'))->select('id', 'title', 'color')->get();
-        $events = Event::whereIn('id', $appointments->pluck('event_date.event.id'))->select('title')->get();
+        $statuses = $appointments->pluck('status')->unique();
+        $events = $appointments->pluck('event_date.event')->unique(); //Event::whereIn('id', $appointments->pluck('event_date.event.id'))->select('title')->get();
 
-        return view('backend.appointments.index', compact('appointments', 'appointment_types', 'events', 'statuses', 'page_title'));
+        return response()->view('backend.appointment.index', compact('appointments', 'appointment_types', 'events', 'statuses', 'page_title'));
     }
 
     /**
@@ -87,9 +85,10 @@ class AppointmentController extends Controller
      */
     public function show(Appointment $appointment)
     {
+        $page_title = "View Appointment";
         $comments = Comment::where('appointment_id', $appointment->id)->with(['status'])->get();
 
-        return view('backend.appointments.show', compact('appointment', 'comments'));
+        return view('backend.appointment.show', compact('appointment', 'comments', 'page_title'));
     }
 
     /**

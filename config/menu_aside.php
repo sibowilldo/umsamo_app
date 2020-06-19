@@ -30,11 +30,49 @@ return [
             'roles'=>['administrator', 'kingpin'],
         ],
         [
+            'title' => 'Events',
+            'icon' => 'media/svg/icons/Layout/Layout-top-panel-6.svg',
+            'bullet' => 'dot', // dot | line
+            'root' => true,
+            'roles'=>['administrator', 'kingpin'],
+            'submenu' => [
+                [
+                    'title' => 'All',
+                    'bullet' => 'dot',
+                    'page' => 'events.index'
+                ],
+                [
+                    'title' => 'Create New',
+                    'bullet' => 'dot',
+                    'page' => 'events.create'
+                ],
+            ]
+        ],
+        [
+            'title' => 'Statuses',
+            'icon' => 'media/svg/icons/Shopping/Settings.svg',
+            'bullet' => 'dot', // dot | line
+            'root' => true,
+            'roles'=>['kingpin'],
+            'submenu' => [
+                [
+                    'title' => 'All',
+                    'bullet' => 'dot',
+                    'page' => 'statuses.index'
+                ],
+                [
+                    'title' => 'Create New',
+                    'bullet' => 'dot',
+                    'page' => 'statuses.create'
+                ],
+            ]
+        ],
+        [
             'title' => 'Regions',
             'icon' => 'media/svg/icons/Map/Compass.svg',
             'bullet' => 'dot', // dot | line
             'root' => true,
-            'roles'=>['administrator', 'kingpin'],
+            'roles'=>['kingpin'],
             'submenu' => [
                 [
                     'title' => 'All',
@@ -49,25 +87,6 @@ return [
                     'title' => 'Create New',
                     'bullet' => 'dot',
                     'page' => 'regions.create'
-                ],
-            ]
-        ],
-        [
-            'title' => 'Statuses',
-            'icon' => 'media/svg/icons/Shopping/Settings.svg',
-            'bullet' => 'dot', // dot | line
-            'root' => true,
-            'roles'=>['administrator', 'kingpin'],
-            'submenu' => [
-                [
-                    'title' => 'All',
-                    'bullet' => 'dot',
-                    'page' => 'statuses.index'
-                ],
-                [
-                    'title' => 'Create New',
-                    'bullet' => 'dot',
-                    'page' => 'statuses.create'
                 ],
             ]
         ]

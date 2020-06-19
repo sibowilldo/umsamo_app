@@ -2,6 +2,11 @@
 
 return [
 
+    //Blue/Navy #221f72
+    //Green #73c167
+    //Gray #919195
+
+
     // Self
     'self' => [
         'layout' => 'default', // blank, default
@@ -21,9 +26,9 @@ return [
             'theme' => [
                 'base' => [
                     'white' => '#ffffff',
-                    'primary' => '#6993FF',
+                    'primary' => '#221f72',//, '#6993FF',
                     'secondary' => '#E5EAEE',
-                    'success' => '#1BC5BD',
+                    'success' => '#73c167',
                     'info' => '#8950FC',
                     'warning' => '#FFA800',
                     'danger' => '#F64E60',
@@ -147,7 +152,7 @@ return [
             'display' => true,
             'fixed' => true,
             'minimize' => [
-                'toggle' => true, // allow toggle
+                'toggle' => false, // allow toggle
                 'default' => false // default state
             ]
         ],

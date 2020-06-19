@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Profile extends Model
 {
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
@@ -14,8 +17,11 @@ class Profile extends Model
     protected $fillable = [
         'user_id',
         'avatar',
+        'id_number',
+        'gender',
         'first_name',
         'last_name',
+        'date_of_birth',
         'cell_number',
         'address',
         'city',
@@ -34,13 +40,15 @@ class Profile extends Model
         'id' => 'integer',
         'user_id' => 'integer',
         'profile_completed_at' => 'date',
-        'cell_number_verified_at' => 'date'
+        'cell_number_verified_at' => 'date',
+        'deleted_at' =>'date',
+        'date_of_birth' => 'date'
     ];
 
     /**
      * @var string[]
      */
-    protected $dates = ['profile_completed_at', 'cell_number_verified_at'];
+    protected $dates = ['date_of_birth', 'profile_completed_at', 'cell_number_verified_at', 'deleted_at'];
 
     /**
      *
@@ -57,5 +65,10 @@ class Profile extends Model
     public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getMaskedIdNumberAttribute()
+    {
+        return str_replace(Str::substr($this->id_number, 6, 5), '*****', $this->id_number);
     }
 }

@@ -23,17 +23,17 @@ class PermissionsSeeder extends Seeder
         $this->eventPermissions();
         $this->commentPermissions();
         $this->profilePermissions();
-        $this->reservationPermissions();
+        $this->appointmentPermissions();
 
         $client->givePermissionTo([
-            'create profile', 'edit profile', 'delete profile', 'create reservation', 'edit reservation',
-            'cancel reservation', 'delete reservation', 'create comment', 'edit comment', 'delete comment',
+            'create profile', 'edit profile', 'delete profile', 'create appointment', 'edit appointment',
+            'cancel appointment', 'delete appointment', 'create comment', 'edit comment', 'delete comment',
             'create attachment', 'edit attachment', 'delete attachment']);
 
         $administrator->givePermissionTo([
-            'create profile', 'edit profile', 'delete profile', 'create reservation', 'edit reservation',
+            'create profile', 'edit profile', 'delete profile', 'create appointment', 'edit appointment',
             'create event', 'edit event', 'publish event', 'unpublish event', 'delete event',
-            'cancel reservation', 'delete reservation', 'create comment', 'edit comment',
+            'cancel appointment', 'delete appointment', 'create comment', 'edit comment',
             'publish comment', 'unpublish comment', 'delete comment',
             'create attachment', 'edit attachment','publish attachment', 'unpublish attachment', 'delete attachment']);
 
@@ -55,12 +55,12 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'delete event']);
     }
 
-    private function reservationPermissions()
+    private function appointmentPermissions()
     {
-        Permission::create(['name' => 'create reservation']);
-        Permission::create(['name' => 'edit reservation']);
-        Permission::create(['name' => 'cancel reservation']);
-        Permission::create(['name' => 'delete reservation']);
+        Permission::create(['name' => 'create appointment']);
+        Permission::create(['name' => 'edit appointment']);
+        Permission::create(['name' => 'cancel appointment']);
+        Permission::create(['name' => 'delete appointment']);
     }
 
     private function commentPermissions()

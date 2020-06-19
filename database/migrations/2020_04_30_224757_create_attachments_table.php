@@ -18,7 +18,6 @@ class CreateAttachmentsTable extends Migration
             $table->efficientUuid('uuid')->index();
             $table->foreignId('appointment_id')->constrained()->onDelete('cascade');
             $table->mediumText('url');
-            $table->string('type');
             $table->timestamps();
         });
     }

@@ -167,7 +167,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ mix('js/pages/backend/status/index.js') }}" type="text/javascript" defer></script>
+    <script src="{{ asset('js/pages/backend/status/index.js') }}" type="text/javascript" defer></script>
 @endsection
 
 @section('styles')

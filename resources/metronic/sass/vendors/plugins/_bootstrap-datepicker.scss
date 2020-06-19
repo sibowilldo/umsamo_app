@@ -5,7 +5,7 @@
 
 // Base
 .datepicker {
-    width: 265px;
+    width: 100%;
     padding: 10px;
     @include border-radius($border-radius);
 
@@ -87,6 +87,11 @@
                     color: $white;
                 }
 
+                &.disabled{
+                    color: $gray-100;
+                    cursor: not-allowed;
+                }
+
                 &.today {
                     position: relative;
                     background: rgba($primary, 0.12) !important;
@@ -120,6 +125,10 @@
                     background: $gray-100;
                 }
 
+                &.disabled{
+                    color: $gray-100;
+                    cursor: not-allowed;
+                }
                 &.focused,
                 &.focused:hover,
                 &.active:hover,

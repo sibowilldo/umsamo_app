@@ -25,26 +25,31 @@
                         </div>
                     </div>
                 </div>
-                <form method="post" class="form" id="statusCreateForm" data-action="{{route('statuses.store')}}">
-                    <div class="card-body">
-                        @include('backend.status._form')
-                    </div>
-                    <div class="card-footer bg-gray-100 border-top-0 text-right rounded-bottom">
-                        <div class="row">
-                            <div class="col-lg-9 ml-lg-auto">
-                                <button id="submitForm" type="submit" class="btn btn-primary font-weight-bold mr-2">Save Status</button>
-                                <button type="reset" class="btn btn-light-primary font-weight-bold">Reset Form</button>
-                            </div>
+                {{ Form::model($status, ['route' =>['statuses.update', $status->id],
+                                        'id' => 'statusEditForm',
+                                        'class' => 'form',
+                                        'data-action' => route('statuses.update', $status->id),
+                                        'method' => 'patch']) }}
+
+                <div class="card-body">
+                    @include('backend.status._form')
+                </div>
+                <div class="card-footer bg-gray-100 border-top-0 text-right rounded-bottom">
+                    <div class="row">
+                        <div class="col-lg-9 ml-lg-auto">
+                            <button id="submitForm" type="submit" class="btn btn-primary font-weight-bold mr-2">Update Status</button>
+                            <button type="button" class="btn btn-hover-light-danger font-weight-bold">Delete</button>
                         </div>
                     </div>
-                </form>
+                </div>
+                {{ Form::close() }}
             </div>
         </div>
     </div>
 @endsection
 
 @section('scripts')
-    <script src="{{ mix('js/pages/crud/forms/widgets/bootstrap-switch.js') }}" type="text/javascript" defer></script>
-    <script src="{{ mix('js/pages/backend/status/create.js') }}" type="text/javascript" defer></script>
+    <script src="{{ asset('js/pages/crud/forms/widgets/bootstrap-switch.js') }}" type="text/javascript" defer></script>
+    <script src="{{ asset('js/pages/backend/status/edit.js') }}" type="text/javascript" defer></script>
 @endsection
 

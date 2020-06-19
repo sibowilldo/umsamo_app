@@ -108,6 +108,19 @@
                                         <span class="form-text text-muted">We don't really need this.</span>
                                     </div>
                                 </div>
+
+                                <!--begin::Input-->
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-solid form-control-lg" name="id_number" placeholder="RSA ID Number" value="" />
+                                </div>
+                                <!--end::Input-->
+
+                                <!--begin::Input-->
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-solid form-control-lg" readonly name="date_of_birth" placeholder="Date of Birth" value="" />
+                                </div>
+                                <!--end::Input-->
+
                                 <div class="row">
                                     <div class="col-xxl-6 col-xl-6 col-lg-6">
                                         <!--begin::Input-->
@@ -124,6 +137,22 @@
                                         <!--end::Input-->
                                     </div>
                                 </div>
+
+                                <!--begin::Input-->
+                                <div class="form-group">
+                                    <div class="radio-inline">
+                                        <label class="radio">
+                                            <input type="radio" name="gender" value="M"/> Male
+                                            <span></span>
+                                        </label>
+                                        <label class="radio">
+                                            <input type="radio" name="gender" value="F"/> Female
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <!--end::Input-->
+
                                 <!--begin::Input-->
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-solid form-control-lg" name="address" placeholder="Street Address" value="" />
@@ -196,8 +225,11 @@
                                 <h4 class="mb-10 font-weight-bold text-dark">Review your Details and Submit</h4>
                                 <h6 class="font-weight-bolder mb-3">Personal Details:</h6>
                                 <div class="text-dark-50 line-height-lg">
+                                    <div><span id="UI_id_number"></span></div>
                                     <div><span id="UI_first_name"></span></div>
                                     <div><span id="UI_last_name"></span></div>
+                                    <div><span id="UI_gender"></span></div>
+                                    <div><span id="UI_date_of_birth"></span></div>
                                     <div><span id="UI_address"></span></div>
                                     <div><span id="UI_city"></span></div>
                                     <div><span id="UI_province"></span></div>
@@ -260,7 +292,6 @@
     <!-- Include zxcvbn library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
     <script src="{{ asset('plugins/custom/formvalidation/plugins/PasswordStrength.js') }}"></script>
-
     <script>
         "use strict";
 
@@ -271,10 +302,62 @@
             const randomNumber = function(min, max) {
                 return Math.floor(Math.random() * (max - min + 1) + min);
             };
+
             var _wizardEl;
             var _formEl;
             var _wizard;
             var _validations = [];
+
+            var generateLuhnDigit = function(inputString) {
+                var total = 0;
+                var count = 0;
+                for (var i = 0; i < inputString.length; i++) {
+                    var multiple = count % 2 + 1;
+                    count++;
+                    var temp = multiple * +inputString[i];
+                    temp = Math.floor(temp / 10) + (temp % 10);
+                    total += temp;
+                }
+
+                total = (total * 9) % 10;
+
+                return total;
+            };
+
+            var extractFromID = function(idNumber) {
+                var checkIDNumber = function(idNumber) {
+                    var number = idNumber.substring(0, idNumber.length - 1);
+                    return generateLuhnDigit(number) === +idNumber[idNumber.length - 1];
+                };
+
+                var getBirthdate = function(idNumber) {
+                    var year = idNumber.substring(0, 2);
+                    var currentYear = new Date().getFullYear() % 100;
+
+                    var prefix = "19";
+                    if (+year < currentYear)
+                        prefix = "20";
+
+                    var month = idNumber.substring(2, 4);
+                    var day = idNumber.substring(4, 6);
+                    return moment(prefix + year + "/" + month + "/" + day);
+                };
+
+                var getGender = function(idNumber) {
+                    return +idNumber.substring(6, 7) < 5 ? "F" : "M";
+                };
+
+                var getCitizenship = function(idNumber) {
+                    return +idNumber.substring(10, 11) === 0 ? "citizen" : "resident";
+                };
+
+                var result = {};
+                result.valid = checkIDNumber(idNumber);
+                result.birthdate = getBirthdate(idNumber);
+                result.gender = getGender(idNumber);
+                result.citizen = getCitizenship(idNumber);
+                return result;
+            };
 
             // Private functions
             var initWizard = function () {
@@ -311,9 +394,12 @@
 
                     switch(_wizard.getStep()){
                         case 1:
+                            $('#UI_id_number').text($('input[name=id_number]').val());
                             $('#UI_first_name').text($('input[name=first_name]').val());
                             $('#UI_last_name').text($('input[name=last_name]').val());
                             $('#UI_address').text($('input[name=address]').val());
+                            $('#UI_gender').text($('input[name=gender]:checked').val());
+                            $('#UI_date_of_birth').text($('input[name=date_of_birth]').val());
                             $('#UI_city').text($('input[name=city]').val());
                             $('#UI_province').text($('select[name=province]').children("option:selected").val());
                             $('#UI_postal_code').text($('input[name=postal_code]').val());
@@ -341,6 +427,35 @@
                     _formEl,
                     {
                         fields: {
+                            id_number: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'RSA ID Number is required'
+                                    },
+                                    stringLength:{
+                                        max: 13,
+                                        message: 'Invalid RSA ID Number'
+                                    },
+                                    callback: {
+                                        message: 'Invalid RSA ID Number',
+                                        callback: function(input){
+                                            let idNumber = $(input);
+                                            if(idNumber[0].value.length == 13){
+                                                let is_valid = extractFromID(idNumber[0].value);
+                                                if(is_valid.valid){
+                                                    $('input[name=date_of_birth]').val(is_valid.birthdate.format('YYYY-MM-DD'));
+                                                    $('input[name=gender]').val([is_valid.gender]);
+
+                                                }
+                                                return is_valid.valid;
+                                            }else{
+                                                return false;
+                                            }
+                                        }
+
+                                    }
+                                }
+                            },
                             first_name: {
                                 validators: {
                                     notEmpty: {
@@ -484,7 +599,8 @@
             }
 
             let handleAuthRegisterFormSubmit = function(){
-                $('#registerSubmitButton').click(function(e) {
+                let submitButton = $('#registerSubmitButton');
+                submitButton.click(function(e) {
                     e.preventDefault();
 
                     let registerForm = $(_formEl);
@@ -492,26 +608,33 @@
                         email: $('input[name=email]').val(),
                         password: $('input[name=password]').val(),
                         password_confirmation: $('input[name=password_confirmation]').val(),
-                        cell_number: $('input[name=cell_number]').val(),
+
                         avatar: $('input[name=avatar]').val(),
+                        id_number: $('input[name=id_number]').val(),
                         first_name: $('input[name=first_name]').val(),
                         last_name: $('input[name=last_name]').val(),
+                        gender: $('input[name=gender]:checked').val(),
+                        date_of_birth: $('input[name=date_of_birth]').val(),
+                        cell_number: $('input[name=cell_number]').val(),
                         address: $('input[name=address]').val(),
                         city: $('input[name=city]').val(),
                         province: $('select[name=province]').children("option:selected").val(),
                         postal_code: $('input[name=postal_code]').val(),
                     };
 
+                    submitButton.attr('disabled', 'disabled');
+                    submitButton.text('Loading...').addClass('spinner-white spinner spinner-left').removeClass('px-9');
+
                     axios.post(registerForm.data('action'), formData)
                         .then(function (response) {
                             let destination = response.data.url;
-                            swal.showLoading();
                             swal.fire({
                                 title: 'Register Success',
                                 text: 'Redirecting...',
                                 icon: 'success',
                                 timer: 2000,
                                 onOpen: function (){
+                                    submitButton.removeClass('spinner-white spinner spinner-left').addClass('px-9').removeAttr('disabled').text('Submit');
                                     swal.showLoading();
                                 }
                             })
@@ -520,9 +643,9 @@
                                 });
                         })
                         .catch(function (error) {
+                            submitButton.removeClass('spinner-white spinner spinner-left').addClass('px-9').removeAttr('disabled').text('Submit');
                             let errorBag = error.response.data.errors
                             let error_messages='';
-                            console.log('error', errorBag);
                             Object.entries(errorBag).forEach(function(item, index){
                                 error_messages += `<div>${item[1][0]}</div>`;
                             });

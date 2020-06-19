@@ -5,9 +5,14 @@
 @endphp
 
 @if (config('layout.brand.self.theme') === 'light')
-    @php $kt_logo_image = 'logo-dark.png' @endphp
+    @php
+        $kt_logo_image = 'umsamo-logo-color.png';
+        $logo_text_color = 'text-dark ';
+    @endphp
 @elseif (config('layout.brand.self.theme') === 'dark')
-    @php $kt_logo_image = 'logo-light.png' @endphp
+    @php $kt_logo_image = 'umsamo-logo-white.png';
+        $logo_text_color = 'text-white ';
+ @endphp
 @endif
 
 <div class="aside aside-left {{ Metronic::printClasses('aside', false) }} d-flex flex-column flex-row-auto" id="kt_aside">
@@ -15,8 +20,9 @@
     {{-- Brand --}}
     <div class="brand flex-column-auto {{ Metronic::printClasses('brand', false) }}" id="kt_brand">
         <div class="brand-logo">
-            <a href="{{ url('/') }}">
-                <img alt="{{ config('app.name') }}" src="{{ asset('media/logos/'.$kt_logo_image) }}"/>
+            <a href="{{ url('/') }}" class="{{$logo_text_color}} d-flex align-items-center">
+                <img alt="{{ config('app.name') }}" src="{{asset("system/images/$kt_logo_image")}}" class="w-50px h-50px"/>
+                <span><span style="font-family: blowbrush,serif;" class="text-uppercase font-size-h4">{{ config('app.name') }}</span><sup>&trade;</sup></span>
             </a>
         </div>
 

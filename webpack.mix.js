@@ -38,9 +38,12 @@ mix.scripts('resources/metronic/plugins/formvalidation/dist/js/plugins/Tachyons.
     .scripts('resources/metronic/plugins/formvalidation/dist/js/plugins/PasswordStrength.js', 'public/plugins/custom/formvalidation/plugins/PasswordStrength.js')
     .scripts('resources/metronic/plugins/formvalidation/dist/js/plugins/Transformer.js', 'public/plugins/custom/formvalidation/plugins/Transformer.js');
 
+mix.copy('resources/system/fonts/blowbrush.ttf', 'public/system/fonts')
+    .copyDirectory('resources/system/images', 'public/system/images');
+
 
 // Metronic js pages (single page use)
-(glob.sync('resources/js/pages/backend/**/*.js') || []).forEach(file => {
+(glob.sync('resources/js/pages/auth/**/*.js') || []).forEach(file => {
     mix.js(file, `public/${file.replace('resources/', '')}`);
 });
 

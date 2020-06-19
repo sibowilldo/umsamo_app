@@ -16,6 +16,12 @@
 
     {{-- Fonts --}}
     {{ Metronic::getGoogleFontsInclude() }}
+    <style>
+        @font-face {
+            font-family: blowbrush;
+            src: url({{asset('system/fonts/blowbrush.ttf')}});
+        }
+    </style>
 
     <!--begin::Page Custom Styles(used by this page)-->
     <link href="{{ asset('css/pages/login/login-1.css')}}" rel="stylesheet" type="text/css" />
@@ -45,19 +51,14 @@
     <!--begin::Login-->
     <div class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-row-fluid bg-white" id="kt_login">
         <!--begin::Aside-->
-        <div class="login-aside d-flex flex-row-auto px-lg-0 px-5 pb-sm-40 pb-lg-40 flex-grow-1" style="background-repeat:no-repeat;background-position: bottom;background-image: url({{asset('media/svg/illustrations/login-visual-1.svg')}})">
+        <div class="login-aside d-flex flex-row-auto px-lg-0 px-5 pb-sm-40 pb-lg-40 flex-grow-1" style="background-repeat:no-repeat;background-position: bottom;background-color:#221f72;">
             <!--begin::Aside Container-->
-            <div class="d-flex flex-row-fluid flex-column mt-lg-30 mb-lg-0 pb-lg-0 mb-20 pb-40 mt-0 pt-15">
+            <div class="d-flex flex-row-fluid flex-column justify-content-around mt-lg-30 mb-lg-0 pb-lg-0 mb-20 pb-40 mt-0 pt-15">
                 <!--begin::Aside header-->
                 <a href="#" class="text-center mb-10">
-                    <img src="{{asset('media/logos/logo-letter-1.png')}}" class="max-h-70px" alt="" />
+                    <img src="{{asset('system/images/umsamo-logo-white.png')}}" class="max-h-250px" alt="" />
                 </a>
                 <!--end::Aside header-->
-                <!--begin::Aside title-->
-                <h3 class="font-weight-bolder text-center display5 pb-lg-0 pb-40">
-                    {{ config('app.name') }}
-                </h3>
-                <!--end::Aside title-->
             </div>
             <!--end::Aside Container-->
         </div>
@@ -82,7 +83,7 @@
     <!--end::Login-->
 </div>
 <!--end::Main-->
-<script>var HOST_URL = "https://keenthemes.com/metronic/tools/preview";</script>
+<script>var HOST_URL = "{{ config('app.url') }}";</script>
 
 {{-- Global Config (global config for global JS scripts) --}}
 <script>

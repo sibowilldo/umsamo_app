@@ -4,7 +4,7 @@
         <div class="card-header border-0 py-5">
             <h3 class="card-title align-items-start flex-column">
                 <span class="card-label font-weight-bolder text-dark">Your Upcoming Appointments</span>
-                <span class="text-muted mt-3 font-weight-bold font-size-sm">You have {{ count($appointments) }} upcoming appointment{{count($appointments)==1? '':'s'}}</span>
+                <span class="text-muted mt-3 font-weight-bold font-size-sm">Showing 5 of {{ count($appointments) }} upcoming appointment{{count($appointments)==1? '':'s'}}</span>
             </h3>
             <div class="card-toolbar">
                 <a href="{{ route('appointments.index') }}" class="btn btn-light-info font-weight-bolder font-size-sm mr-3">View All Appointments</a>

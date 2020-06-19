@@ -68,6 +68,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'id_number' => ['required', 'string', 'unique:profiles'],
             'cell_number' => ['required', 'string', 'unique:profiles'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -85,6 +86,7 @@ class RegisterController extends Controller
     {
         $this->validator($request->only([
             'email', 'password', 'password_confirmation',
+            'id_number', 'gender', 'date_of_birth',
             'cell_number', 'first_name', 'last_name', 'address', 'city', 'province', 'postal_code', 'avatar'
         ]))->validate();
 
@@ -118,8 +120,11 @@ class RegisterController extends Controller
 
             $user->profile()->create([
                 'avatar' => 'https://lorempixel.com/300/300/?66518',
+                'id_number' => $data['id_number'],
                 'cell_number' => $data['cell_number'],
                 'first_name' => $data['first_name'],
+                'gender' => $data['gender'],
+                'date_of_birth' => $data['date_of_birth'],
                 'last_name' => $data['last_name'],
                 'address' => $data['address'],
                 'city' => $data['city'],

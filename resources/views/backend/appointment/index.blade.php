@@ -51,7 +51,6 @@
             </div>
         </div>
         <div class="card-body">
-            <!--begin: Search Form-->
             <!--begin::Search Form-->
             <div class="mb-7">
                 <div class="row align-items-center">
@@ -92,7 +91,6 @@
                 </div>
             </div>
             <!--end::Search Form-->
-            <!--end: Search Form-->
             <!--begin: Datatable-->
             <table class="table table-head-bg table-borderless table-head-custom" id="kt_datatable">
                 <thead>
@@ -157,7 +155,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ mix('js/pages/backend/appointment/index.js') }}" type="text/javascript" defer></script>
+    <script src="{{ asset('js/pages/backend/appointment/index.js') }}" type="text/javascript" defer></script>
 @endsection
 
 @section('styles')

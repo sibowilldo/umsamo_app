@@ -15,9 +15,9 @@ class Attachment extends Model
      * @var array
      */
     protected $fillable = [
-        'reservation_id',
+        'uuid',
+        'appointment_id',
         'url',
-        'type',
     ];
 
     /**
@@ -31,10 +31,19 @@ class Attachment extends Model
         'uuid' => EfficientUuid::class,
     ];
 
+    public function appointment()
+    {
+        return $this->belongsTo(Appointment::class);
+    }
+
+    public function attachment_meta()
+    {
+        return $this->hasOne(AttachmentMeta::class);
+    }
 
     public function reservation()
     {
-        return $this->belongsTo(\App\Appointment::class);
+        return $this->belongsTo(Appointment::class);
     }
 
     /**

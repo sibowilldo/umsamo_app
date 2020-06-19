@@ -19,10 +19,17 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/', 'PagesController@index')->name('dashboard');
     Route::resource('appointments', 'AppointmentController');
     Route::patch('appointments/{appointment}/cancel', 'AppointmentController@cancel')->name('appointments.cancel');
+    Route::resource('events', 'EventController')->middleware(['role:kingpin|role:administrator']);
+    Route::get('profile/overview', 'ProfileController@overview');
     Route::resource('regions', 'RegionController')->middleware(['role:kingpin']);
     Route::resource('statuses', 'StatusController')->middleware(['role:kingpin']);
 
+    Route::get('/home', 'HomeController@index')->name('home');
+});
 
+Route::prefix('cronos')->group(function(){
+    Route::get('public-holidays', 'CronController@getPublicHolidays');
+});
 
 // Demo routes
 Route::get('/datatables', 'PagesController@datatables');
@@ -32,5 +39,3 @@ Route::get('/select2', 'PagesController@select2');
 // Quick search dummy route to display html elements in search dropdown (header search)
 Route::get('/quick-search', 'PagesController@quickSearch')->name('quick-search');
 
-Route::get('/home', 'HomeController@index')->name('home');
-});

@@ -5,7 +5,7 @@
 
 // Base
 .datetimepicker {
-    width: 265px;
+    width: 100%;
     padding: 10px;
     left: auto;
     @include border-radius($border-radius);
@@ -102,6 +102,11 @@
                     color: $white;
                 }
 
+                &.disabled{
+                    color: $gray-100;
+                    cursor: not-allowed;
+                }
+
                 &.today {
                     position: relative;
                     background: rgba($primary, 0.12) !important;
@@ -135,7 +140,10 @@
                 &:hover {
                     background: $gray-100;
                 }
-
+                &.disabled{
+                    color: $gray-100;
+                    cursor: not-allowed;
+                }
                 &.active:hover,
                 &.active {
                     background: $primary;

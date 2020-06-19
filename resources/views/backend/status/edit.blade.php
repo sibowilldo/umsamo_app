@@ -49,7 +49,7 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ mix('js/pages/crud/forms/widgets/bootstrap-switch.js') }}" type="text/javascript" defer></script>
-    <script src="{{ mix('js/pages/backend/status/edit.js') }}" type="text/javascript" defer></script>
+    <script src="{{ asset('js/pages/crud/forms/widgets/bootstrap-switch.js') }}" type="text/javascript" defer></script>
+    <script src="{{ asset('js/pages/backend/status/edit.js') }}" type="text/javascript" defer></script>
 @endsection
 
