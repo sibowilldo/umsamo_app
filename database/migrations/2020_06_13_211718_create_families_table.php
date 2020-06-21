@@ -24,7 +24,9 @@ class CreateFamiliesTable extends Migration
         Schema::create('family_user', function (Blueprint $table){
             $table->foreignId('family_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->boolean('is_leader')->default(false);
+            $table->boolean('is_head')->default(false);
+            $table->timestamp('joined_at');
+            $table->softDeletes();
             $table->primary(['family_id', 'user_id']);
         });
     }

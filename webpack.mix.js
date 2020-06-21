@@ -48,6 +48,12 @@ mix.copy('resources/system/fonts/blowbrush.ttf', 'public/system/fonts')
 });
 
 
+// Metronic js pages (single page use)
+(glob.sync('resources/js/plugins/**/*.js') || []).forEach(file => {
+    mix.js(file, `public/${file.replace('resources/', '')}`);
+});
+
+
 // Global jquery
 // mix.autoload({
     // 'jquery': ['$', 'jQuery'],

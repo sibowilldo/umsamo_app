@@ -44,7 +44,7 @@ class EventController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
@@ -54,7 +54,7 @@ class EventController extends Controller
         $event = Event::create($request->only('title', 'description', 'item_id', 'status_id'));
         $event_dates = $event->event_dates()->createMany($repo_event_dates);
 
-        return response()->view('backend.event.show', compact('event'));
+        return response()->redirectToRoute('events.index');
     }
 
     /**

@@ -46,7 +46,7 @@
 @section('scripts')
 {{--    <script src="{{ asset('js/pages/crud/forms/widgets/bootstrap-switch.js') }}" type="text/javascript" defer></script>--}}
 {{--    <script src="{{ asset('js/pages/backend/event/create.js') }}" type="text/javascript" defer></script>--}}
-<script src="{{ asset('js/jquery.form-repeater.js') }}"></script>
+<script src="{{ asset('js/plugins/jquery.form-repeater.js') }}"></script>
 
 <script>
     // Class definition
