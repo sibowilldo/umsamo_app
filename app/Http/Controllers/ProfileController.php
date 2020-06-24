@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Profile;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -13,12 +14,25 @@ class ProfileController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param User $user
      * @return Response
      */
-    public function overview()
+    public function overview(User $user)
     {
-        $user = User::where('id', Auth::id())->with(['families', 'profile'])->first();
         return response()->view('backend.profile.overview', compact('user'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Profile $profile
+     * @return Response | Profile
+     */
+    public function show(Profile $profile)
+    {
+        return \request()->wantsJson()
+            ?new Response(['profile' => $profile, 'family'=>$profile->user->families()->get()], 200)
+            :$profile;
     }
 
     /**

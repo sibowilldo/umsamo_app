@@ -62,9 +62,24 @@ class Profile extends Model
     }
 
 
+    /**
+     * Binds route key to uuid value
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'id_number';
+    }
+
+
     public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+    public function getAvatarUrlAttribute()
+    {
+        return asset($this->avatar);
     }
 
     public function getMaskedIdNumberAttribute()

@@ -86,10 +86,10 @@ var AppointmentIndexScript = function() {
             $('[data-toggle="tooltip"]').tooltip()
         });
 
-        datatable.on('click', '.deleteBtn', function(){
-            let deleteBtn = $(this);
-            var record = deleteBtn.data("record");
-            var url = deleteBtn.data("url");
+        datatable.on('click', '.cancelBtn', function(){
+            let cancelBtn = $(this);
+            var record = cancelBtn.data("record");
+            var url = cancelBtn.data("url");
 
             swal.fire({
                 icon: 'info',
@@ -106,13 +106,13 @@ var AppointmentIndexScript = function() {
                 buttonsStyling: false,
                 preConfirm:  function () {
                     return new Promise(function (resolve) {
-                        axios.delete(url, {
+                        axios.patch(url, {
                             id: record
                         })
                             .then(function (response) {
                                 swal.fire({
                                     'icon': 'info',
-                                    title: 'Deleted!',
+                                    title: 'Appointment Cancelled Successfully!',
                                     text: response.data.message,
                                     preConfirm: function(){
                                         window.location.replace(response.data.url);

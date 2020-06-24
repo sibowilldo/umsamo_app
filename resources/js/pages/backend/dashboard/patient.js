@@ -28,10 +28,11 @@ var DashboardPatientScripts = function () {
                 appointment_type: appointment_type
             })
                 .then(function (response) {
+                    console.log(response.data)
                     setTimeout(function() {
                         swal.fire({
                             icon: 'success',
-                            title: 'Your request was successful!',
+                            title: response.data.title,
                             text: response.data.message,
                             preConfirm: function(){
                                 window.location.replace(response.data.url)

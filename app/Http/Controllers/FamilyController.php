@@ -46,7 +46,8 @@ class FamilyController extends Controller
      */
     public function show(Family $family)
     {
-        //
+        return \request()->wantsJson()
+            ?new Response(['data' => $family], 200):$family;
     }
 
     /**

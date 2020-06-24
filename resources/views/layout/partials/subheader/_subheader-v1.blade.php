@@ -40,6 +40,7 @@
                 @section('page_toolbar')
             @endif
 
+                @if(false)
             <div class="dropdown dropdown-inline" data-toggle="tooltip" title="Quick actions" data-placement="left">
                 <a href="#" class="btn btn-icon"data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ Metronic::getSVG("media/svg/icons/Files/File-plus.svg", "svg-icon-success svg-icon-2x") }}
@@ -86,7 +87,7 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div>@endif
         </div>
 
     </div>

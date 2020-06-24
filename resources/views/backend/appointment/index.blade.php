@@ -138,7 +138,7 @@
                                     {{ Metronic::getSVG('media/svg/icons/General/Settings-1.svg', 'svg-icon svg-icon-md svg-icon-primary') }} View
                                 </a>
                                 @if(!$appointment->status->cancelled)
-                                <button type="button" class="btn btn-light btn-hover-danger btn-sm deleteBtn ml-3" data-url="{{route('appointments.cancel', $appointment->uuid)}}" data-record="{{ $appointment->uuid }}" data-placement="top"  data-toggle="tooltip" data-original-title="Cancel Appointment">
+                                <button type="button" class="btn btn-light btn-hover-danger btn-sm cancelBtn ml-3" data-url="{{route('appointments.cancel', $appointment->uuid)}}" data-record="{{ $appointment->uuid }}" data-placement="top"  data-toggle="tooltip" data-original-title="Cancel Appointment">
                                    {{ Metronic::getSVG('media/svg/icons/Code/Stop.svg', 'svg-icon svg-icon-md svg-icon-danger') }}<span class="ml-1">Cancel</span>
                                 </button>
                                 @endif

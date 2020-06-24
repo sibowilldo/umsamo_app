@@ -43,7 +43,7 @@ mix.copy('resources/system/fonts/blowbrush.ttf', 'public/system/fonts')
 
 
 // Metronic js pages (single page use)
-(glob.sync('resources/js/pages/auth/**/*.js') || []).forEach(file => {
+(glob.sync('resources/js/pages/**/**/*.js') || []).forEach(file => {
     mix.js(file, `public/${file.replace('resources/', '')}`);
 });
 
@@ -145,7 +145,11 @@ mix.webpackConfig({
     var folder = file.match(/resources\/metronic\/plugins\/(.*?)\//)[1];
     mix.copy(file, `public/plugins/global/fonts/${folder}/${path.basename(file)}`);
 });
-(glob.sync('node_modules/+(@fortawesome|socicon|line-awesome)/**/*.+(woff|woff2|eot|ttf)') || []).forEach(file => {
+(glob.sync('node_modules/+(@fortawesome|socicon)/**/*.+(woff|woff2|eot|ttf)') || []).forEach(file => {
     var folder = file.match(/node_modules\/(.*?)\//)[1];
     mix.copy(file, `public/plugins/global/fonts/${folder}/${path.basename(file)}`);
+});
+
+(glob.sync('node_modules/+(line-awesome)/**/*.+(woff|woff2|eot|ttf)') || []).forEach(file => {
+    mix.copy(file, `public/plugins/fonts/${path.basename(file)}`);
 });

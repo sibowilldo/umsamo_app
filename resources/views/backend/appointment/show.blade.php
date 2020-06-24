@@ -107,7 +107,7 @@
                             <div class="d-flex flex-column mb-5 align-items-{{$comment->user_id===Auth::id()?'end':'start'}}">
                                 <div class="d-flex align-items-center">
                                     <div class="symbol symbol-circle symbol-40 mr-3">
-                                        <img alt="Pic" data-src="{{$comment->user_id===Auth::id()?Auth::user()->profile->avatar:$comment->user->profile->avatar}}" class="min-h-40px"/>
+                                        <img alt="Pic" data-src="{{$comment->user_id===Auth::id()?Auth::user()->profile->avatarurl:$comment->user->profile->avatarurl}}" class="min-h-40px"/>
                                     </div>
                                     <div>
                                         <a href="#"

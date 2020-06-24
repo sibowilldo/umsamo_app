@@ -21,12 +21,12 @@
                 @if(!Auth::user()->profile)
                     <img src="{{ Avatar::create(Auth::user()->email)->toBase64() }}" alt="" class="symbol-label">
                 @else
-                    <div class="symbol-label" style="background-image:url('{{ Auth::user()->profile->avatar }}')"></div>
+                    <div class="symbol-label" style="background-image:url('{{ Auth::user()->profile->avatarurl }}')"></div>
                 @endif
 				<i class="symbol-badge bg-success"></i>
             </div>
             <div class="d-flex flex-column">
-                <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
+                <a href="{{ route('profiles.overview',Auth::user() ) }}" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
                     {{Auth::user()->profile->full_name }}
 				</a>
                 <div class="text-muted mt-1">
@@ -56,7 +56,7 @@
 		{{-- Nav --}}
 		<div class="navi navi-spacer-x-0 p-0">
 		    {{-- Item --}}
-		    <a href="#" class="navi-item">
+		    <a href="{{ route('profiles.overview',Auth::user() ) }}" class="navi-item">
 		        <div class="navi-link">
 		            <div class="symbol symbol-40 bg-light mr-3">
 		                <div class="symbol-label">
@@ -75,23 +75,10 @@
 		    </a>
 
 		    {{-- Item --}}
-		    <a href="#"  class="navi-item">
-		        <div class="navi-link">
-					<div class="symbol symbol-40 bg-light mr-3">
-						<div class="symbol-label">
- 						   {{ Metronic::getSVG("media/svg/icons/Shopping/Chart-bar1.svg", "svg-icon-md svg-icon-warning") }}
- 					   </div>
-				   	</div>
-		            <div class="navi-text">
-		                <div class="font-weight-bold">
-		                    My Comments
-		                </div>
-		            </div>
-		        </div>
-		    </a>
+
 
 		    {{-- Item --}}
-		    <a href="#"  class="navi-item">
+		    <a href="{{ route('appointments.index') }}"  class="navi-item">
 		        <div class="navi-link">
 					<div class="symbol symbol-40 bg-light mr-3">
 						<div class="symbol-label">
@@ -102,6 +89,9 @@
 		                <div class="font-weight-bold">
 		                    My Appointments
 		                </div>
+                        <div class="text-muted">
+                            Past and Upcoming
+                        </div>
 		            </div>
 		        </div>
 		    </a>

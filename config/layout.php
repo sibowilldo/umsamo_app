@@ -120,8 +120,8 @@ return [
         'display' => true,
         'displayDesc' => true,
         'layout' => 'subheader-v1',
-        'fixed' => true,
-        'width' => 'fluid', // fixed, fluid
+        'fixed' => false,
+        'width' => 'fixed', // fixed, fluid
         'clear' => false,
         'layouts' => [
             'subheader-v1' => 'Subheader v1',
@@ -181,7 +181,7 @@ return [
 
         // Search
         'search' => [
-            'display' => true,
+            'display' => false,
             'layout' => 'dropdown', // offcanvas, dropdown
             'offcanvas' => [
                 'direction' => 'right'
@@ -190,7 +190,7 @@ return [
 
         // Notifications
         'notifications' => [
-            'display' => true,
+            'display' => false,
             'layout' => 'dropdown', // offcanvas, dropdown
             'dropdown' => [
                 'style' => 'dark' // light|dark

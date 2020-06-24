@@ -81,9 +81,7 @@
                         countdownMessage: 'Redirecting in {timer}.',
                         countdownBar: true,
                         countdownSmart: true,
-                        onRedir: function(){
-                            document.getElementById('logout-form').submit();
-                        }
+                        redirUrl: 'login'
                     });
                     $('#session-timeout-dialog-logout').on('click', function (e) {
                         e.preventDefault();

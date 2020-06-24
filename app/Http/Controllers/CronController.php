@@ -13,7 +13,6 @@ class CronController extends Controller
     public function getPublicHolidays()
     {
         try {
-
             $key = config('app.holiday_api_key');
             $year = now()->format('Y');
             $request_url = 'https://calendarific.com/api/v2/holidays?api_key='.$key.'&country=ZA&year='. $year;

@@ -15,7 +15,8 @@ class UserObserver
      */
     public function created(User $user)
     {
-        Cache::put("user.{$user->id}", $user, 60);
+        User::sendWelcomeEmail($user);
+        Cache::put("user.{$user->id}", $user, 120);
     }
 
     /**
@@ -26,7 +27,7 @@ class UserObserver
      */
     public function updated(User $user)
     {
-        Cache::put("user.{$user->id}", $user, 60);
+        Cache::put("user.{$user->id}", $user, 120);
     }
 
     /**
@@ -48,12 +49,12 @@ class UserObserver
      */
     public function restored(User $user)
     {
-        Cache::put("user.{$user->id}", $user, 60);
+        Cache::put("user.{$user->id}", $user, 120);
     }
 
     public function retrieved(User $user)
     {
-        Cache::add("user.{$user->id}", $user, 60);
+        Cache::add("user.{$user->id}", $user, 120);
     }
 
     /**

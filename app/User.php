@@ -2,18 +2,23 @@
 
 namespace App;
 
+use App\Mail\WelcomeNewUserMail;
 use Dyrynda\Database\Casts\EfficientUuid;
 use Dyrynda\Database\Support\GeneratesUuid;
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
     use Notifiable, SoftDeletes, GeneratesUuid, HasRoles;
 
@@ -32,7 +37,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token','id',
     ];
 
     /**
@@ -44,6 +49,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'uuid' => EfficientUuid::class,
     ];
+
+    public static function generatePassword()
+    {
+        return bcrypt(Str::random());
+    }
 
     /**
      * Binds route key to uuid value
@@ -88,10 +98,17 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * A user hasOne profile
      *
-     * @return HasMany
+     * @return MorphMany
      */
     public function appointments()
     {
-        return $this->hasMany(Appointment::class);
+        return $this->morphMany(Appointment::class, 'appointmentable');
     }
+
+    public static function sendWelcomeEmail($user)
+    {
+        // Send email
+        Mail::to($user)->queue(new WelcomeNewUserMail($user));
+    }
+
 }

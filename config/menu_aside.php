@@ -12,9 +12,15 @@ return [
             'new-tab' => false,
         ],
 
-        // Custom
+        // User
         [
             'section' => 'User',
+            'roles'=>['client'],
+        ],
+        // Admin
+        [
+            'section' => 'Admin',
+            'roles'=>['administrator', 'kingpin'],
         ],
         // Dashboard
         [

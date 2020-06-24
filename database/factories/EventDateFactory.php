@@ -12,7 +12,7 @@ $factory->define(EventDate::class, function (Faker $faker) {
     return [
         'event_id' => $events[rand(0, count($events)-1)],
         'status_id' => $statuses[rand(0, count($statuses)-1)],
-        'date_time' => $faker->dateTimeBetween('now', '+2 Weeks'),
+        'date_time' => date('Y-m-d', strtotime('now +' . $this->faker->unique()->numberBetween(1, 15) . ' days')),
         'limit' => $faker->numberBetween(10,50),
     ];
 });

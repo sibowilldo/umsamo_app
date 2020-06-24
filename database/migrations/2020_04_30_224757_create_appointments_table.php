@@ -16,11 +16,12 @@ class CreateAppointmentsTable extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->efficientUuid('uuid')->index();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->morphs('appointmentable');
             $table->foreignId('event_date_id')->constrained();
             $table->foreignId('region_id')->constrained();
             $table->foreignId('status_id')->constrained();
             $table->string('type')->default('Consulting');
+            $table->boolean('with_family')->default(false);
             $table->timestamps();
         });
 

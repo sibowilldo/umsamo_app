@@ -6,11 +6,11 @@
             <div class="card card-custom">
                 <div class="card-header">
                     <h3 class="card-title">
-                        Enter Status Details
+                        Enter Event Details
                     </h3>
                     <div class="card-toolbar">
                         <div class="justify-content-center">
-                            <a href="{{ route('statuses.index') }}" class="btn btn-primary font-weight-bolder">
+                            <a href="{{ route('events.index') }}" class="btn btn-primary font-weight-bolder">
                             <span class="svg-icon svg-icon-md">
                                 <!--begin::Svg Icon -->
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -21,7 +21,7 @@
                                     </g>
                                 </svg>
                                 <!--end::Svg Icon-->
-                            </span>All Statuses</a>
+                            </span>All Events</a>
                         </div>
                     </div>
                 </div>
@@ -49,30 +49,18 @@
 <script src="{{ asset('js/plugins/jquery.form-repeater.js') }}"></script>
 
 <script>
+    'use strict'
     // Class definition
     var EventCreateFunction = function() {
         var holidays = [];
         $('.selectpicker').selectpicker();
-        var publicHolidays = function(){
-            axios.get('/cronos/public-holidays')
-            .then((response)=>{
-                response.data.map((item)=>{
-                    if(item.type[0] === 'National holiday'){
-                        holidays.push(item.date.iso);
-                    }
-                });
-            })
-            .catch((error) => {
-                console.log(error.error);
-            })
-            return holidays;
-        }
+
         var datepickerOptions = {
             viewMode: 'months',
             format: 'YYYY-MM-DD',
             minDate: moment(),
             sideBySide:true,
-            disabledDates: publicHolidays(),
+            disabledDates: za_holidays,
             icons: {
                 next: 'flaticon2-right-arrow',
                 previous: 'flaticon2-left-arrow',

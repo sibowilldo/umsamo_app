@@ -94,9 +94,6 @@ class RegisterController extends Controller
 
         $this->guard()->login($user);
 
-        Cache::put('logged_in_user', $user, now()->addHour());
-        Cache::put('logged_in_user_profile', $user->profile, now()->addHour());
-
         if ($response = $this->registered($request, $user)) {
             return $response;
         }

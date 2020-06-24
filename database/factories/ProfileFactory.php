@@ -9,7 +9,7 @@ use Faker\Generator as Faker;
 $factory->define(Profile::class, function (Faker $faker) {
     return [
         'user_id' => factory(\App\User::class),
-        'avatar' => $faker->imageUrl(300, 300),
+        'avatar' => 'media/users/blank.png',
         'id_number' => $faker->idNumber,
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,

@@ -19,7 +19,9 @@ class Appointment extends Model
         'event_date_id',
         'region_id',
         'status_id',
-        'type'
+        'with_family',
+        'type',
+
     ];
 
     /**
@@ -45,6 +47,12 @@ class Appointment extends Model
         return $this->hasMany(Attachment::class);
     }
 
+
+    public function appointmentable()
+    {
+        return $this->morphTo();
+    }
+
     public function comments()
     {
         $this->hasMany(Comment::class);
@@ -59,12 +67,6 @@ class Appointment extends Model
     {
         return $this->belongsTo(\App\Status::class);
     }
-
-    public function user()
-    {
-        return $this->belongsTo(\App\User::class);
-    }
-
 
     /**
      * Binds route key to uuid value

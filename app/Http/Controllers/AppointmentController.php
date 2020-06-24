@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Appointment;
 use App\Comment;
-use App\Event;
 use App\EventDate;
-use App\Status;
+use App\Repositories\AppointmentRepository;
+use App\Repositories\EventDateRepository;
+use App\Repositories\UserRepository;
+use App\User;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as HTTPResponse;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AppointmentController extends Controller
 {
@@ -27,10 +28,13 @@ class AppointmentController extends Controller
 
         $appointment_types = Appointment::$types;
 
-        $appointments = Appointment::where('user_id', Auth::id())->with(['status','event_date','event_date.event','event_date.event.status'])->select('uuid', 'event_date_id', 'status_id','type', 'created_at')->get();
+        $user = Auth::user();
+        $appointments = $user->hasAnyRole(['kingpin', 'administrator'])
+            ? AppointmentRepository::ALL_APPOINTMENTS(['status','event_date','event_date.event','event_date.event.status'],['uuid', 'event_date_id', 'status_id','type', 'created_at'])
+            : AppointmentRepository::USER_APPOINTMENTS($user,['status','event_date','event_date.event','event_date.event.status'],['uuid', 'event_date_id', 'status_id','type', 'created_at']);
 
         $statuses = $appointments->pluck('status')->unique();
-        $events = $appointments->pluck('event_date.event')->unique(); //Event::whereIn('id', $appointments->pluck('event_date.event.id'))->select('title')->get();
+        $events = $appointments->pluck('event_date.event')->unique();
 
         return response()->view('backend.appointment.index', compact('appointments', 'appointment_types', 'events', 'statuses', 'page_title'));
     }
@@ -53,42 +57,43 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        $event_date = EventDate::findOrFail($request->event_date);
-        $status = Status::where(['model_type' => 'App\Appointment', 'title' => 'pending'])->select('id')->first();
+        $request->merge(['with_family' => $request->has('with_family')]);
 
-        DB::transaction(function() use ($request, $event_date, $status){
-            $appointment = Appointment::create([
-                'user_id' => Auth::id(),
-                'event_date_id' => $event_date->id,
-                'region_id' => $event_date->event->regions()->first()->id,
-                'status_id' => $status->id,
-                'type' => $request->appointment_type,
-            ]);
-            if($request->appointment_type == 'Consulting'){
-                $event_date->update(['limit' => $event_date->limit - 1]);
+        DB::transaction(function() use ($request){
+
+            $user = $request->has('id_number')
+                ? UserRepository::NEW_USER($request->only('address', 'cell_number', 'city','date_of_birth',
+                    'email', 'first_name', 'gender', 'id_number', 'last_name', 'postal_code', 'province'))
+                : User::findOrFail(Auth::id());
+
+            $event_date = EventDate::findOrFail($request->event_date);
+            if($request->with_family){
+                $user->families()->firstOrCreate(['name'=>$request->family_name]);
+            }else{
+
             }
+            AppointmentRepository::NEW_APPOINTMENT($user, $event_date, $request);
+            EventDateRepository::UPDATE_LIMIT($event_date, $request->appointment_type);
         });
 
-        if($event_date->limit < 1){
-            $status = Status::firstOrCreate(['title'=> 'Full', 'model_type' => 'App\EventDate'], ['description' => 'Assigned to an Event Date that no longer has available spaces.']);
-            $event_date->update(['status_id' => $status->id]);
-        }
-
-        return response()->json(['url' => route('dashboard'), 'message' => "We will be in touch to confirm your appointment."], HTTPResponse::HTTP_ACCEPTED);
+        return response()->json(['url' => route('dashboard'),
+            'title' => 'Appointment was made successfully',
+            'message' => 'A reminder will be sent when the appointment date is near. Please keep contact details update to date'],
+            HTTPResponse::HTTP_ACCEPTED);
     }
 
     /**
      * Display the specified resource.
      *
      * @param Appointment $appointment
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Http\Response
      */
     public function show(Appointment $appointment)
     {
         $page_title = "View Appointment";
         $comments = Comment::where('appointment_id', $appointment->id)->with(['status'])->get();
 
-        return view('backend.appointment.show', compact('appointment', 'comments', 'page_title'));
+        return response()->view('backend.appointment.show', compact('appointment', 'comments', 'page_title'));
     }
 
     /**

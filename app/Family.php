@@ -17,6 +17,19 @@ class Family extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class)->withPivot(['is_leader']);
+        return $this->belongsToMany(User::class);
     }
+
+
+
+    /**
+     * Binds route key to uuid value
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return 'id';
+    }
+
 }

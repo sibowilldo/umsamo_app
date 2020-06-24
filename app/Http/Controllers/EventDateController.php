@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\EventDate;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class EventDateController extends Controller
 {
@@ -15,7 +17,8 @@ class EventDateController extends Controller
      */
     public function index()
     {
-        //
+        $event_dates = EventDate::whereDate('date_time', '>=', Carbon::now())->orderBy('date_time')->get();
+        return response()->view('');
     }
 
     /**
