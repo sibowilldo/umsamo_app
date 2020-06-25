@@ -25,24 +25,14 @@ class PagesController extends Controller
         $user = User::findOrFail(Auth::id());
 
         $page_description = "Welcome to your dashboard {$user->profile->fullname}";
-
         $provinces = Region::$provinces;
-
         $appointment_types = Appointment::$types;
 
-        $appointments = AppointmentRepository::USER_APPOINTMENTS($user, ['status','event_date','event_date.event','event_date.event.status'], ['uuid', 'event_date_id', 'status_id', 'created_at']);
+        $families = $user->families;
+        $appointments = AppointmentRepository::GET_APPOINTMENTS($user,['status','event_date','event_date.event','event_date.event.status'],['uuid', 'event_date_id', 'status_id','type', 'created_at']);
         $comments = CommentRepository::USER_COMMENTS($user,'created_at', 'asc',['status', 'appointment'], ['status_id', 'body', 'appointment_id', 'created_at'], 4);
 
-        //Get only the events that have more than 0 Event Dates
-        $events = Event::with(['event_dates','status'])->has('event_dates', '>', 0)->take(6)->get();
-
-        //Get only Future Event Dates, that the user does not have an appointment on
-        $event_dates = EventDate::whereNotIn('id', $appointments->pluck('event_date_id'))->whereIn('event_id', $events->pluck('id'))->whereDate('date_time', '>', now())->get();
-
-//        $events = $events->whereIn('id', $event_dates->pluck('event_id'))->whereIn('status_id', [self::ACTIVE_EVENT_STATUS, self::PUBLISHED_EVENT_STATUS]);
-
-
-        return response()->view('pages.dashboard', compact('events', 'event_dates', 'appointment_types', 'appointments', 'comments', 'page_title', 'page_description', 'provinces'));
+        return response()->view('pages.dashboard', compact('appointment_types', 'appointments', 'comments', 'families', 'page_title', 'page_description', 'provinces'));
     }
 
     /**

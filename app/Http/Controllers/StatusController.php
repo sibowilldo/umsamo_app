@@ -78,7 +78,8 @@ class StatusController extends Controller
         $page_title = "$status->title";
         $page_description = "Edit Details";
         $model_types = Status::$model_types;
-        return view('backend.status.edit', compact('status', 'page_title', 'page_description', 'model_types'));
+        $colors = Status::$colors;
+        return view('backend.status.edit', compact('colors','status', 'page_title', 'page_description', 'model_types'));
     }
 
     /**
@@ -90,6 +91,7 @@ class StatusController extends Controller
      */
     public function update(StatusFormRequest $request, Status $status)
     {
+
         $statusExists = Status::statusExists($request->title, $request->model_type);
 
         if($statusExists && $statusExists->id !=$status->id){

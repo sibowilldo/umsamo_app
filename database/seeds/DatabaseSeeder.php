@@ -98,7 +98,7 @@ class DatabaseSeeder extends Seeder
          * Appointments to a variable for later use.
          */
         $users->each(function ($user){
-                $user->appointments()->saveMany(factory(App\Appointment::class, rand(0,7))->make());
+                $user->appointments()->save(factory(App\Appointment::class)->make());
             });
 
         /**

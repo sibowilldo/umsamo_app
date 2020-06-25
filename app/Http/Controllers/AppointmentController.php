@@ -29,9 +29,9 @@ class AppointmentController extends Controller
         $appointment_types = Appointment::$types;
 
         $user = Auth::user();
-        $appointments = $user->hasAnyRole(['kingpin', 'administrator'])
-            ? AppointmentRepository::ALL_APPOINTMENTS(['status','event_date','event_date.event','event_date.event.status'],['uuid', 'event_date_id', 'status_id','type', 'created_at'])
-            : AppointmentRepository::USER_APPOINTMENTS($user,['status','event_date','event_date.event','event_date.event.status'],['uuid', 'event_date_id', 'status_id','type', 'created_at']);
+        $appointments = AppointmentRepository::GET_APPOINTMENTS( $user,
+            ['status','event_date','event_date.event','event_date.event.status'],
+            ['uuid', 'event_date_id', 'status_id','type', 'created_at']);
 
         $statuses = $appointments->pluck('status')->unique();
         $events = $appointments->pluck('event_date.event')->unique();
@@ -67,13 +67,12 @@ class AppointmentController extends Controller
                 : User::findOrFail(Auth::id());
 
             $event_date = EventDate::findOrFail($request->event_date);
-            if($request->with_family){
-                $user->families()->firstOrCreate(['name'=>$request->family_name]);
-            }else{
 
+            if($request->with_family){
+                $family = $user->families()->firstOrCreate(['name'=>$request->family_name]);
+                $family->users()->updateExistingPivot($user->id, ['is_head' => true]);
             }
             AppointmentRepository::NEW_APPOINTMENT($user, $event_date, $request);
-            EventDateRepository::UPDATE_LIMIT($event_date, $request->appointment_type);
         });
 
         return response()->json(['url' => route('dashboard'),
@@ -130,15 +129,7 @@ class AppointmentController extends Controller
     public function cancel(Appointment $appointment)
     {
 
-        $appointment->update([
-            'status_id' => self::APPOINTMENT_CANCELLED_STATUS
-        ]);
-
-        if(strcasecmp($appointment->type, 'Consulting') == 0){
-            $appointment->event_date()->update([
-                'limit' => $appointment->event_date->limit+=1
-            ]);
-        }
+        $appointment->update(['status_id' => self::APPOINTMENT_CANCELLED_STATUS ]);
 
         return response()->json([
             "message"=> 'Your appointment was cancelled successfully',

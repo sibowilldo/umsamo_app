@@ -4,29 +4,51 @@
 namespace App\Repositories;
 
 
+use App\Appointment;
 use App\EventDate;
 use App\Status;
 
 class EventDateRepository
 {
+    const APPOINTMENT_STATUS_CANCELLED = 12;
+    const APPOINTMENT_STATUS_DELETED = 14;
+    const APPOINTMENT_STATUS_ACTIVE = 11;
+    const EVENT_DATE_STATUS_ACTIVE = 8;
+    const EVENT_DATE_STATUS_FULL = 9;
+
     /**
      * Decrease Event Date limit by 1 if Appointment Type is Consulting"
      * Set or Create EventDate Status to Full if limit is less 1
      *
      * @param EventDate $event_date
-     * @param string $appointment_type
+     * @param Appointment $appointment
      * @return EventDate
      */
-    public static function UPDATE_LIMIT(EventDate $event_date, string $appointment_type)
+    public static function UPDATE_LIMIT(EventDate $event_date, Appointment $appointment) : EventDate
     {
-        if($appointment_type == 'Consulting'){
-            $event_date->update(['limit' => $event_date->limit - 1]);
+
+        if(strcasecmp($appointment->type, 'Consulting') == 0){
+
+            switch ($appointment->status_id){
+                case self::APPOINTMENT_STATUS_DELETED:
+                case self::APPOINTMENT_STATUS_CANCELLED:
+                    $event_date->increment('limit');
+                    break;
+                case self::APPOINTMENT_STATUS_ACTIVE:
+                    $event_date->drecrement('limit');
+                    break;
+            }
+
+            if($appointment->status_id === self::APPOINTMENT_STATUS_CANCELLED){
+
+            }else{
+                $event_date->decrement('limit');
+            }
         }
 
-        if($event_date->limit < 1){
-            $status = Status::firstOrCreate(['title'=> 'Full', 'model_type' => 'App\EventDate'], ['description' => 'Assigned to an Event Date that no longer has available spaces.']);
-            $event_date->update(['status_id' => $status->id]);
-        }
+
+       $event_date->limit > 1 ?: $event_date->update(['status_id' => self::EVENT_DATE_STATUS_FULL]);
+
         return $event_date;
     }
 }

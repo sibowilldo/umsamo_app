@@ -5,7 +5,6 @@ namespace App\Repositories;
 
 
 use App\User;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
 
 class UserRepository
@@ -30,7 +29,7 @@ class UserRepository
             ['password' => User::generatePassword()]
         );
 
-        $user->profile()->updateOrCreate(
+        $user->profile()->firstOrCreate(
             ['id_number' => $data['id_number']],
             [
                 'avatar' => 'media/users/blank.png',
@@ -42,22 +41,9 @@ class UserRepository
                 'province' => $data['province'], 'postal_code' => $data['postal_code']
             ]);
 
+        $user->syncRoles(['client']);
+
         return $user;
 
-    }
-
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return mixed
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'id_number' => ['required', 'string', 'unique:profiles'],
-            'cell_number' => ['required', 'string', 'unique:profiles'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        ]);
     }
 }

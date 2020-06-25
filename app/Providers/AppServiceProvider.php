@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Appointment;
+use App\EventDate;
+use App\Observers\AppointmentObserver;
+use App\Observers\EventDateObserver;
 use App\Observers\StatusObserver;
 use App\Observers\UserObserver;
 use App\Status;
@@ -27,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Appointment::observe(AppointmentObserver::class);
+        EventDate::observe(EventDateObserver::class);
         Status::observe(StatusObserver::class);
         User::observe(UserObserver::class);
     }

@@ -82,7 +82,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
      */
     public function families()
     {
-        return $this->belongsToMany(Family::class);
+        return $this->belongsToMany(Family::class)->withPivot(['is_head', 'joined_at']);
     }
 
     /**

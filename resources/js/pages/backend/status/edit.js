@@ -52,6 +52,7 @@ var StatusEditScript = function(){
                 title: $('input[name=title]').val(),
                 description: $('textarea[name=description]').val(),
                 model_type: $('select[name=model_type]').val(),
+                color: $('select[name=color]').val(),
                 is_active: $('input[name=is_active]').is(':checked')
             })
                 .then(function (response) {
