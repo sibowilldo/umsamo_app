@@ -105,10 +105,10 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         return $this->morphMany(Appointment::class, 'appointmentable');
     }
 
-    public static function sendWelcomeEmail($user)
+    public static function sendWelcomeEmail($profile)
     {
         // Send email
-        Mail::to($user)->queue(new WelcomeNewUserMail($user));
+        Mail::to($profile->user)->queue(new WelcomeNewUserMail($profile->user));
     }
 
 }
