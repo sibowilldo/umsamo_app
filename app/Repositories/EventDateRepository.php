@@ -35,7 +35,7 @@ class EventDateRepository
                     $event_date->increment('limit');
                     break;
                 case self::APPOINTMENT_STATUS_ACTIVE:
-                    $event_date->drecrement('limit');
+                    $event_date->decrement('limit');
                     break;
             }
 

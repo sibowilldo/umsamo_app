@@ -8,6 +8,6 @@ use Faker\Generator as Faker;
 $factory->define(Attachment::class, function (Faker $faker) {
     return [
         'uuid' => $faker->uuid,
-        'url' => $faker->file(storage_path('app/private/attachments'), public_path('storage/attachments'), false),
+        'url' => ''//$faker->file(storage_path('app/private/attachments'), public_path('storage/attachments'), false),
     ];
 });
