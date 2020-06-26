@@ -108,7 +108,7 @@
 
                         var month = idNumber.substring(2, 4);
                         var day = idNumber.substring(4, 6);
-                        return moment(prefix + year + "/" + month + "/" + day);
+                        return moment(prefix + year + "/" + month + "/" + day, "YYYY-MM-DD");
                     };
 
                     var getGender = function(idNumber) {
@@ -131,7 +131,7 @@
                 var initWizard = function () {
                     // Initialize form wizard
                     _wizard = new KTWizard(_wizardEl, {
-                        startStep: 1, // initial active step number
+                        startStep: 2, // initial active step number
                         clickableSteps: false // to make steps clickable this set value true and add data-wizard-clickable="true" in HTML for class="wizard" element
                     });
 
@@ -239,7 +239,8 @@
 
                     with_family.on('change', function(){
                         if(with_family.prop('checked')){
-                            family_name.prop('disabled', false).parent().show();
+                            console.log(family_name.parent())
+                            family_name.parent().show();
                             _step_3_validation.enableValidator('family_name', 'notEmpty');
                         }else{
                             _step_3_validation.disableValidator('family_name', 'notEmpty');

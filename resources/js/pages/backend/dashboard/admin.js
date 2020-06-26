@@ -59,7 +59,7 @@ var KTWizard2 = function () {
 
             var month = idNumber.substring(2, 4);
             var day = idNumber.substring(4, 6);
-            return moment(prefix + year + "/" + month + "/" + day);
+            return moment(prefix + year + "/" + month + "/" + day, "YYYY-MM-DD");
         };
 
         var getGender = function(idNumber) {
@@ -477,7 +477,7 @@ var KTWizard2 = function () {
             _wizardEl = KTUtil.getById('kt_wizard_v2');
             _formEl = KTUtil.getById('registerPatientForm');
             _appointment_datepicker = $('.datepicker');
-            
+
             initEventDates();
             initReactiveFormFields();
 

@@ -94,13 +94,30 @@
                                                     </label>
                                                 </div>
                                                 <!--end::Input-->
-                                                <!--begin::Input-->
-                                                <div class="form-group animated" style="display: none">
-                                                    <label>Family Name</label>
-                                                    <input id="family_name" type="text" class="form-control form-control-solid form-control-lg" name="family_name" placeholder="Enter the Family Name" value="" disabled="disabled"/>
-                                                    <span class="help-block text-success">Other members of the family can only be added by the creator of the Family Account.</span>
-                                                </div>
-                                                <!--end::Input-->
+                                                @if(count($families))
+                                                    <!--begin::Input-->
+                                                        <div class="form-group animated" style="display: none">
+                                                            <label>Family Name</label>
+
+                                                            <select name="family_name" id="family_name" class="kt-selectpicker form-control form-control-solid form-control-lg">
+
+                                                                @foreach($families as $family)
+                                                                    <option value="{{ $family->name }}">{{ $family->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            <span class="help-block text-success">Other members of the family can only be added by the creator of the Family Account.</span>
+                                                        </div>
+                                                        <!--end::Input-->
+                                                @else
+                                                    <!--begin::Input-->
+                                                    <div class="form-group animated" style="display: none">
+                                                        <label>Family Name</label>
+                                                        <input id="family_name" type="text" class="form-control form-control-solid form-control-lg" name="family_name" placeholder="Enter the Family Name" value="" disabled="disabled"/>
+                                                        <span class="help-block text-success">Other members of the family can only be added by the creator of the Family Account.</span>
+                                                    </div>
+                                                    <!--end::Input-->
+                                                @endif
+
                                             </div>
                                         </div>
                                     </div>
