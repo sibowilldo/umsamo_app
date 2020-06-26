@@ -17,7 +17,7 @@ class Family extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class)->withPivot(['is_head']);
+        return $this->belongsToMany(User::class)->withPivot(['is_head', 'joined_at']);
     }
 
 

@@ -477,7 +477,7 @@ var KTWizard2 = function () {
             _wizardEl = KTUtil.getById('kt_wizard_v2');
             _formEl = KTUtil.getById('registerPatientForm');
             _appointment_datepicker = $('.datepicker');
-            
+
             initEventDates();
             initReactiveFormFields();
 
