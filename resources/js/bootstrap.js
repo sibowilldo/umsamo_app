@@ -17,24 +17,6 @@ window.axios.defaults.headers.post['Accept'] = 'application/json';
  * allows your team to easily build robust real-time web applications.
  */
 
-function getHolidays(){
-    let holidays =[];
-    axios.get('/cronos/public-holidays')
-        .then((response)=>{
-            response.data.map((item)=>{
-                if(item.type[0] === 'National holiday'){
-                    holidays.push(item.date.iso);
-                }
-            });
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-    return holidays;
-}
-
-window.za_holidays = getHolidays();
-
 // import Echo from 'laravel-echo';
 
 // window.Pusher = require('pusher-js');

@@ -15,7 +15,6 @@ class UserObserver
      */
     public function created(User $user)
     {
-        User::sendWelcomeEmail($user);
         Cache::put("user.{$user->id}", $user, 120);
     }
 

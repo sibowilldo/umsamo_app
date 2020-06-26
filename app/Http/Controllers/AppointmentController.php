@@ -10,6 +10,7 @@ use App\Repositories\EventDateRepository;
 use App\Repositories\UserRepository;
 use App\User;
 use Auth;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response as HTTPResponse;
@@ -58,9 +59,7 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         $request->merge(['with_family' => $request->has('with_family')]);
-
         DB::transaction(function() use ($request){
-
             $user = $request->has('id_number')
                 ? UserRepository::NEW_USER($request->only('address', 'cell_number', 'city','date_of_birth',
                     'email', 'first_name', 'gender', 'id_number', 'last_name', 'postal_code', 'province'))
@@ -69,8 +68,8 @@ class AppointmentController extends Controller
             $event_date = EventDate::findOrFail($request->event_date);
 
             if($request->with_family){
-                $family = $user->families()->firstOrCreate(['name'=>$request->family_name]);
-                $family->users()->updateExistingPivot($user->id, ['is_head' => true]);
+                $family = $user->families()->firstOrCreate(['name' => $request->family_name]);
+                $family->users()->updateExistingPivot($user->id, ['is_head' => true, 'joined_at' => Carbon::now()]);
             }
             AppointmentRepository::NEW_APPOINTMENT($user, $event_date, $request);
         });

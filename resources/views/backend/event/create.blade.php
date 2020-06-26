@@ -52,7 +52,7 @@
     'use strict'
     // Class definition
     var EventCreateFunction = function() {
-        var holidays = [];
+        var za_holidays = [];
         $('.selectpicker').selectpicker();
 
         var datepickerOptions = {
@@ -89,8 +89,23 @@
                     $('.datetimepicker').datetimepicker(datepickerOptions);
                 }
             });
-            $('.datetimepicker').datetimepicker(datepickerOptions);
-        }
+        };
+
+        var initHolidays = function(){
+            axios.get('/cronos/public-holidays')
+                .then((response)=>{
+                    response.data.map((item)=>{
+                        if(item.type[0] === 'National holiday'){
+                            za_holidays.push(item.date.iso);
+                        }
+                    });
+                    $('.datetimepicker').datetimepicker(datepickerOptions);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        };
+
         var initFormSmartControl = function () {
             $('input[name=auto_select_dates]').on('change', function(){
                 if(this.checked){
@@ -160,6 +175,7 @@
         return {
             // public functions
             init: function() {
+                initHolidays();
                 initDateTimeRepeater();
                 initFormSmartControl();
                 initEventCreateFormValidation();
