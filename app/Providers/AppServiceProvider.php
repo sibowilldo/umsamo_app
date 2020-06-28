@@ -12,6 +12,7 @@ use App\Observers\UserObserver;
 use App\Profile;
 use App\Status;
 use App\User;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
