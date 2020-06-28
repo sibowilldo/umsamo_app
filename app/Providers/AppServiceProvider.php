@@ -33,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Schema::defaultStringLength(191);
         Appointment::observe(AppointmentObserver::class);
         EventDate::observe(EventDateObserver::class);
         Status::observe(StatusObserver::class);
