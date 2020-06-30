@@ -158,7 +158,7 @@ return [
         ],
 
         'menu' => [
-            'dropdown' => 'ok', // ok
+            'dropdown' => false, // ok
             'scroll' => false, // ok
             'submenu' => [
                 'accordion' => true, // true, false
