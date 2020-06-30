@@ -92,7 +92,7 @@ return [
 
         'menu' => [
             'self' => [
-                'display' => true,
+                'display' => false,
                 'layout'  => 'default', // tab, default
                 'root-arrow' => false, // true, false
             ],
@@ -158,7 +158,7 @@ return [
         ],
 
         'menu' => [
-            'dropdown' => false, // ok
+            'dropdown' => 'ok', // ok
             'scroll' => false, // ok
             'submenu' => [
                 'accordion' => true, // true, false

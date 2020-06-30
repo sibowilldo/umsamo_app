@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Appointment;
 use App\EventDate;
+use App\FamilyAppointment;
 use App\Observers\AppointmentObserver;
 use App\Observers\EventDateObserver;
+use App\Observers\FamilyAppointmentObserver;
 use App\Observers\ProfileObserver;
 use App\Observers\StatusObserver;
 use App\Observers\UserObserver;
@@ -35,8 +37,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+        //Observers
         Appointment::observe(AppointmentObserver::class);
         EventDate::observe(EventDateObserver::class);
+        FamilyAppointment::observe(FamilyAppointmentObserver::class);
         Status::observe(StatusObserver::class);
         Profile::observe(ProfileObserver::class);
         User::observe(UserObserver::class);

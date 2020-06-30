@@ -10,17 +10,22 @@ use App\Status;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use phpDocumentor\Reflection\Types\This;
 
 class AppointmentRepository
 {
-    const APPOINTMENT_STATUS_PENDING = 15;
-    const APPOINTMENT_STATUS_CONFIRMED = 13;
-
-    public static function GET_APPOINTMENTS(User $user, $relationships = [], $columns = [])
+    /**
+     * @param User $user
+     * @param array $relationships
+     * @param array $columns
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public static function GET_APPOINTMENTS($appointmentable, $relationships = [], $columns = [])
     {
-        return $user->hasAnyRole(['kingpin', 'administrator'])
+        return Auth::user()->hasAnyRole([User::SUPER_ADMIN_ROLE, User::ADMIN_ROLE])
             ? Appointment::with($relationships)->select($columns)->get()
-            : $user->appointments()->with($relationships)->select($columns)->get();
+            : $appointmentable->appointments()->with($relationships)->select($columns)->get();
     }
 
     /**
@@ -29,17 +34,16 @@ class AppointmentRepository
      * @param $appointmentable
      * @param EventDate $event_date
      * @param Request $request
-     * @return Model
+     * @return Appointment
      */
-    public static function NEW_APPOINTMENT($appointmentable, EventDate $event_date, Request $request)
+    public static function NEW_APPOINTMENT($appointmentable, EventDate $event_date, Request $request): Appointment
     {
-        $status = Status::findOrFail(self::APPOINTMENT_STATUS_PENDING)->select('id')->first();
 
         return $appointmentable->appointments()->updateOrCreate(
             ['event_date_id' => $event_date->id],
             ['region_id' => $event_date->event->regions()->first()->id,
-            'status_id' => $status->id,
-            'with_family' => $request->with_family,
-            'type' => $request->appointment_type]);
+                'status_id' => Appointment::STATUS_CONFIRMED,
+                'with_family' => $request->with_family,
+                'type' => $request->appointment_type]);
     }
 }

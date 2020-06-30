@@ -7,7 +7,7 @@
         </div>
         {{-- Body --}}
         <div class="card-body pt-0">
-            @forelse($comments as $comment)
+            @forelse($user->comments->take(4) as $comment)
             <!--begin::Item-->
             <div class="d-flex align-items-center mb-9 bg-light-{{$comment->status->color}} rounded p-5">
                 <!--begin::Icon-->

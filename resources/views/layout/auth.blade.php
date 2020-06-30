@@ -49,7 +49,7 @@
 <!--begin::Main-->
 <div class="d-flex flex-column flex-root">
     <!--begin::Login-->
-    <div class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-row-fluid bg-white" id="kt_login">
+    <div class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-row-fluid bg-white flex-column-reverse" id="kt_login">
         <!--begin::Aside-->
         <div class="login-aside d-flex flex-row-auto px-lg-0 px-5 pb-sm-40 pb-lg-40 flex-grow-1" style="background-repeat:no-repeat;background-position: bottom;background-color:#221f72;">
             <!--begin::Aside Container-->

@@ -43,22 +43,25 @@
 <div class="vh-100 d-flex justify-content-center align-items-center">
     <div>
 
-        <div class="card card-custom bgi-no-repeat gutter-b card-stretch" style="background-color: #1B283F; background-position: calc(100% + 0.5rem) calc(100% + 0.5rem); background-size: 90% auto;">
+        <div class="card card-custom bgi-no-repeat gutter-b card-stretch rounded-0">
             <!--begin::Body-->
             <div class="card-body">
                 <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                     @csrf
                     <div class="p-4 flex-column ">
-                        <h3 class="text-white font-weight-bolder my-7">{{ __('Verify Your Email Address') }}</h3>
+                        <h3 class="text-dark font-weight-bolder my-7">{{ __('Verify Your Email Address') }}</h3>
                         @if (session('resent'))
                             <div class="alert alert-success" role="alert">
                                 {{ __('A fresh verification link has been sent to your email address.') }}
                             </div>
                         @endif
                         <p class="text-muted font-size-lg mb-7">
-                            {{ __('Before proceeding, please check your email for a verification link.') }}
+                            {{ __('Before proceeding, please check your email inbox or spam folder for a verification link.') }}
                             {{ __('If you did not receive the email') }}</p>
-                            <button type="submit" class="btn btn-danger font-weight-bold px-6 py-3">{{ __('Request another') }}</button>
+                            <button type="submit" class="btn btn-danger font-weight-bolder px-6 py-3">{{ __('Request another') }}</button>
+                        <button class="btn btn-light-primary font-weight-bold px-6 py-3 btn-logout" type="button">
+                            {{ __('Leave this page!') }}
+                        </button>
                     </div>
                 </form>
             </div>
@@ -66,7 +69,18 @@
         </div>
     </div>
 </div>
+<script>var HOST_URL = "{{ config('app.url') }}";</script>
 
+{{-- Global Config (global config for global JS scripts) --}}
+<script>
+    var KTAppSettings = {!! json_encode(config('layout.js'), JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES) !!};
+</script>
+{{-- Global Theme JS Bundle (used by all pages)  --}}
+@foreach(config('layout.resources.js') as $script)
+    <script src="{{ asset($script) }}" type="text/javascript"></script>
+@endforeach
+
+<script src="{{ asset('js/pages/auth/verify.js') }}" type="text/javascript"></script>
 <!--end:Verify-->
 </body>
 </html>

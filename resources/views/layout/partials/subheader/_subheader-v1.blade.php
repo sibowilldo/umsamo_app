@@ -5,7 +5,9 @@
 
 		{{-- Info --}}
         <div class="d-flex align-items-center flex-wrap mr-1">
-
+            <!--begin::Mobile Toggle-->
+            @yield('mobile-toggle')
+            <!--end::Mobile Toggle-->
 			{{-- Page Title --}}
             <h5 class="text-dark font-weight-bold my-2 mr-5">
                 {{ @$page_title }}
@@ -40,7 +42,7 @@
                 @section('page_toolbar')
             @endif
 
-                @if(false)
+            @if(false)
             <div class="dropdown dropdown-inline" data-toggle="tooltip" title="Quick actions" data-placement="left">
                 <a href="#" class="btn btn-icon"data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ Metronic::getSVG("media/svg/icons/Files/File-plus.svg", "svg-icon-success svg-icon-2x") }}

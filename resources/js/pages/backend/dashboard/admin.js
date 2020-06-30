@@ -1,6 +1,6 @@
 "use strict";
 // Class definition
-var KTWizard2 = function () {
+var DashboardAdmin = function () {
     // Base elements
     var _wizardEl;
     var _formEl;
@@ -314,6 +314,43 @@ var KTWizard2 = function () {
         axios.get('ajax/event-dates')
             .then(response=>{
                 _event_dates =  response.data.data;
+
+
+                _appointment_datepicker.on('dp.show', function(e){
+                    let limit_label = $('#limit_value');
+                    let consultation_option = $('#consultation_option')
+                    limit_label.text('');
+
+                    _event_dates.some(function(item){
+                        let selected_date = moment(item.date_time);
+                        let is_weekend = false;
+
+                        switch(selected_date.weekday() ){
+                            case 0:
+                            case 6:
+                                is_weekend = true;
+                                break;
+                        }
+
+                        if(is_weekend){
+                            return false;
+                        }else{
+                            $('input[name=event_date]').attr('data-id', item.id);
+
+                            limit_label.html(`<strong>${selected_date.format('MMM DD, YYYY')}</strong> has
+                                            <strong>${item.limit}</strong> ${item.limit === 1?'spot':'spots'}
+                                            available for consultation.`);
+
+                            _event_date.val(selected_date.format('YYYY-MM-DD'));
+
+                            if(item.limit < 1){
+                                consultation_option.attr('disabled', 'disabled').parent().addClass('radio-disabled');
+                                return true;
+                            }
+                            return true;
+                        }
+                    })
+                });
             })
             .catch((error)=>{
                 swal.fire({
@@ -368,6 +405,7 @@ var KTWizard2 = function () {
                         $('input[name=city]').val(user.city);
                         $('input[name=province]').val(user.province);
                         $('input[name=postal_code]').val(user.postal_code);
+                        _validations[1].validate();
                     })
                     .catch(error=>{ })
             }
@@ -488,6 +526,6 @@ var KTWizard2 = function () {
     };
 }();
 jQuery(document).ready(function () {
-    KTWizard2.init();
+    DashboardAdmin.init();
     $('input[name=cell_number]').inputmask('(999) 999-9999');
 });

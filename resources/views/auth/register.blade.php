@@ -61,6 +61,8 @@
                             <!--begin: Wizard Step 1-->
                             <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
                                 <h4 class="mb-10 font-weight-bold text-dark">Personal Details</h4>
+                                @if(false)
+                                    {{-- ToDo: MVP-2 Enable Avatars --}}
                                 <div class="form-group row">
                                     <div class="col-lg-9 col-xl-6">
                                         <div class="image-input image-input-empty image-input-outline" id="kt_image_5" style="background-image: url({{ asset('media/users/blank.png')}})">
@@ -77,9 +79,10 @@
 															<i class="ki ki-bold-close icon-xs text-muted"></i>
 														</span>
                                         </div>
-                                        <span class="form-text text-muted">We don't really need this.</span>
+                                        <span class="form-text text-muted">We don't re ally need this.</span>
                                     </div>
                                 </div>
+                                @endif
 
                                 @include('pages.widgets.auth.register._personal-details')
                             </div>

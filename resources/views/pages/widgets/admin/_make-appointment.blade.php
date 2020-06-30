@@ -1,11 +1,18 @@
 <div class="row mb-10">
     <div class="col-lg-12">
         <div class="card card-custom">
+            <div class="card-header border-0 py-5">
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label font-weight-bolder text-dark">Make an Appointment</span>
+                </h3>
+                <div class="card-toolbar">
+                </div>
+            </div>
             <div class="card-body py-0">
                 <div class="wizard wizard-3" id="kt_wizard_v2" data-wizard-state="step-first" data-wizard-clickable="false">
                     <!--begin: Wizard Nav-->
                     <div class="wizard-nav">
-                        <div class="wizard-steps px-8 py-8 px-lg-15 py-lg-3">
+                        <div class="wizard-steps px-sm-5 px-md-8 py-8 px-lg-15 py-lg-3">
                             <!--begin::Wizard Step 1 Nav-->
                             <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
                                 <div class="wizard-label">
@@ -46,7 +53,7 @@
                     </div>
                     <!--end: Wizard Nav-->
                     <!--begin: Wizard Body-->
-                    <div class="wizard-body px-18 py-8 py-lg-6">
+                    <div class="wizard-body px-sm-5 px-lg-17 py-8 py-lg-6">
                         <!--begin: Wizard Form-->
                         <div class="row">
                             <div class="col-xxl-12">

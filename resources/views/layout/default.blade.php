@@ -59,13 +59,14 @@
         @foreach(config('layout.resources.js') as $script)
             <script src="{{ asset($script) }}" type="text/javascript"></script>
         @endforeach
-
+        <script src="{{ asset('js/init-plugins.js') }}"></script>
         {{-- Includable JS --}}
         @yield('scripts')
 
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             @csrf
         </form>
+
         <script>
             "use strict";
             var SessionTimeout = function () {
@@ -81,7 +82,7 @@
                         countdownMessage: 'Redirecting in {timer}.',
                         countdownBar: true,
                         countdownSmart: true,
-                        redirUrl: 'login'
+                        redirUrl: "{{ route('login') }}"
                     });
                     $('#session-timeout-dialog-logout').on('click', function (e) {
                         e.preventDefault();

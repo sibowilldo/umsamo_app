@@ -41,7 +41,8 @@ class UserRepository
                 'province' => $data['province'], 'postal_code' => $data['postal_code']
             ]);
 
-        $user->syncRoles(['client']);
+        //If the user has a super admin or an admin role, do nothing, otherwise give them a client role
+        $user->hasAnyRole([User::SUPER_ADMIN_ROLE, User::ADMIN_ROLE]) ? : $user->syncRoles(['client']);
 
         return $user;
 

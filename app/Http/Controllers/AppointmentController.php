@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Appointment;
 use App\Comment;
 use App\EventDate;
+use App\Family;
 use App\Repositories\AppointmentRepository;
-use App\Repositories\EventDateRepository;
+use App\Repositories\FamilyAppointmentRepository;
 use App\Repositories\UserRepository;
 use App\User;
 use Auth;
@@ -59,19 +60,33 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         $request->merge(['with_family' => $request->has('with_family')]);
+
         DB::transaction(function() use ($request){
-            $user = $request->has('id_number')
-                ? UserRepository::NEW_USER($request->only('address', 'cell_number', 'city','date_of_birth',
-                    'email', 'first_name', 'gender', 'id_number', 'last_name', 'postal_code', 'province'))
-                : User::findOrFail(Auth::id());
 
             $event_date = EventDate::findOrFail($request->event_date);
 
-            if($request->with_family){
-                $family = $user->families()->firstOrCreate(['name' => $request->family_name]);
-                $family->users()->updateExistingPivot($user->id, ['is_head' => true, 'joined_at' => Carbon::now()]);
+            $user = $request->has('id_number')
+                ? UserRepository::NEW_USER($request->only('address', 'cell_number', 'city','date_of_birth', 'email', 'first_name', 'gender', 'id_number', 'last_name', 'postal_code', 'province'))
+                : User::findOrFail(Auth::id());
+
+            if($request->has('family_members')){
+                $family_members = $request->family_members;
+                array_push($family_members, Auth::user()->uuid);
+                $family = Family::findOrFail($request->family);
+                $appointment = AppointmentRepository::NEW_APPOINTMENT($family, $event_date, $request);
+                FamilyAppointmentRepository::NEW_FAMILY_APPOINTMENT($family, $appointment, $family_members, $request);
+            }else{
+                if($request->with_family){
+                    $family_members = [];
+                    array_push($family_members, Auth::user()->uuid);
+                    $family = $user->families()->firstOrCreate(['name' => $request->family_name]);
+                    $family->users()->updateExistingPivot($user->id, ['is_head' => true, 'joined_at' => Carbon::now()]);
+                    $appointment =  AppointmentRepository::NEW_APPOINTMENT($family, $event_date, $request);
+                    FamilyAppointmentRepository::NEW_FAMILY_APPOINTMENT($family, $appointment,$family_members, $request);
+                }else{
+                    AppointmentRepository::NEW_APPOINTMENT($user, $event_date, $request);
+                }
             }
-            AppointmentRepository::NEW_APPOINTMENT($user, $event_date, $request);
         });
 
         return response()->json(['url' => route('dashboard'),

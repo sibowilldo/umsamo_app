@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 
+use App\EventDate;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use DatePeriod;
@@ -20,16 +21,27 @@ class EventRepository
      * @param $dates_limit
      * @param bool $is_auto
      * @return array
+     * @throws \Exception
      */
     public static function getEventDates($dates_limit = [], $is_auto = false)
     {
+
         $values=[];
         try {
+            $disabled_dates = EventDate::whereDate('date_time', '>', Carbon::now())->pluck('date_time')->toArray();
+            foreach(cache('public_holidays')['response']['holidays'] as $entry){
+                if($entry['type'][0] === 'National holiday'){
+                    array_push($disabled_dates, new Carbon($entry['date']['iso']));
+                }
+            }
+
             if($is_auto){
                 $start = new Carbon($dates_limit[0]['date_time']);
                 $days = new DatePeriod($start->toDate(), CarbonInterval::week(), $start->endOfMonth());
                 foreach ($days as $day){
-                    $values[]= ['date_time' => $day->format('Y-m-d'), 'limit' =>  $dates_limit[0]['limit'], 'status_id' => self::EVENT_DATE_ACTIVE_STATUS];
+                    if(!in_array($day, $disabled_dates)){
+                        $values[]= ['date_time' => $day->format('Y-m-d'), 'limit' =>  $dates_limit[0]['limit'], 'status_id' => self::EVENT_DATE_ACTIVE_STATUS];
+                    }
                 }
             }else{
                 foreach($dates_limit as $date_limit){

@@ -10,7 +10,8 @@
             <!--begin::Title-->
             <div class="text-center pt-lg-40 mt-lg-20 pb-15">
                 <h3 class="font-weight-bolder text-dark display5">Forgotten Password ?</h3>
-                <p class="text-muted font-weight-bold font-size-h4">Enter your email to reset your password</p>
+                <p class="text-muted font-weight-bold font-size-h4">Enter your email to reset your password or <a
+                        href="{{ route('login') }}">Sign in</a></p>
             </div>
             <!--end::Title-->
             @if (session('status'))

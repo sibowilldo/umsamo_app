@@ -1,6 +1,13 @@
 <div class="row mb-10">
     <div class="col-lg-12">
         <div class="card card-custom">
+            <div class="card-header border-0 py-5">
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label font-weight-bolder text-dark">Make an Appointment</span>
+                </h3>
+                <div class="card-toolbar">
+                </div>
+            </div>
             <div class="card-body py-0">
                 <div class="wizard wizard-3" id="kt_wizard_v2" data-wizard-state="step-first" data-wizard-clickable="false">
                     <!--begin: Wizard Nav-->
@@ -83,10 +90,11 @@
                                     <!--end: Wizard Step 1-->
                                     <!--begin: Wizard Step 2-->
                                     <div class="pb-5" data-wizard-type="step-content">
-                                        <h4 class="mb-10 font-weight-bold text-dark">Setup the Patient's Family Account</h4>
+                                        <h4 class="font-weight-bold text-dark">Choose Family members</h4>
+                                        <span class="text-muted form-text mb-10 ">If you are making this appointment only for yourself, please skip this step.</span>
                                         <div class="row">
-                                            <div class="col-xl-6">
-                                                <!--begin::Input-->
+                                            <div class="col-xl-6 {{ count($members) ? '': 'd-none'}}">
+                                            <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label class="checkbox">
                                                         <input type="checkbox" name="with_family" value="Yes"/> The Appointment is for a Family
@@ -94,31 +102,47 @@
                                                     </label>
                                                 </div>
                                                 <!--end::Input-->
-                                                @if(count($families))
-                                                    <!--begin::Input-->
-                                                        <div class="form-group animated" style="display: none">
-                                                            <label>Family Name</label>
-
-                                                            <select name="family_name" id="family_name" class="kt-selectpicker form-control form-control-solid form-control-lg">
-
-                                                                @foreach($families as $family)
-                                                                    <option value="{{ $family->name }}">{{ $family->name }}</option>
+                                            <!--begin::Input-->
+                                                <div class="form-group radio-inline d-none family_container">
+                                                    <label class="font-weight-bolder d-block">Preferred Family</label>
+                                                    @foreach($user->families as $family)
+                                                        @if(count($family->users) > 1)
+                                                            <label class="radio">
+                                                                <input type="radio" name="family" value="{{ $family->id }}" data-family-name="{{ $family->name }}"/> {{ $family->name }}
+                                                                <span></span>
+                                                            </label>
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                                <!--end::Input-->
+                                            <!--begin::Input-->
+                                                <div class="form-group family_container d-none">
+                                                    <label class="font-weight-bolder">Select Family Members</label>
+                                                    <select multiple title="Select Family Members" name="family_member" id="family_member" class="kt-selectpicker form-control form-control-solid form-control-lg" data-live-search="true">
+                                                        @foreach($user->families as $family)
+                                                            <optgroup label="{{ $family->name }}">
+                                                                @foreach($family->users as $member)
+                                                                    @if($member->id !== $user->id)
+                                                                    <option  value="{{ $member->uuid }}">{{ $member->profile->fullname }}</option>
+                                                                    @endif
                                                                 @endforeach
-                                                            </select>
-                                                            <span class="help-block text-success">Other members of the family can only be added by the creator of the Family Account.</span>
-                                                        </div>
-                                                        <!--end::Input-->
-                                                @else
-                                                    <!--begin::Input-->
-                                                    <div class="form-group animated" style="display: none">
-                                                        <label>Family Name</label>
-                                                        <input id="family_name" type="text" class="form-control form-control-solid form-control-lg" name="family_name" placeholder="Enter the Family Name" value="" disabled="disabled"/>
-                                                        <span class="help-block text-success">Other members of the family can only be added by the creator of the Family Account.</span>
-                                                    </div>
-                                                    <!--end::Input-->
-                                                @endif
-
+                                                            </optgroup>
+                                                        @endforeach
+                                                    </select>
+                                                    <span class="help-block text-success"></span>
+                                                </div>
+                                                <!--end::Input-->
                                             </div>
+                                            @if(!count($members))
+                                                <div class="col-xl-8">
+                                                    <!--begin::Alert-->
+                                                    <div class="alert alert-custom alert-outline-danger fade show shadow-xs" role="alert">
+                                                        <div class="alert-icon">{{ Metronic::getSvg('media/svg/icons/Code/Warning-2.svg', 'svg-icon-3x svg-icon svg-icon-danger') }}</div>
+                                                        <div class="alert-text text-dark-75">Your Account is not associated with any Family Accounts. Please create one from the Profile page, before trying to make an Appointment for a Family.</div>
+                                                    </div>
+                                                    <!--end::Alert-->
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                     <!--end: Wizard Step 2-->

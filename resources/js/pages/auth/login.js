@@ -32,7 +32,7 @@ let initAuthLogin = function(){
                 }
             }
         );
-        $('#loginSubmitButton').click(function(e) {
+        $('#loginSubmitButton').on('click', function(e) {
             e.preventDefault();
             let loginSubmitButton = $(this);
             let loginForm = loginSubmitButton.closest('form');

@@ -16,7 +16,7 @@
         <!--begin::Form group-->
         <div class="form-group">
             <label class="font-size-h6 font-weight-bolder text-dark">Email</label>
-            <input class="form-control form-control-solid h-auto py-7 px-6 rounded-lg" type="email" name="email" autocomplete="off" value="sibongiseni.msomi@outlook.com" />
+            <input class="form-control form-control-solid h-auto rounded-lg py-5" type="email" name="email" autocomplete="off" value="" />
         </div>
         <!--end::Form group-->
         <!--begin::Form group-->
@@ -25,13 +25,13 @@
                 <label class="font-size-h6 font-weight-bolder text-dark pt-5">Password</label>
                 <a href="{{ route('password.request') }}" class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5">Forgot Password ?</a>
             </div>
-            <input class="form-control form-control-solid h-auto py-7 px-6 rounded-lg" type="password" name="password" autocomplete="off" value="admin123"/>
+            <input class="form-control form-control-solid h-auto rounded-lg py-5" type="password" name="password" autocomplete="off" value=""/>
         </div>
         <!--end::Form group-->
         <!--begin::Action-->
         <div class="pb-lg-0 pb-10">
-            <button type="button" id="loginSubmitButton" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">Sign In</button>
-            <button type="button" class="btn btn-light-primary font-weight-bolder px-8 py-4 my-3 font-size-lg">
+            <button type="submit" id="loginSubmitButton" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">Sign In</button>
+            <button type="button" class="btn btn-light-primary font-weight-bolder px-8 py-4 my-3 font-size-lg d-none">
                 <span class="svg-icon svg-icon-md">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M19.9895 10.1871C19.9895 9.36767 19.9214 8.76973 19.7742 8.14966H10.1992V11.848H15.8195C15.7062 12.7671 15.0943 14.1512 13.7346 15.0813L13.7155 15.2051L16.7429 17.4969L16.9527 17.5174C18.879 15.7789 19.9895 13.221 19.9895 10.1871Z" fill="#4285F4" />

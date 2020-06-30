@@ -22,6 +22,12 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
     use Notifiable, SoftDeletes, GeneratesUuid, HasRoles;
 
+    const CLIENT_ROLE = 'client';
+    const ADMIN_ROLE = 'administrator';
+    const SUPER_ADMIN_ROLE = 'kingpin';
+
+    protected $with = ['profile'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -86,6 +92,17 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     }
 
     /**
+     *
+     *A user hasMany Family Appointments
+     *
+     * @return HasMany
+     */
+    public function familyAppointments()
+    {
+        return $this->hasMany(FamilyAppointment::class);
+    }
+
+    /**
      * A user hasOne profile
      *
      * @return HasOne
@@ -96,7 +113,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     }
 
     /**
-     * A user hasOne profile
      *
      * @return MorphMany
      */

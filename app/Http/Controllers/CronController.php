@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\EventDate;
 use Carbon\Carbon;
-use HolidayAPI\Client as HolidayClient;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 class CronController extends Controller
@@ -22,9 +20,16 @@ class CronController extends Controller
                 return $response->json();
             });
 
-            return response()->json(cache('public_holidays')['response']['holidays'], 200);
+            $disabled_dates = EventDate::whereDate('date_time', '>', Carbon::now())->pluck('date_time')->toArray();
+            foreach(cache('public_holidays')['response']['holidays'] as $entry){
+                if($entry['type'][0] === 'National holiday'){
+                    array_push($disabled_dates, new Carbon($entry['date']['iso']));
+                }
+            }
+
+            return response()->json($disabled_dates, 200);
         } catch (\Exception $e) {
-            var_dump($e);
+            return $e;
         }
     }
 }

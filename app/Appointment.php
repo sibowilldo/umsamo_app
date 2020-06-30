@@ -5,9 +5,15 @@ namespace App;
 use Dyrynda\Database\Casts\EfficientUuid;
 use Dyrynda\Database\Support\GeneratesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Appointment extends Model
 {
+
+
+    const STATUS_PENDING = 15;
+    const STATUS_CONFIRMED = 13;
+
     use GeneratesUuid;
     /**
      * The attributes that are mass assignable.
@@ -60,12 +66,23 @@ class Appointment extends Model
 
     public function event_date()
     {
-        return $this->belongsTo(\App\EventDate::class);
+        return $this->belongsTo(EventDate::class);
+    }
+
+    /**
+     *
+     *A user hasMany Family Appointments
+     *
+     * @return HasMany
+     */
+    public function familyAppointments()
+    {
+        return $this->hasMany(FamilyAppointment::class);
     }
 
     public function status()
     {
-        return $this->belongsTo(\App\Status::class);
+        return $this->belongsTo(Status::class);
     }
 
     /**

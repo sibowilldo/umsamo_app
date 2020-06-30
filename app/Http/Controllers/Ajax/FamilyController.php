@@ -83,4 +83,9 @@ class FamilyController extends Controller
     {
         //
     }
+
+    public function members(Family $family)
+    {
+        return response()->json($family->with(['users', 'users.profile'])->get(), 200);
+    }
 }

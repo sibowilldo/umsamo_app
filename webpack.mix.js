@@ -41,6 +41,7 @@ mix.scripts('resources/metronic/plugins/formvalidation/dist/js/plugins/Tachyons.
 mix.copy('resources/system/fonts/blowbrush.ttf', 'public/system/fonts')
     .copyDirectory('resources/system/images', 'public/system/images');
 
+mix.scripts(['resources/metronic/js/vendors/plugins/sweetalert2.init.js'], 'public/js/init-plugins.js');
 
 // Metronic js pages (single page use)
 (glob.sync('resources/js/pages/**/**/*.js') || []).forEach(file => {

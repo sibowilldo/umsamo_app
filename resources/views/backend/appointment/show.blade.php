@@ -10,9 +10,9 @@
                 <div class="card-header align-items-center px-4 py-3">
                     <div class="text-left flex-grow-0">
                         <!--begin::Aside Mobile Toggle-->
-                        <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md d-lg-none" id="kt_app_chat_toggle">
-                                <span class="svg-icon svg-icon-lg">
-                                    {{ Metronic::getSVG('media/svg/icons/Communication/Chat5.svg') }}
+                        <button type="button" class="btn  btn-md btn-icon btn-icon-lg d-lg-none" id="kt_app_chat_toggle">
+                                <span class="svg-icon svg-icon-3x svg-icon-info">
+                                    {{ Metronic::getSVG('media/svg/icons/Communication/Group-chat.svg') }}
                                 </span>
                         </button>
                         <!--end::Aside Mobile Toggle-->

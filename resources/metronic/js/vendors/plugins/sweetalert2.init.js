@@ -7,6 +7,6 @@ swal.mixin({
 	buttonsStyling: false,
 	confirmButtonClass: 'btn btn-success',
 	confirmButtonColor: null,
-	cancelButtonClass: 'btn btn-secondary',
+	cancelButtonClass: 'btn btn-light-secondary',
 	cancelButtonColor: null
 });

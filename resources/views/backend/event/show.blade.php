@@ -1,229 +1,144 @@
 @extends('layout.default')
 
 @section('content')
-    <div class="d-flex flex-row">
-        <!--begin::Aside-->
-        <div class="flex-sm-row-fluid flex-lg-row-auto flex-xl-row-auto flex-xxl-row-auto w-400px w-xl-400px" id="kt_chat_aside">
-            <!--begin::Card-->
-            <div class="card card-custom card-stretch">
-                <!--begin::Header-->
-                <div class="card-header align-items-center px-4 py-3">
-                    <div class="text-left flex-grow-0">
-                        <!--begin::Aside Mobile Toggle-->
-                        <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md d-lg-none" id="kt_app_chat_toggle">
-                                <span class="svg-icon svg-icon-lg">
-                                    {{ Metronic::getSVG('media/svg/icons/Communication/Chat5.svg') }}
-                                </span>
-                        </button>
-                        <!--end::Aside Mobile Toggle-->
-                    </div>
-                    <div class="text-center flex-grow-1">
-                        <div class="text-dark-75 font-weight-bold font-size-h5">Appointment Details</div>
-                        <div class="text-muted font-size-sm">
-                            <span class="font-weight-bolder text-dark-50">Last Updated</span> {{ $appointment->updated_at->diffForHumans() }}
-                        </div>
+    <!--begin::Card-->
+    <div class="card card-custom gutter-b">
+        <div class="card-body">
+            <div class="d-flex">
+                <!--begin: Pic-->
+                <div class="flex-shrink-0 mr-7 mt-lg-0 mt-3">
+                    <div class="symbol symbol-50 symbol-lg-150">
+                        <img src="{{ Avatar::create($event->title)->toBase64() }}" alt="{{ $event->title }}"/>
                     </div>
                 </div>
-                <!--end::Header-->
-                <!--begin::Body-->
-                <div class="card-body">
-                    <!--begin:Details-->
-                    <div class="mt-7 scroll scroll-pull" data-scroll="true">
-                        <!--begin:Item-->
-                        <div class="d-flex align-items-center justify-content-between mb-15">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-40 symbol-light-primary mr-5">
-                                    <span class="symbol-label">
-                                        {{ Metronic::getSVG('media/svg/icons/Layout/Layout-top-panel-6.svg', 'svg-icon svg-icon-lg svg-icon-primary') }}
-                                    </span>
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <span class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Due Date</span>
-                                    <span class="text-muted font-weight-bold font-size-sm">{{ $appointment->event_date->date_time->format('M d Y, H:i A') }}</span>
-                                </div>
-                            </div>
+                <!--end: Pic-->
+                <!--begin: Info-->
+                <div class="flex-grow-1">
+                    <!--begin: Title-->
+                    <div class="d-flex align-items-center justify-content-between flex-wrap">
+                        <div class="mr-3">
+                            <!--begin::Name-->
+                            <p class="d-flex align-items-center text-dark font-size-h5 font-weight-bold mr-3">{{ $event->title }}</p>
+                            <!--end::Name-->
                         </div>
-                        <!--end:Item-->
-                        <!--end:Item-->
-                        <!--begin:Item-->
-                        <div class="d-flex align-items-center justify-content-between mb-15">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-40 symbol-light-info mr-5">
-                                    <span class="symbol-label">
-                                        {{ Metronic::getSVG('media/svg/icons/Files/Group-folders.svg', 'svg-icon svg-icon-lg svg-icon-info') }}
-                                    </span>
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <span class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Type</span>
-                                    <span class="text-muted font-weight-bold font-size-sm">{{ Str::ucfirst($appointment->type)  }}</span>
-                                </div>
-                            </div>
+                        <div class="my-lg-0 my-1">
+                            <a href="{{ route('events.edit', $event->id) }}" class="btn btn-sm btn-light-success font-weight-bolder text-uppercase mr-3">Edit Details</a>
+                            <a href="{{ route('events.index') }}" class="btn btn-sm btn-info font-weight-bolder text-uppercase">All Events</a>
                         </div>
-                        <!--end:Item-->
-                        <!--begin:Item-->
-                        <div class="d-flex align-items-center justify-content-between mb-15">
-                            <div class="d-flex align-items-center">
-                                <div class="symbol symbol-40 symbol-light-{{$appointment->status->color}} mr-5">
-                                    <span class="symbol-label">
-                                        {{ Metronic::getSVG('media/svg/icons/General/Settings-1.svg', "svg-icon svg-icon-lg svg-icon-".$appointment->status->color) }}
-                                    </span>
+                    </div>
+                    <!--end: Title-->
+                    <!--begin: Content-->
+                    <div class="d-flex align-items-center flex-wrap justify-content-between">
+                        <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
+                            {{ $event->description }}
+                        </div>
+                        <div class="d-flex flex-wrap align-items-left py-2">
+                            <div class="d-flex align-items-center mr-0">
+                                <div class="mr-6">
+                                    <div class="font-weight-bold mb-2">Created Date</div>
+                                    <span class="btn btn-sm btn-text btn-light-primary text-uppercase font-weight-bold">{{ $event->created_at }}</span>
                                 </div>
-                                <div class="d-flex flex-column">
-                                    <span class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Status</span>
-                                    <span class="text-muted font-weight-bold font-size-sm">{{ $appointment->status->title }}</span>
+                                <div class="">
+                                    <div class="font-weight-bold mb-2">Last Updated</div>
+                                    <span class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">{{ $event->updated_at->diffForhumans() }}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!--end:Details-->
+                    <!--end: Content-->
                 </div>
-                <!--end::Body-->
+                <!--end: Info-->
             </div>
-            <!--end::Card-->
+            <!--begin: Items-->
         </div>
-        <!--end::Aside-->
-        <!--begin::Content-->
-        <div class="flex-row-fluid ml-lg-8 offcanvas-mobile w-350px" id="kt_chat_content">
-            <!--begin::Card-->
-            <div class="card card-custom">
-                <!--begin::Header-->
-                <div class="card-header align-items-center px-4 py-3">
-                    <div class="text-center flex-grow-1">
-                        <div class="text-dark-75 font-weight-bold font-size-h5">Comments</div>
-                        <div>
-                            <span class="font-weight-bold text-muted font-size-sm">Between You and Administrators</span>
-                        </div>
-                    </div>
-                </div>
-                <!--end::Header-->
-                <!--begin::Body-->
-                <div class="card-body">
-                    <!--begin::Scroll-->
-                    <div class="scroll scroll-pull" data-mobile-height="450">
-                        <!--begin::Messages-->
-                        <div class="messages">
-                            @forelse($comments as $comment)
-                            <!--begin::Message In-->
-                            <div class="d-flex flex-column mb-5 align-items-{{$comment->user_id===Auth::id()?'end':'start'}}">
-                                <div class="d-flex align-items-center">
-                                    <div class="symbol symbol-circle symbol-40 mr-3">
-                                        <img alt="Pic" data-src="{{$comment->user_id===Auth::id()?Auth::user()->profile->avatar:$comment->user->profile->avatar}}" class="min-h-40px"/>
-                                    </div>
-                                    <div>
-                                        <a href="#"
-                                           class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">{{$comment->user_id===Auth::id()?'You':$comment->user->profile->fullname}}</a>
-                                        <br><span class="text-muted font-size-sm">{{$comment->created_at->diffForHumans()}}</span>
-                                    </div>
-                                </div>
-                                <div
-                                    class="mt-2 rounded p-5 bg-light-success text-dark-50 font-weight-bold font-size-lg text-left max-w-400px">
-                                    {{$comment->body}}
-                                </div>
-                            </div>
-                            <!--end::Message In-->
-                            @empty
-                                No Comments
-                            @endforelse
-                        </div>
-                        <!--end::Messages-->
-                    </div>
-                    <!--end::Scroll-->
-                </div>
-                <!--end::Body-->
-                <!--begin::Footer-->
-                <div class="card-footer align-items-center">
-                    <!--begin::Compose-->
-                    <textarea class="form-control border-0 p-0" rows="2" placeholder="Type a message"></textarea>
-                    <div class="d-flex align-items-center justify-content-between mt-5">
-{{--                        <div class="mr-3 hidden">--}}
-{{--                            <a href="#" class="btn btn-clean btn-icon btn-md mr-1">--}}
-{{--                                <i class="flaticon2-photograph icon-lg"></i>--}}
-{{--                            </a>--}}
-{{--                            <a href="#" class="btn btn-clean btn-icon btn-md">--}}
-{{--                                <i class="flaticon2-photo-camera icon-lg"></i>--}}
-{{--                            </a>--}}
-{{--                        </div>--}}
-                        <div>
-                            <button type="button"
-                                    class="btn btn-primary btn-md text-uppercase font-weight-bold chat-send py-2 px-6">
-                                Send
-                            </button>
-                        </div>
-                    </div>
-                    <!--begin::Compose-->
-                </div>
-                <!--end::Footer-->
-            </div>
-            <!--end::Card-->
-        </div>
-        <!--end::Content-->
     </div>
+    <!--end::Card-->
+    <!--begin::Row-->
+    <div class="row">
+        <div class="col-lg-12">
+            <!--begin::Advance Table Widget 3-->
+            <div class="card card-custom card-stretch gutter-b min-h-650px">
+                <!--begin::Header-->
+                <div class="card-header border-0 py-5">
+                    <h3 class="card-title align-items-start flex-column">
+                        <span class="card-label font-weight-bolder text-dark">Event Dates in this Event</span>
+                        <span class="text-muted mt-3 font-weight-bold font-size-sm">{{ count($event->event_dates) }} event dates</span>
+                    </h3>
+                </div>
+                <!--end::Header-->
+                <!--begin::Body-->
+                <div class="card-body pt-0 pb-3">
+                    <!--begin::Table-->
+                    <div class="table-responsive">
+                        <table class="table table-head-custom table-head-bg table-borderless table-vertical-center">
+                            <thead>
+                            <tr class="text-uppercase">
+                                <th style="min-width: 250px" class="pl-7">
+                                    <span class="text-dark-75">Date</span>
+                                </th>
+                                <th style="min-width: 130px">status</th>
+                                <th style="min-width: 100px">Limit</th>
+                                <th style="min-width: 100px">Appointments</th>
+                                <th style="min-width: 120px"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @forelse($event->event_dates as $event_date)
+                            <tr>
+                                <td class="pl-0 py-8">
+                                    <div class="d-flex align-items-center">
+                                        <div class="symbol symbol-50 flex-shrink-0 mr-4">
+                                            <div class="symbol-label" style="background-image: url('{{Avatar::create($event->title)->toBase64() }}')">
+
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ $event_date->date_time->format('M d, Y') }}</a>
+                                            <span class="text-muted font-weight-bold d-block">{{ $event_date->date_time->shortRelativeToNowDiffForHumans() }}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ $event_date->status->title }}</span>
+                                    <span class="text-muted font-weight-bold"></span>
+                                </td>
+                                <td>
+                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">$520</span>
+                                    <span class="text-muted font-weight-bold">Paid</span>
+                                </td>
+                                <td>
+                                    <span class="text-dark-75 font-weight-bolder d-block font-size-lg">Bradly Beal</span>
+                                    <span class="text-muted font-weight-bold">Insurance</span>
+                                </td>
+                                <td class="text-right pr-0">
+                                    <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm mr-3">
+                                        {{ Metronic::getSvg('media/svg/icons/General/Bookmark.svg', 'svg-icon svg-icon-md svg-icon-primary') }}
+                                    </a>
+                                    <a href="#" class="btn btn-icon btn-light btn-hover-primary btn-sm">
+                                        {{ Metronic::getSvg('media/svg/icons/Navigation/Arrow-right.svg', 'svg-icon svg-icon-md svg-icon-primary') }}
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                            @empty
+                            @endforelse
+                        </table>
+                    </div>
+                    <!--end::Table-->
+                </div>
+                <!--end::Body-->
+            </div>
+            <!--end::Advance Table Widget 3-->
+        </div>
+    </div>
+    <!--end::Row-->
+@endsection
+
+@section('styles')
+    <link href="https://fonts.googleapis.com/css?family=Laravolt" rel="stylesheet">
 @endsection
 
 @section('scripts')
-    <script>
-        "use strict";
 
-        // Class definition
-        var KTAppChat = function () {
-            var _chatAsideEl;
-            var _chatAsideOffcanvasObj;
-            var _chatContentEl;
-
-            // Private functions
-            var _initAside = function () {
-                // Mobile offcanvas for mobile mode
-                _chatAsideOffcanvasObj = new KTOffcanvas(_chatContentEl, {
-                    overlay: true,
-                    baseClass: 'offcanvas-mobile',
-                    //closeBy: 'kt_chat_aside_close',
-                    toggleBy: 'kt_app_chat_toggle'
-                });
-            }
-
-            var _initLazyLoadAvatar = function () {
-                const config = {
-                    rootMargin: '0px 0px 50px 0px',
-                    threshold: 0
-                };
-
-                let observer = new IntersectionObserver(function(entries, self) {
-                    entries.forEach(entry => {
-                        if(entry.isIntersecting) {
-                            const lazyImage = entry.target
-                            lazyImage.src = lazyImage.dataset.src
-                        }
-                    });
-                }, config);
-
-                const imgs = document.querySelectorAll('[data-src]');
-                imgs.forEach(img => {
-                    observer.observe(img);
-                });
-            }
-
-
-            return {
-                // Public functions
-                init: function() {
-                    // Elements
-                    _chatAsideEl = KTUtil.getById('kt_chat_aside');
-                    _chatContentEl = KTUtil.getById('kt_chat_content');
-
-                    // Init aside and user list
-                    _initAside();
-                    _initLazyLoadAvatar();
-
-                    // Init inline chat example
-                    KTLayoutChat.setup(KTUtil.getById('kt_chat_content'));
-                }
-            };
-        }();
-
-        jQuery(document).ready(function() {
-            KTAppChat.init();
-        });
-
-    </script>
 @endsection
 

@@ -56,7 +56,7 @@
     <div class="col-xxl-8 col-xl-8 col-lg-8">
         <!--begin::Input-->
         <div class="form-group">
-            {{ Form::select('province', \App\Region::$provinces, null, ['class' => 'form-control text-dark form-control-solid kt-selectpicker']) }}
+            {{ Form::select('province', \App\Region::$provinces, null, ['class' => 'form-control text-dark form-control-solid kt-selectpicker', 'data-size'=>'5', 'data-live-search'=>'true']) }}
         </div>
         <!--end::Input-->
     </div>

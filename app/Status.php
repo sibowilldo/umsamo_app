@@ -4,6 +4,7 @@ namespace App;
 
 use Iatstuti\Database\Support\CascadeSoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -46,6 +47,7 @@ class Status extends Model
         'App\Comment' => 'Comments',
         'App\Event' => 'Events',
         'App\EventDate' => 'Event Dates',
+        'App\FamilyAppointments' => 'Family Appointments',
         'App\Item' => 'Items',
         'App\Invoice' => 'Invoices'
     ];
@@ -79,6 +81,18 @@ class Status extends Model
     {
         return $this->hasMany(Event::class);
     }
+
+    /**
+     *
+     *A user hasMany Family Appointments
+     *
+     * @return HasMany
+     */
+    public function familyAppointments()
+    {
+        return $this->hasMany(FamilyAppointment::class);
+    }
+
     public function items()
     {
         return $this->hasMany(Item::class);

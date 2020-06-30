@@ -21,9 +21,9 @@ class EventController extends Controller
     public function index()
     {
         $page_title = 'Events';
-        $events = Event::with(['event_dates', 'regions', 'status'])->select('uuid', 'status_id', 'title', 'description', 'created_at')->get();
+        $events = Event::with(['event_dates', 'regions', 'status'])->select('id','uuid', 'status_id', 'title', 'description', 'created_at')->get();
 
-        $statuses =$events->pluck('status');
+        $statuses =$events->pluck('status')->unique();
 
         return response()->view('backend.event.index', compact('events', 'statuses', 'page_title'));
     }
@@ -43,8 +43,9 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function store(Request $request)
     {
@@ -52,7 +53,10 @@ class EventController extends Controller
         $repo_event_dates = EventRepository::getEventDates($request['event_date'], $request->has('auto_select_dates'));
 
         $event = Event::create($request->only('title', 'description', 'item_id', 'status_id'));
-        $event_dates = $event->event_dates()->createMany($repo_event_dates);
+
+        foreach ($repo_event_dates as $event_date){
+            $event_dates = $event->event_dates()->updateOrCreate($event_date);
+        }
 
         return response()->redirectToRoute('events.index');
     }
@@ -61,11 +65,11 @@ class EventController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show(Event $event)
     {
-        //
+        return response()->view('backend.event.show', compact('event'));
     }
 
     /**
