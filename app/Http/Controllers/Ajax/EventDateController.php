@@ -29,6 +29,9 @@ class EventDateController extends Controller
         }else{
             $event_dates = EventDate::whereDate('date_time', '>=', Carbon::now())->orderBy('date_time')->get();
         }
+        if(count($event_dates) <1){
+            $event_dates = EventDate::whereDate('date_time', '>=', Carbon::now())->orderBy('date_time')->get();
+        }
         return response()->json(['data' => $event_dates], 200);
     }
 
