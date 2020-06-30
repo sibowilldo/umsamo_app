@@ -116,7 +116,7 @@ class RegisterController extends Controller
             ]);
 
             $user->profile()->create([
-                'avatar' => 'https://lorempixel.com/300/300/?66518',
+                'avatar' => 'media/users/blank.png',
                 'id_number' => $data['id_number'],
                 'cell_number' => $data['cell_number'],
                 'first_name' => $data['first_name'],
@@ -128,6 +128,9 @@ class RegisterController extends Controller
                 'province' => $data['province'],
                 'postal_code' => $data['postal_code'],
             ]);
+
+            $user->assignRole(User::CLIENT_ROLE);
+
             return $user;
     }
 }
