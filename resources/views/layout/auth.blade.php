@@ -51,20 +51,20 @@
     <!--begin::Login-->
     <div class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-row-fluid bg-white flex-column-reverse" id="kt_login">
         <!--begin::Aside-->
-        <div class="login-aside d-flex flex-row-auto px-lg-0 px-5 pb-sm-40 pb-lg-40 flex-grow-1" style="background-repeat:no-repeat;background-position: bottom;background-color:#221f72;">
-            <!--begin::Aside Container-->
-            <div class="d-flex flex-row-fluid flex-column justify-content-around mt-lg-30 mb-lg-0 pb-lg-0 mb-20 pb-40 mt-0 pt-15">
-                <!--begin::Aside header-->
-                <a href="#" class="text-center mb-10">
-                    <img src="{{asset('system/images/umsamo-logo-white.png')}}" class="max-h-250px" alt="" />
-                </a>
-                <!--end::Aside header-->
+            <div class="login-aside d-sm-none d-md-flex d-lg-flex d-xl-flex d-xxl-flex flex-row-auto px-lg-0 px-5 pb-sm-40 pb-lg-40 flex-grow-1" style="background-repeat:no-repeat;background-position: bottom;background-color:#221f72;">
+                <!--begin::Aside Container-->
+                <div class="d-flex flex-row-fluid flex-column justify-content-around mt-lg-30 mb-lg-0 pb-lg-0 mb-20 pb-40 mt-0 pt-15">
+                    <!--begin::Aside header-->
+                    <a href="#" class="text-center mb-10">
+                        <img src="{{asset('system/images/umsamo-logo-white.png')}}" class="max-h-250px" alt="" />
+                    </a>
+                    <!--end::Aside header-->
+                </div>
+                <!--end::Aside Container-->
             </div>
-            <!--end::Aside Container-->
-        </div>
         <!--begin::Aside-->
         <!--begin::Content-->
-        <div class="login-content flex-row-fluid d-flex flex-column justify-content-center position-relative overflow-hidden p-7 ml-auto mr-auto">
+        <div class="min-vh-100 login-content flex-row-fluid d-flex flex-column justify-content-center position-relative overflow-hidden p-7 ml-auto mr-auto">
             <!--begin::Content body-->
             <div class="d-flex flex-column-fluid flex-center mt-6 mt-lg-0">
                 @yield('content')
