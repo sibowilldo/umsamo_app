@@ -47,11 +47,11 @@
 <!--begin::Body-->
 <body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
 <!--begin::Main-->
-<div class="d-flex flex-column flex-root">
+<div>
     <!--begin::Login-->
     <div class="login login-2 login-signin-on d-flex flex-row-fluid" id="kt_login">
-        <div class="d-flex flex-center flex-row-fluid bgi-size-cover bgi-position-top bgi-no-repeat" style="background-image: url('{{ asset("media/bg/bg-3.jpg") }}');">
-            <div class="text-center d-flex flex-column justify-content-center align-items-center min-vh-100">
+        <div class="d-flex flex-center flex-row-fluid bgi-size-cover bgi-position-top bgi-no-repeat" style="background-attachment: fixed; background-image: url('{{ asset("media/bg/bg-3.jpg") }}');">
+            <div class="text-center d-flex flex-column justify-content-center align-items-center min-vh-100 py-15">
                 <!--begin::Login Header-->
                 <div class="d-flex flex-center mb-15">
                     <a href="{{ route('login') }}">
