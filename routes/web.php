@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Auth::routes(['verify' => true]);
-
-Route::middleware(['auth', 'verified'])->group(function(){
+//, 'verified'
+Route::middleware(['auth'])->group(function(){
     Route::get('/', 'PagesController@index')->name('dashboard');
     Route::patch('appointments/{appointment}/cancel', 'AppointmentController@cancel')->name('appointments.cancel');
     Route::resource('appointments', 'AppointmentController');
