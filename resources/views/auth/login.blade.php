@@ -6,7 +6,7 @@
     <form class="form" novalidate="novalidate" id="loginForm" method="POST" data-action="{{ route('login') }}">
         <!--begin::Title-->
         <div class="mt-lg-10 pb-15">
-            <h3 class="font-weight-bold text-dark display5"><span class="d-block text-muted font-weight-boldest">Sign in to </span> <span class="text-uppercase text-dark-75" style="font-family: blowbrush,monospace; font-size: 1.5em; letter-spacing: 2px">{{ config('app.name') }} <sup class="w-10px h-10px">&trade;</sup></span></h3>
+            <h1 class="font-weight-bold text-dark "><span class="d-block text-muted font-weight-boldest">Sign in to </span> <span class=" text-uppercase text-dark-75" style="font-family: blowbrush,monospace; font-size: 1.4em; letter-spacing: 2px">{{ config('app.name') }} <sup class="w-10px h-10px">&trade;</sup></span></h1>
             <span class="text-muted font-size-h6">New Here?
                                 <a href="{{ route('register') }}" id="kt_login_signup" class="text-primary font-weight-bold">Create an Account</a></span>
         </div>
