@@ -81,12 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 4:
+/***/ 5:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("8s/r");
@@ -166,10 +166,10 @@ var AppointmentIndexScript = function () {
     $('#kt_datatable_search_status').on('change', function () {
       datatable.search($(this).val().toLowerCase(), 'STATUS');
     });
-    $('#kt_datatable_search_event').on('change', function () {
-      datatable.search($(this).val().toLowerCase(), 'EVENT_DETAILS');
+    $('#kt_datatable_search_type').on('change', function () {
+      datatable.search($(this).val().toLowerCase(), 'TYPE');
     });
-    $('#kt_datatable_search_status, #kt_datatable_search_event').selectpicker();
+    $('#kt_datatable_search_status, #kt_datatable_search_type').selectpicker();
     datatable.on('datatable-on-init, datatable-on-layout-updated', function () {
       $('[data-toggle="tooltip"]').tooltip();
     });

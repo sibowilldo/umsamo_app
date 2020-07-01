@@ -49,7 +49,6 @@
                         <div class="row">
                             <div class="col-xxl-12">
                                 <form class="form" id="makeAppointment" method="post" action="{{ route('appointments.store') }}">
-                                {{--@csrf--}}
                                 <!--begin: Wizard Step 1-->
                                     <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
                                         <!--begin::Section-->

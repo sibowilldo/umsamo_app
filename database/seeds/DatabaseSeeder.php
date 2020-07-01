@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionsSeeder::class);
 
         //Statuses
-        factory(App\Status::class, 26)->create();
+        factory(App\Status::class, 31)->create();
 
         //Profile & User
         factory(App\Profile::class, 15)->create();

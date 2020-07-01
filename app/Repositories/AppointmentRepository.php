@@ -38,10 +38,9 @@ class AppointmentRepository
      */
     public static function NEW_APPOINTMENT($appointmentable, EventDate $event_date, Request $request): Appointment
     {
-
         return $appointmentable->appointments()->updateOrCreate(
             ['event_date_id' => $event_date->id],
-            ['region_id' => $event_date->event->regions()->first()->id,
+            ['region_id' => $event_date->event->regions->first()->id,
                 'status_id' => Appointment::STATUS_CONFIRMED,
                 'with_family' => $request->with_family,
                 'type' => $request->appointment_type]);

@@ -12,6 +12,7 @@ use App\Region;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\CommentRepository;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,9 +23,6 @@ class PagesController extends Controller
 {
     public function index()
     {
-        $page_title = 'Dashboard';
-        $page_description = "Welcome to your dashboard";
-
         $provinces = Region::$provinces;
         $appointment_types = Appointment::$types;
 
@@ -37,9 +35,14 @@ class PagesController extends Controller
 
         $members  = $members = $user->families;
         $family_appointments = $user->familyAppointments;
-        $appointments =$user->appointments->where('event_date.date_time', '>=', now())->sortBy('event_date.date_time')->take(5);
+        $appointments =$user->appointments->where('event_date.date_time', '>=', Carbon::now()->format('Y-m-d'))->sortBy('event_date.date_time')->take(5);
+
 
         $comments = $user->comments->sort();
+
+        $page_title = 'Dashboard';
+        $page_description = "Welcome {$user->profile->fullname}";
+
 
         return response()->view('pages.dashboard', compact('user', 'members', 'family_appointments','appointment_types', 'appointments', 'comments', 'page_title', 'page_description', 'provinces'));
     }

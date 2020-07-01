@@ -5,10 +5,10 @@
                     <span class="card-label font-weight-bolder text-dark">Upcoming Appointments</span>
             </h3>
             <div class="card-toolbar">
-                <ul class="nav nav-light-success nav-bold nav-pills">
+                <ul class="nav nav-light-primary nav-bold nav-pills">
                     <li class="nav-item">
                         <a class="nav-link active" data-toggle="tab" href="#upcoming_appointments_tab">
-                            <span class="nav-icon"><i class="flaticon2-user"></i></span>
+                            <span class="nav-icon">{{ Metronic::getSVG('media/svg/icons/General/User.svg') }}</span>
                             <span class="nav-text">My Appointments</span>
                         </a>
                     </li>

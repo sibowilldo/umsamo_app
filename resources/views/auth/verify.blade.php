@@ -40,16 +40,20 @@
 
 <body {{ Metronic::printAttrs('body') }} {{ Metronic::printClasses('body') }}>
 <!--begin::Verify-->
-<div class="vh-100 d-flex justify-content-center align-items-center">
+<div class="vh-100 d-flex flex-column justify-content-center align-items-center  bgi-size-cover bgi-position-top bgi-no-repeat" style="background-image: url('{{ asset("media/bg/bg-11.jpg") }}');">
+    <div class="d-flex flex-center mb-15">
+        <a href="{{ route('login') }}">
+            <img src="{{ asset('system/images/umsamo-logo-white.png') }}" class="max-h-175px" alt="{{ config('app.name') }}" />
+        </a>
+    </div>
     <div>
-
-        <div class="card card-custom bgi-no-repeat gutter-b card-stretch rounded-0">
+        <div class="card card-custom bg-light gutter-b card-stretch shadow m-5">
             <!--begin::Body-->
             <div class="card-body">
                 <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                     @csrf
                     <div class="p-4 flex-column ">
-                        <h3 class="text-dark font-weight-bolder my-7">{{ __('Verify Your Email Address') }}</h3>
+                        <h3 class="text-dark font-weight-bolder mb-7">{{ __('Verify Your Email Address') }}</h3>
                         @if (session('resent'))
                             <div class="alert alert-success" role="alert">
                                 {{ __('A fresh verification link has been sent to your email address.') }}
@@ -57,11 +61,16 @@
                         @endif
                         <p class="text-muted font-size-lg mb-7">
                             {{ __('Before proceeding, please check your email inbox or spam folder for a verification link.') }}
-                            {{ __('If you did not receive the email') }}</p>
-                            <button type="submit" class="btn btn-danger font-weight-bolder px-6 py-3">{{ __('Request another') }}</button>
-                        <button class="btn btn-light-primary font-weight-bold px-6 py-3 btn-logout" type="button">
-                            {{ __('Leave this page!') }}
-                        </button>
+                            {{ __('If you did not receive the email') }}
+                        </p>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-danger font-weight-bolder px-6 py-3">
+                                {{ __('Request another') }}
+                            </button>
+                            <button class="btn btn-light-primary font-weight-bold px-6 py-3 btn-logout" type="button">
+                                {{ __('Leave this page!') }}
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>

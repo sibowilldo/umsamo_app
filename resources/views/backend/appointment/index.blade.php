@@ -77,11 +77,11 @@
                             </div>
                             <div class="col-md-4 my-2 my-md-0">
                                 <div class="d-flex align-items-center">
-                                    <label for="kt_datatable_search_event" class="mr-3 mb-0 d-none d-md-block">Event:</label>
-                                    <select class="form-control" id="kt_datatable_search_event">
+                                    <label for="kt_datatable_search_event" class="mr-3 mb-0 d-none d-md-block">Type:</label>
+                                    <select class="form-control" id="kt_datatable_search_type">
                                         <option value="">All</option>
-                                        @foreach($events as $event)
-                                            <option value="{{ $event->title }}">{{ $event->title }}</option>
+                                        @foreach($appointment_types as $appointment_type)
+                                            <option value="{{ $appointment_type }}">{{ $appointment_type }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -95,11 +95,10 @@
             <table class="table table-head-bg table-borderless table-head-custom" id="kt_datatable">
                 <thead>
                 <tr>
-                    <th>APPOINTMENT DETAILS</th>
+                    <th>SCHEDULED FOR</th>
                     <th>STATUS</th>
                     <th>TYPE</th>
                     <th>RESERVED</th>
-                    <th data-field="EVENT_DETAILS">EVENT DETAILS</th>
                     <th class="text-right">ACTION</th>
                 </tr>
                 </thead>
@@ -126,11 +125,6 @@
                         </td>
                         <td>
                             <span class="text-muted font-weight-bold">{{ $appointment->created_at->diffForHumans() }}</span>
-                        </td>
-                        <td>
-                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ $appointment->event_date->event->title }}</span>
-                            <div class="text-muted font-weight-bold">
-                                <span class="label label-dot label-{{ $appointment->event_date->event->status->color }}"></span> {{ $appointment->event_date->event->status->title }}</div>
                         </td>
                         <td>
                             <div class="d-flex align-items-center justify-content-end" aria-label="Available Actions">

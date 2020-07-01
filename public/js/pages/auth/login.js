@@ -81,12 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 1:
+/***/ 2:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("uXkw");
@@ -134,6 +134,8 @@ var initAuthLogin = function () {
       e.preventDefault();
       var loginSubmitButton = $(this);
       var loginForm = loginSubmitButton.closest('form');
+      loginSubmitButton.prop('disabled', true);
+      loginSubmitButton.text('Signing you in...').addClass('spinner-dark spinner spinner-left px-15 btn-light btn-pill btn-hover-light').removeClass('px-8 btn-primary');
       validation.validate().then(function (status) {
         if (status === 'Valid') {
           window.axios.post(loginForm.data('action'), {
@@ -141,6 +143,8 @@ var initAuthLogin = function () {
             password: $('input[name=password]').val()
           }).then(function (response) {
             var destination = response.data.url;
+            loginSubmitButton.prop('disabled', false);
+            loginSubmitButton.text('Redirecting...').removeClass('spinner-dark spinner spinner-left px-15 btn-light btn-pill btn-hover-light').addClass('px-8 btn-primary');
             window.swal.showLoading();
             window.swal.fire({
               title: 'Login Success',
@@ -154,6 +158,9 @@ var initAuthLogin = function () {
               window.location.replace(destination);
             });
           })["catch"](function (error) {
+            loginSubmitButton.prop('disabled', false);
+            loginSubmitButton.text('Sign In').removeClass('spinner-dark spinner spinner-left px-15 btn-light btn-pill btn-hover-light').addClass('px-8 btn-primary');
+
             if (error.response.data.message === "CSRF token mismatch") {
               window.swal.fire({
                 icon: 'error',

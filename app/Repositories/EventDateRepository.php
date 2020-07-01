@@ -38,12 +38,6 @@ class EventDateRepository
                     $event_date->decrement('limit');
                     break;
             }
-
-            if($appointment->status_id === self::APPOINTMENT_STATUS_CANCELLED){
-
-            }else{
-                $event_date->decrement('limit');
-            }
         }
 
 

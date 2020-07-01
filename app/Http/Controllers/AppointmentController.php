@@ -14,6 +14,7 @@ use Auth;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpFoundation\Response as HTTPResponse;
 
 class AppointmentController extends Controller
@@ -160,5 +161,12 @@ class AppointmentController extends Controller
     public function destroy(Appointment $appointment)
     {
         //
+    }
+
+    public function today()
+    {
+         $appointments = Appointment::with(['user', 'event_date'])->whereDate('');
+
+         return response()->json($appointments);
     }
 }

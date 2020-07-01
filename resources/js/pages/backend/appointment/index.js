@@ -76,11 +76,11 @@ var AppointmentIndexScript = function() {
             datatable.search($(this).val().toLowerCase(), 'STATUS');
         });
 
-        $('#kt_datatable_search_event').on('change', function() {
-            datatable.search($(this).val().toLowerCase(), 'EVENT_DETAILS');
+        $('#kt_datatable_search_type').on('change', function() {
+            datatable.search($(this).val().toLowerCase(), 'TYPE');
         });
 
-        $('#kt_datatable_search_status, #kt_datatable_search_event').selectpicker();
+        $('#kt_datatable_search_status, #kt_datatable_search_type').selectpicker();
 
         datatable.on('datatable-on-init, datatable-on-layout-updated', function(){
             $('[data-toggle="tooltip"]').tooltip()

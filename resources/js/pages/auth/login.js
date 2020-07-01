@@ -36,6 +36,8 @@ let initAuthLogin = function(){
             e.preventDefault();
             let loginSubmitButton = $(this);
             let loginForm = loginSubmitButton.closest('form');
+            loginSubmitButton.prop('disabled', true);
+            loginSubmitButton.text('Signing you in...').addClass('spinner-dark spinner spinner-left px-15 btn-light btn-pill btn-hover-light').removeClass('px-8 btn-primary');
 
             validation.validate().then(function(status) {
                 if(status === 'Valid'){
@@ -45,6 +47,8 @@ let initAuthLogin = function(){
                     })
                         .then(function (response) {
                             let destination = response.data.url;
+                            loginSubmitButton.prop('disabled', false);
+                            loginSubmitButton.text('Redirecting...').removeClass('spinner-dark spinner spinner-left px-15 btn-light btn-pill btn-hover-light').addClass('px-8 btn-primary');
                             window.swal.showLoading();
                             window.swal.fire({
                                 title: 'Login Success',
@@ -60,6 +64,9 @@ let initAuthLogin = function(){
                                 });
                         })
                         .catch(function (error) {
+
+                            loginSubmitButton.prop('disabled', false);
+                            loginSubmitButton.text('Sign In').removeClass('spinner-dark spinner spinner-left px-15 btn-light btn-pill btn-hover-light').addClass('px-8 btn-primary');
                             if(error.response.data.message === "CSRF token mismatch"){
                                 window.swal.fire({icon: 'error', title: error.response.data.message,text: "Please try again!"})
                                     .then(function(){

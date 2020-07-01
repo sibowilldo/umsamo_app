@@ -1,31 +1,30 @@
-@extends('layout.auth')
+@extends('layout.auth.auth-classic-2')
 
 @section('content')
 
-<!--begin::Signin-->
-<div class="login-form login-signin">
     <!--begin::Form-->
     <form class="form" novalidate="novalidate" id="loginForm" method="POST" data-action="{{ route('login') }}">
         <!--begin::Title-->
-        <div class="pt-lg-40 mt-lg-10 pb-15">
-            <h3 class="font-weight-bolder text-dark display5">Welcome to {{ config('app.name') }}</h3>
-            <span class="text-muted font-weight-bold font-size-h4">New Here?
-                                <a href="{{ route('register') }}" id="kt_login_signup" class="text-primary font-weight-bolder">Create an Account</a></span>
+        <div class="mt-lg-10 pb-15">
+            <h3 class="font-weight-bold text-dark display5"><span class="d-block text-muted font-weight-boldest">Sign in to </span> <span class="text-uppercase text-dark-75" style="font-family: blowbrush,monospace; font-size: 1.5em; letter-spacing: 2px">{{ config('app.name') }}</span></h3>
+            <span class="text-muted font-size-h6">New Here?
+                                <a href="{{ route('register') }}" id="kt_login_signup" class="text-primary font-weight-bold">Create an Account</a></span>
         </div>
         <!--begin::Title-->
         <!--begin::Form group-->
         <div class="form-group">
-            <label class="font-size-h6 font-weight-bolder text-dark">Email</label>
-            <input class="form-control form-control-solid h-auto rounded-lg py-5" type="email" name="email" autocomplete="off" value="" />
+            <input class="form-control form-control-solid h-auto rounded-lg py-5" type="email" name="email" autocomplete="off" placeholder="Email Address" value="" />
         </div>
         <!--end::Form group-->
         <!--begin::Form group-->
         <div class="form-group">
-            <div class="d-flex justify-content-between mt-n5">
-                <label class="font-size-h6 font-weight-bolder text-dark pt-5">Password</label>
-                <a href="{{ route('password.request') }}" class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5">Forgot Password ?</a>
-            </div>
-            <input class="form-control form-control-solid h-auto rounded-lg py-5" type="password" name="password" autocomplete="off" value=""/>
+            <input class="form-control form-control-solid h-auto rounded-lg py-5" type="password" name="password" autocomplete="off" placeholder="Password" value=""/>
+        </div>
+        <div class="form-group d-flex flex-wrap justify-content-between align-items-center">
+            <label class="checkbox m-0 text-muted">
+                <input type="checkbox" name="remember_me" />Remember me
+                <span></span></label>
+            <a href="{{ route('password.request') }}" class="text-muted text-hover-primary">Forgot Password?</a>
         </div>
         <!--end::Form group-->
         <!--begin::Action-->
@@ -46,8 +45,6 @@
         <!--end::Action-->
     </form>
     <!--end::Form-->
-</div>
-<!--end::Signin-->
 
 @endsection
 

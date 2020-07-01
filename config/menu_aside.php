@@ -1,5 +1,7 @@
 <?php
 // Aside menu
+use App\User;
+
 return [
 
     'items' => [
@@ -20,27 +22,44 @@ return [
         // Admin
         [
             'section' => 'Admin',
-            'roles'=>['administrator', 'kingpin'],
+            'roles'=>[User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE],
         ],
-        // Dashboard
+        // Appointments
         [
             'title' => 'Appointments',
             'root' => true,
             'icon' => 'media/svg/icons/Home/Clock.svg', // or can be 'flaticon-home' or any flaticon-*
-            'page' => 'appointments.index',
-            'new-tab' => false,
+            'bullet' => 'line',
+            'submenu' => [
+                [
+                    'title' => 'Today\'s List',
+                    'roles' => [User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE],
+                    'icon' => 'media/svg/icons/Home/Clock.svg',
+                    'page' => 'appointments.index',
+                ],
+                [
+                    'title' => 'My Appointments',
+                    'roles' => [User::CLIENT_ROLE],
+                    'page' => 'appointments.index',
+                ],
+                [
+                    'title' => 'Family Appointments',
+                    'roles' => [User::CLIENT_ROLE],
+                    'page' => 'appointments.index',
+                ],
+            ],
         ],
         // Custom
         [
             'section' => 'System',
-            'roles'=>['administrator', 'kingpin'],
+            'roles'=>[User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE],
         ],
         [
             'title' => 'Events',
             'icon' => 'media/svg/icons/Layout/Layout-top-panel-6.svg',
             'bullet' => 'dot', // dot | line
             'root' => true,
-            'roles'=>['administrator', 'kingpin'],
+            'roles'=>[User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE],
             'submenu' => [
                 [
                     'title' => 'All',
@@ -59,7 +78,7 @@ return [
             'icon' => 'media/svg/icons/Shopping/Settings.svg',
             'bullet' => 'dot', // dot | line
             'root' => true,
-            'roles'=>['kingpin'],
+            'roles'=>[User::SUPER_ADMIN_ROLE],
             'submenu' => [
                 [
                     'title' => 'All',
@@ -78,7 +97,7 @@ return [
             'icon' => 'media/svg/icons/Map/Compass.svg',
             'bullet' => 'dot', // dot | line
             'root' => true,
-            'roles'=>['kingpin'],
+            'roles'=>[User::SUPER_ADMIN_ROLE],
             'submenu' => [
                 [
                     'title' => 'All',

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Auth::routes(['verify' => true]);
-//, 'verified'
+
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/', 'PagesController@index')->name('dashboard');
     Route::patch('appointments/{appointment}/cancel', 'AppointmentController@cancel')->name('appointments.cancel');
@@ -26,7 +26,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('profile/personal-information/{user}', 'ProfileController@personal_information')->name('profiles.personal-information');
     Route::get('profile/account-information/{user}', 'ProfileController@account_information')->name('profiles.account-information');
     Route::get('profile/change-password/{user}', 'ProfileController@change_password')->name('profiles.change-password');
-    Route::resource('profiles', 'ProfileController')->only('update', 'destroy');
+    Route::resource('profiles', 'ProfileController')->only('update', 'destroy', 'show');
     Route::resource('regions', 'RegionController')->middleware(['role:kingpin']);
     Route::resource('statuses', 'StatusController')->middleware(['role:kingpin']);
 

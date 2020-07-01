@@ -5,6 +5,7 @@ namespace App;
 use App\Mail\WelcomeNewUserMail;
 use Dyrynda\Database\Casts\EfficientUuid;
 use Dyrynda\Database\Support\GeneratesUuid;
+use App\Notifications\ResetPassword as ResetPasswordNotification;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -127,4 +128,14 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         Mail::to($profile->user)->queue(new WelcomeNewUserMail($profile->user));
     }
 
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
 }

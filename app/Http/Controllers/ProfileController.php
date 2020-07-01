@@ -60,6 +60,20 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      *
+     * @param Profile $profile
+     * @return Response | Profile
+     */
+    public function show(Profile $profile)
+    {
+        return \request()->wantsJson()
+            ?new Response(['profile' => $profile, 'family'=>$profile->user->families()->get()], 200)
+            :$profile;
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
      * @param Request $request
      * @param Profile $profile
      * @return \Illuminate\Http\JsonResponse
