@@ -5,9 +5,6 @@
     <div class="card-header border-0">
         <h3 class="card-title font-weight-bolder text-dark">Family Details</h3>
         <div class="card-toolbar">
-            <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-1" data-card-tool="toggle">
-                {{ Metronic::getSvg('media/svg/icons/Communication/Add-user.svg') }}
-            </a>
         </div>
     </div>
     <!--end::Header-->
@@ -35,9 +32,10 @@
                     </div>
                     <!--end::Label-->
                     <!--begin::Btn-->
-                    <a href="#" class="btn btn-icon btn-light btn-sm">
-                        {{ Metronic::getSvg('media/svg/icons/Navigation/Arrow-right.svg', 'svg-icon svg-icon-success svg-icon-md') }}
-                    </a>
+
+                    <button  data-toggle="tooltip" title="Invite Member to join" type="button" class="btn btn-icon btn-sm btn-light-primary mr-1 inviteMember" data-family-id="{{ $family->uuid }}" data-family-name="{{ $family->name }}">
+                        {{ Metronic::getSvg('media/svg/icons/Communication/Add-user.svg') }}
+                    </button>
                     <!--end::Btn-->
                 </div>
                 <!--end::Section-->

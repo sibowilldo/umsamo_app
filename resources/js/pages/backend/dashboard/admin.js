@@ -482,10 +482,10 @@ var DashboardAdmin = function () {
                         title: response.data.title,
                         text: response.data.message,
                         icon: 'success',
-                        timer: 2000,
+                        showCancelButton: false,
+                        confirmButtonText: 'Ok, Got it.',
                         onOpen: function (){
                             submitButton.removeClass('spinner-white spinner spinner-left').addClass('px-9').removeAttr('disabled').text('Submit');
-                            swal.showLoading();
                         }
                     })
                         .then(function(){
@@ -494,15 +494,23 @@ var DashboardAdmin = function () {
                 })
                 .catch(function (error) {
                     submitButton.removeClass('spinner-white spinner spinner-left').addClass('px-9').removeAttr('disabled').text('Submit');
-                    let errorBag = error.response.data.errors
-                    let error_messages='';
-                    Object.entries(errorBag).forEach(function(item, index){
-                        error_messages += `<div>${item[1][0]}</div>`;
-                    });
-
+                    let error_title='Oops! Unexpected Error Occurred.';
+                    let error_messages='Please report this to developers.';
+                    if(error.hasOwnProperty('response')){
+                        error_title = `${error.response.status} ${error.response.statusText}`;
+                        if(error.response.hasOwnProperty('data')){
+                            error_messages = `${error.response.data.message}`;
+                            if(error.response.data.hasOwnProperty('error')){
+                                let errorBag = error.response.data.errors
+                                Object.entries(errorBag).forEach(function(item, index){
+                                    error_messages += `<div>${item[1][0]}</div>`;
+                                });
+                            }
+                        }
+                    }
                     swal.fire({
                         icon: 'error',
-                        title: error.response.data.message,
+                        title: error_title,
                         html: error_messages,
                     });
                 })

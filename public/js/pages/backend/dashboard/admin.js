@@ -612,24 +612,37 @@ var DashboardAdmin = function () {
           title: response.data.title,
           text: response.data.message,
           icon: 'success',
-          timer: 2000,
+          showCancelButton: false,
+          confirmButtonText: 'Ok, Got it.',
           onOpen: function onOpen() {
             submitButton.removeClass('spinner-white spinner spinner-left').addClass('px-9').removeAttr('disabled').text('Submit');
-            swal.showLoading();
           }
         }).then(function () {
           window.location.replace(response.data.url);
         });
       })["catch"](function (error) {
         submitButton.removeClass('spinner-white spinner spinner-left').addClass('px-9').removeAttr('disabled').text('Submit');
-        var errorBag = error.response.data.errors;
-        var error_messages = '';
-        Object.entries(errorBag).forEach(function (item, index) {
-          error_messages += "<div>".concat(item[1][0], "</div>");
-        });
+        var error_title = 'Oops! Unexpected Error Occurred.';
+        var error_messages = 'Please report this to administrators.';
+
+        if (error.hasOwnProperty('response')) {
+          error_title = "".concat(error.response.status, " ").concat(error.response.statusText);
+
+          if (error.response.hasOwnProperty('data')) {
+            error_messages = "".concat(error.response.data.message);
+
+            if (error.response.data.hasOwnProperty('error')) {
+              var errorBag = error.response.data.errors;
+              Object.entries(errorBag).forEach(function (item, index) {
+                error_messages += "<div>".concat(item[1][0], "</div>");
+              });
+            }
+          }
+        }
+
         swal.fire({
           icon: 'error',
-          title: error.response.data.message,
+          title: error_title,
           html: error_messages
         });
       });

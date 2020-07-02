@@ -221,7 +221,7 @@ var DashboardClient = function () {
       if (!_with_family.prop('checked')) {
         _step_3_validation.disableValidator('family_member', 'notEmpty');
 
-        _step_3_validation.disableValidator('family', 'notEmpty');
+        $('input[name=family]').length ? _step_3_validation.disableValidator('family', 'notEmpty') : '';
       }
 
       _appointment_datepicker.on('dp.change', function () {
@@ -336,7 +336,7 @@ var DashboardClient = function () {
     var family_member = $('#family_member');
     with_family.on('change', function () {
       if (with_family.prop('checked')) {
-        _step_3_validation.enableValidator('family', 'notEmpty');
+        $('input[name=family]').length ? _step_3_validation.enableValidator('family', 'notEmpty') : '';
 
         _step_3_validation.enableValidator('family_member', 'notEmpty');
 
@@ -347,7 +347,7 @@ var DashboardClient = function () {
 
         _family_member.selectpicker('refresh');
       } else {
-        _step_3_validation.disableValidator('family', 'notEmpty');
+        $('input[name=family]').length ? _step_3_validation.disableValidator('family', 'notEmpty') : '';
 
         _step_3_validation.disableValidator('family_member', 'notEmpty');
 
@@ -399,6 +399,7 @@ var DashboardClient = function () {
         });
       });
     })["catch"](function (error) {
+      console.log(error);
       swal.fire({
         title: "Status Code ".concat(error.response.status, " <br> Error fetching available Appointment Dates."),
         text: "Please report this error, and quote Status Code",
@@ -475,12 +476,12 @@ var DashboardClient = function () {
             consultation_option.attr('disabled', 'disabled').parent().addClass('radio-disabled');
             return selected_date.format('YYYY-MM-DD') === e.date.format('YYYY-MM-DD');
           }
+
+          _event_date.val(e.date.format('YYYY-MM-DD'));
         } else {
           consultation_option.removeAttr('disabled').prop('checked', false).parent().removeClass('radio-disabled');
         }
       });
-
-      _event_date.val(e.date.format('YYYY-MM-DD'));
     });
   };
 
@@ -529,18 +530,33 @@ var DashboardClient = function () {
             swal.showLoading();
           }
         }).then(function () {
-          window.location.replace(response.data.url);
+          if (response.data.url) {
+            window.location.replace(response.data.url);
+          }
         });
       })["catch"](function (error) {
         submitButton.removeClass('spinner-white spinner spinner-left').addClass('px-9').removeAttr('disabled').text('Submit');
-        var errorBag = error.response.data.errors;
-        var error_messages = '';
-        Object.entries(errorBag).forEach(function (item, index) {
-          error_messages += "<div>".concat(item[1][0], "</div>");
-        });
+        var error_title = 'Oops! Unexpected Error Occurred.';
+        var error_messages = 'Please report this to administrators.';
+
+        if (error.hasOwnProperty('response')) {
+          error_title = "".concat(error.response.status, " ").concat(error.response.statusText);
+
+          if (error.response.hasOwnProperty('data')) {
+            error_messages = "".concat(error.response.data.message);
+
+            if (error.response.data.hasOwnProperty('error')) {
+              var errorBag = error.response.data.errors;
+              Object.entries(errorBag).forEach(function (item, index) {
+                error_messages += "<div>".concat(item[1][0], "</div>");
+              });
+            }
+          }
+        }
+
         swal.fire({
           icon: 'error',
-          title: error.response.data.message,
+          title: error_title,
           html: error_messages
         });
       });

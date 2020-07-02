@@ -105,12 +105,10 @@
                                                 <div class="form-group radio-inline d-none family_container">
                                                     <label class="font-weight-bolder d-block">Preferred Family</label>
                                                     @foreach($user->families as $family)
-                                                        @if(count($family->users) > 1)
-                                                            <label class="radio">
-                                                                <input type="radio" name="family" value="{{ $family->id }}" data-family-name="{{ $family->name }}"/> {{ $family->name }}
+                                                            <label class="radio {{ count($family->users) > 1?:'radio-disabled' }}">
+                                                                <input type="radio" name="family" value="{{ $family->id }}" {{ count($family->users) > 1?:'disabled' }} data-family-name="{{ $family->name }}"/> <strong>{{ $family->name }}</strong> {{ count($family->users) > 1?:'(To Enable, please invite members to Join.)' }}
                                                                 <span></span>
                                                             </label>
-                                                        @endif
                                                     @endforeach
                                                 </div>
                                                 <!--end::Input-->
@@ -119,9 +117,9 @@
                                                     <label class="font-weight-bolder">Select Family Members</label>
                                                     <select multiple title="Select Family Members" name="family_member" id="family_member" class="kt-selectpicker form-control form-control-solid form-control-lg" data-live-search="true">
                                                         @foreach($user->families as $family)
-                                                            <optgroup label="{{ $family->name }}">
+                                                            <optgroup label="{{ $family->name }} ({{ count($family->users) }} other {{ count($family->users)==1?'member':'members' }})">
                                                                 @foreach($family->users as $member)
-                                                                    @if($member->id !== $user->id)
+                                                                    @if(!$member->id == $user->id)
                                                                     <option  value="{{ $member->uuid }}">{{ $member->profile->fullname }}</option>
                                                                     @endif
                                                                 @endforeach

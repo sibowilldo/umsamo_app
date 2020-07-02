@@ -80,7 +80,6 @@ class ProfileController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
-
         $user = $profile->user;
         $data= $request->only('update', 'first_name', 'last_name', 'address', 'city', 'province', 'postal_code',
             'email', 'current_password', 'password', 'password_confirmation');

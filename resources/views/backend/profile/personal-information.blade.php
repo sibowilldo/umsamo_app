@@ -31,7 +31,7 @@
                                 <span class="text-muted font-weight-bold font-size-sm mt-1">Update your personal information</span>
                             </div>
                             <div class="card-toolbar">
-                                <button type="submit" class="btn btn-success mr-2 font-weight-bold" id="personalInformationSubmitButton">Save Changes</button>
+                                <button type="submit" class="btn btn-success mr-2 font-weight-bold" id="submitButton">Save Changes</button>
                                 <a class="btn btn-secondary font-weight-bold" href="{{ route('profiles.overview', $user) }}">Cancel</a>
                             </div>
                         </div>
@@ -162,5 +162,9 @@
 
 @section('scripts')
     <script src="{{ asset('js/pages/backend/profile/offcanvas.js') }}"></script>
+
+    <script>
+    </script>
+
     <script src="{{ asset('js/pages/backend/profile/personal-information.js') }}"></script>
 @stop

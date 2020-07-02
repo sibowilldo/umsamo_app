@@ -50,6 +50,9 @@ class Profile extends Model
      */
     protected $dates = ['date_of_birth', 'profile_completed_at', 'cell_number_verified_at', 'deleted_at'];
 
+
+    protected $appends = ['avatar_url', 'fullname'];
+
     /**
      *
      * A Profile belongs to a user

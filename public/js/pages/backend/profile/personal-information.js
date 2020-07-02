@@ -199,7 +199,7 @@ var initPersonalInformation = function () {
               icon: 'success',
               timer: 2000,
               onOpen: function onOpen() {
-                submitButton.removeClass('spinner-white spinner spinner-left').addClass('px-9').removeAttr('disabled').text('Submit');
+                submitButton.removeClass('spinner-white spinner spinner-left').addClass('px-9').removeAttr('disabled').text('Save Changes');
                 window.swal.showLoading();
               }
             }).then(function () {
@@ -207,7 +207,7 @@ var initPersonalInformation = function () {
             });
           })["catch"](function (error) {
             if (error.response.data.message === "CSRF token mismatch") {
-              submitButton.removeClass('spinner-white spinner spinner-left').addClass('px-9').removeAttr('disabled').text('Submit');
+              submitButton.removeClass('spinner-white spinner spinner-left').addClass('px-9').removeAttr('disabled').text('Save Changes');
               window.swal.fire({
                 icon: 'error',
                 title: error.response.data.message,

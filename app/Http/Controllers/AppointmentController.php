@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response as HTTPResponse;
 
 class AppointmentController extends Controller
@@ -60,6 +61,8 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('create', Appointment::class);
+
         $request->merge(['with_family' => $request->has('with_family')]);
 
         DB::transaction(function() use ($request){
@@ -72,14 +75,14 @@ class AppointmentController extends Controller
 
             if($request->has('family_members')){
                 $family_members = $request->family_members;
-                array_push($family_members, Auth::user()->uuid);
+                array_push($family_members, $user->uuid);
                 $family = Family::findOrFail($request->family);
                 $appointment = AppointmentRepository::NEW_APPOINTMENT($family, $event_date, $request);
                 FamilyAppointmentRepository::NEW_FAMILY_APPOINTMENT($family, $appointment, $family_members, $request);
             }else{
                 if($request->with_family){
                     $family_members = [];
-                    array_push($family_members, Auth::user()->uuid);
+                    array_push($family_members, $user->uuid);
                     $family = $user->families()->firstOrCreate(['name' => $request->family_name]);
                     $family->users()->updateExistingPivot($user->id, ['is_head' => true, 'joined_at' => Carbon::now()]);
                     $appointment =  AppointmentRepository::NEW_APPOINTMENT($family, $event_date, $request);
@@ -104,6 +107,8 @@ class AppointmentController extends Controller
      */
     public function show(Appointment $appointment)
     {
+        Gate::authorize('view', $appointment);
+
         $page_title = "View Appointment";
         $comments = Comment::where('appointment_id', $appointment->id)->with(['status'])->get();
 
@@ -143,6 +148,7 @@ class AppointmentController extends Controller
      */
     public function cancel(Appointment $appointment)
     {
+        Gate::authorize('update', $appointment);
 
         $appointment->update(['status_id' => self::APPOINTMENT_CANCELLED_STATUS ]);
 

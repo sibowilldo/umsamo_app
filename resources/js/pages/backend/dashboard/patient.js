@@ -111,7 +111,7 @@ var DashboardClient = function () {
 
             if(!_with_family.prop('checked')){
                 _step_3_validation.disableValidator('family_member', 'notEmpty');
-                _step_3_validation.disableValidator('family', 'notEmpty');
+                $('input[name=family]').length?_step_3_validation.disableValidator('family', 'notEmpty'):'';
             }
             _appointment_datepicker.on('dp.change', function () {
                 _validations[wizard.getStep() - 1].revalidateField('event_date');
@@ -216,14 +216,14 @@ var DashboardClient = function () {
 
         with_family.on('change', function(){
             if(with_family.prop('checked')){
-                _step_3_validation.enableValidator('family', 'notEmpty');
+                $('input[name=family]').length?_step_3_validation.enableValidator('family', 'notEmpty'):'';
                 _step_3_validation.enableValidator('family_member', 'notEmpty');
                 $('.family_container').removeClass('d-none');
                 family_member.prop('disabled', false);
                 _family_member.selectpicker('show');
                 _family_member.selectpicker('refresh');
             }else{
-                _step_3_validation.disableValidator('family', 'notEmpty');
+                $('input[name=family]').length?_step_3_validation.disableValidator('family', 'notEmpty'):'';
                 _step_3_validation.disableValidator('family_member', 'notEmpty');
                 $('.family_container').addClass('d-none');
                 family_member.prop('disabled', true);
@@ -258,11 +258,13 @@ var DashboardClient = function () {
                         }else{
                             $('input[name=event_date]').attr('data-id', item.id);
 
+
                             limit_label.html(`<strong>${selected_date.format('MMM DD, YYYY')}</strong> has
                                             <strong>${item.limit}</strong> ${item.limit === 1?'spot':'spots'}
                                             available for consultation.`);
 
                             _event_date.val(selected_date.format('YYYY-MM-DD'));
+
 
                             if(item.limit < 1){
                                 consultation_option.attr('disabled', 'disabled').parent().addClass('radio-disabled');
@@ -274,6 +276,7 @@ var DashboardClient = function () {
                 });
             })
             .catch((error)=>{
+                console.log(error)
                 swal.fire({
                     title: `Status Code ${error.response.status} <br> Error fetching available Appointment Dates.`,
                     text: "Please report this error, and quote Status Code",
@@ -347,11 +350,11 @@ var DashboardClient = function () {
                         consultation_option.attr('disabled', 'disabled').parent().addClass('radio-disabled');
                         return selected_date.format('YYYY-MM-DD') === e.date.format('YYYY-MM-DD');
                     }
+                    _event_date.val(e.date.format('YYYY-MM-DD'));
                 }else{
                     consultation_option.removeAttr('disabled').prop('checked', false).parent().removeClass('radio-disabled')
                 }
             })
-            _event_date.val(e.date.format('YYYY-MM-DD'));
         });
     }
 
@@ -392,19 +395,30 @@ var DashboardClient = function () {
                         }
                     })
                         .then(function(){
-                            window.location.replace(response.data.url);
+                            if(response.data.url){
+                                window.location.replace(response.data.url);
+                            }
                         });
                 })
                 .catch(function (error) {
                     submitButton.removeClass('spinner-white spinner spinner-left').addClass('px-9').removeAttr('disabled').text('Submit');
-                    let errorBag = error.response.data.errors
-                    let error_messages='';
-                    Object.entries(errorBag).forEach(function(item, index){
-                        error_messages += `<div>${item[1][0]}</div>`;
-                    });
+                    let error_title='Oops! Unexpected Error Occurred.';
+                    let error_messages='Please report this to administrators.';
+                    if(error.hasOwnProperty('response')){
+                        error_title = `${error.response.status} ${error.response.statusText}`;
+                        if(error.response.hasOwnProperty('data')){
+                            error_messages = `${error.response.data.message}`;
+                            if(error.response.data.hasOwnProperty('error')){
+                                let errorBag = error.response.data.errors
+                                Object.entries(errorBag).forEach(function(item, index){
+                                    error_messages += `<div>${item[1][0]}</div>`;
+                                });
+                            }
+                        }
+                    }
                     swal.fire({
                         icon: 'error',
-                        title: error.response.data.message,
+                        title: error_title,
                         html: error_messages,
                     });
                 })
