@@ -16,6 +16,7 @@ class CreateAppointmentsTable extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->efficientUuid('uuid')->index();
+            $table->string('reference')->unique();
             $table->morphs('appointmentable');
             $table->foreignId('event_date_id')->constrained();
             $table->foreignId('region_id')->constrained();

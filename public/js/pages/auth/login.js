@@ -81,20 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 163);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 2:
+/***/ 163:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__("uXkw");
+module.exports = __webpack_require__(164);
 
 
 /***/ }),
 
-/***/ "uXkw":
+/***/ 164:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -161,23 +161,34 @@ var initAuthLogin = function () {
             loginSubmitButton.prop('disabled', false);
             loginSubmitButton.text('Sign In').removeClass('spinner-dark spinner spinner-left px-15 btn-light btn-pill btn-hover-light').addClass('px-8 btn-primary');
 
-            if (error.response.data.message === "CSRF token mismatch") {
+            if (error.response.status >= 500) {
               window.swal.fire({
                 icon: 'error',
-                title: error.response.data.message,
+                title: error.response.statusText,
                 text: "Please try again!"
               }).then(function () {
                 window.location.reload();
               });
+            } else if (error.response.status > 401) {
+              window.swal.fire({
+                icon: 'error',
+                title: error.response.statusText,
+                text: error.response.data.errors.email[0]
+              }).then(function () {
+                window.location.reload();
+              });
+            } else {
+              window.swal.fire({
+                icon: 'error',
+                title: error.response.data.title,
+                text: error.response.data.text
+              });
             }
-
-            window.swal.fire({
-              icon: 'error',
-              title: error.response.data.title,
-              text: error.response.data.text
-            });
           });
-        } else {}
+        } else {
+          loginSubmitButton.prop('disabled', false);
+          loginSubmitButton.text('Sign In').removeClass('spinner-dark spinner spinner-left px-15 btn-light btn-pill btn-hover-light').addClass('px-8 btn-primary');
+        }
       });
     });
   };

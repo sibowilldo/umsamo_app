@@ -95,19 +95,19 @@
                             <div class="d-flex align-items-center">
                                 <div>
                                     <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ $event->title}}</a>
-                                    <span class="text-muted font-weight-bolder d-block">Has {{ count($event->event_dates) }} {{count($event->event_dates) == 1? 'Event Date': 'Event Dates' }}</span>
+                                    <span class="text-muted font-size-xs font-weight-bolder d-block">Has {{ count($event->event_dates) }} {{count($event->event_dates) == 1? 'Event Date': 'Event Dates' }}</span>
                                 </div>
                             </div>
                         </td>
                         <td>
                         <span>
-                            <span class="label label-inline label-lg font-weight-bolder label-light-{{ $event->status->color }}">
+                            <span class="label label-inline label-lg font-weight-bolder label-{{ $event->status->color }}">
                         {{ $event->status->title }}</span>
                         </span>
                         </td>
                         <td><div>
                                 <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ $event->created_at->format('M d, Y') }}</a>
-                                <span class="text-muted font-weight-bolder d-block">{{ $event->created_at->diffForHumans() }}</span>
+                                <span class="text-muted font-weight-bolder font-size-xs d-block">{{ $event->created_at->diffForHumans() }}</span>
                             </div>
                         </td>
                         <td>
@@ -115,7 +115,7 @@
                                 <a href="{{ route('events.show', $event->uuid) }}" class="btn btn-light btn-hover-primary btn-sm" data-toggle="tooltip" title="View Details">
                                     {{ Metronic::getSVG('media/svg/icons/General/Settings-1.svg', 'svg-icon svg-icon-md svg-icon-primary') }} View
                                 </a>
-                                @if(!$event->status->cancelled)
+                                @if(!count($event->event_dates))
                                 <button type="button" class="btn btn-light btn-hover-danger btn-sm deleteBtn ml-3" data-url="{{route('events.destroy', $event->uuid)}}" data-record="{{ $event->uuid }}" data-placement="top"  data-toggle="tooltip" data-original-title="Cancel Event">
                                    {{ Metronic::getSVG('media/svg/icons/Code/Stop.svg', 'svg-icon svg-icon-md svg-icon-danger') }}<span class="ml-1">Delete</span>
                                 </button>
@@ -185,7 +185,7 @@
                             field: 'STATUS',
                             title: 'STATUS',
                             autoHide: false,
-                            width: 380
+                            width: 200
                         },
                         {
                             field: 'created',

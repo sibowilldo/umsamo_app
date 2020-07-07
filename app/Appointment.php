@@ -2,19 +2,25 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Dyrynda\Database\Casts\EfficientUuid;
 use Dyrynda\Database\Support\GeneratesUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class Appointment extends Model
 {
 
-
-    const STATUS_PENDING = 15;
-    const STATUS_CONFIRMED = 13;
-
     use GeneratesUuid;
+
+    const STATUS_CANCELLED = 12;
+    const STATUS_CONFIRMED = 13;
+    const STATUS_PENDING = 15;
+
+    protected $with = ['event_date', 'appointmentable'];
+
+    protected $dateFormat = 'Y-m-d H:i:s';
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +28,7 @@ class Appointment extends Model
      */
     protected $fillable = [
         'user_id',
+        'reference',
         'event_date_id',
         'region_id',
         'status_id',
@@ -61,7 +68,7 @@ class Appointment extends Model
 
     public function comments()
     {
-        $this->hasMany(Comment::class);
+      return  $this->hasMany(Comment::class);
     }
 
     public function event_date()
@@ -94,4 +101,10 @@ class Appointment extends Model
     {
         return 'uuid';
     }
+
+    public function scopeDueToday($query)
+    {
+        return $query->where('event_date.date_time', '=', Carbon::today()->format('Y-m-d H:i:s'));
+    }
+
 }

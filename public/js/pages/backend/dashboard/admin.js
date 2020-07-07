@@ -81,20 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 171);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 6:
+/***/ 171:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__("CPRG");
+module.exports = __webpack_require__(172);
 
 
 /***/ }),
 
-/***/ "CPRG":
+/***/ 172:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -131,7 +131,6 @@ var DashboardAdmin = function () {
     format: 'YYYY-MM-DD',
     inline: true,
     defaultDate: false,
-    daysOfWeekDisabled: [0, 6],
     minDate: moment(),
     sideBySide: true,
     enabledDates: [],
@@ -448,28 +447,13 @@ var DashboardAdmin = function () {
 
         _event_dates.some(function (item) {
           var selected_date = moment(item.date_time);
-          var is_weekend = false;
+          $('input[name=event_date]').attr('data-id', item.id);
+          limit_label.html("<strong>".concat(selected_date.format('MMM DD, YYYY'), "</strong> has\n                                        <strong>").concat(item.limit, "</strong> ").concat(item.limit === 1 ? 'spot' : 'spots', "\n                                        available for consultation."));
 
-          switch (selected_date.weekday()) {
-            case 0:
-            case 6:
-              is_weekend = true;
-              break;
-          }
+          _event_date.val(selected_date.format('YYYY-MM-DD'));
 
-          if (is_weekend) {
-            return false;
-          } else {
-            $('input[name=event_date]').attr('data-id', item.id);
-            limit_label.html("<strong>".concat(selected_date.format('MMM DD, YYYY'), "</strong> has\n                                            <strong>").concat(item.limit, "</strong> ").concat(item.limit === 1 ? 'spot' : 'spots', "\n                                            available for consultation."));
-
-            _event_date.val(selected_date.format('YYYY-MM-DD'));
-
-            if (item.limit < 1) {
-              consultation_option.attr('disabled', 'disabled').parent().addClass('radio-disabled');
-              return true;
-            }
-
+          if (item.limit < 1) {
+            consultation_option.attr('disabled', 'disabled').parent().addClass('radio-disabled');
             return true;
           }
         });
@@ -623,7 +607,7 @@ var DashboardAdmin = function () {
       })["catch"](function (error) {
         submitButton.removeClass('spinner-white spinner spinner-left').addClass('px-9').removeAttr('disabled').text('Submit');
         var error_title = 'Oops! Unexpected Error Occurred.';
-        var error_messages = 'Please report this to administrators.';
+        var error_messages = 'Please report this to developers.';
 
         if (error.hasOwnProperty('response')) {
           error_title = "".concat(error.response.status, " ").concat(error.response.statusText);

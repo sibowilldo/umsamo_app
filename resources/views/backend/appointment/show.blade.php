@@ -39,11 +39,25 @@
                                 </div>
                                 <div class="d-flex flex-column">
                                     <span class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Appointment Date</span>
-                                    <span class="text-muted font-weight-bold font-size-sm">{{ $appointment->event_date->date_time->format('M d Y, H:i A') }}</span>
+                                    <span class="text-muted font-weight-bold font-size-sm">{{ $appointment->event_date->date_time->format('D d M, Y') }}</span>
                                 </div>
                             </div>
                         </div>
                         <!--end:Item-->
+                        <!--begin:Item-->
+                        <div class="d-flex align-items-center justify-content-between mb-15">
+                            <div class="d-flex align-items-center">
+                                <div class="symbol symbol-40 symbol-light-success mr-5">
+                                    <span class="symbol-label">
+                                        {{ Metronic::getSVG('media/svg/icons/Files/User-folder.svg', "svg-icon svg-icon-lg svg-icon-success") }}
+                                    </span>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <span class="text-dark-75 text-hover-primary font-weight-bold font-size-lg">Group</span>
+                                    <span class="text-muted font-weight-bold font-size-sm">{{ class_basename($appointment->appointmentable)}} Appointment</span>
+                                </div>
+                            </div>
+                        </div>
                         <!--end:Item-->
                         <!--begin:Item-->
                         <div class="d-flex align-items-center justify-content-between mb-15">
@@ -104,7 +118,7 @@
                         <div class="messages">
                             @forelse($comments as $comment)
                             <!--begin::Message In-->
-                            <div class="d-flex flex-column mb-5 align-items-{{$comment->user_id===Auth::id()?'end':'start'}}">
+                            <div class="d-flex flex-column mb-10 align-items-{{$comment->user_id===Auth::id()?'end':'start'}}">
                                 <div class="d-flex align-items-center">
                                     <div class="symbol symbol-circle symbol-40 mr-3">
                                         <img alt="Pic" data-src="{{$comment->user_id===Auth::id()?Auth::user()->profile->avatarurl:$comment->user->profile->avatarurl}}" class="min-h-40px"/>
@@ -112,11 +126,11 @@
                                     <div>
                                         <a href="#"
                                            class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">{{$comment->user_id===Auth::id()?'You':$comment->user->profile->fullname}}</a>
-                                        <br><span class="text-muted font-size-sm">{{$comment->created_at->diffForHumans()}}</span>
+                                        <br><span class="text-muted font-size-sm">{{$comment->created_at->diffForHumans(['options' =>02])}}</span>
                                     </div>
                                 </div>
                                 <div
-                                    class="mt-2 rounded p-5 bg-light-success text-dark-50 font-weight-bold font-size-lg text-left max-w-400px">
+                                    class="mt-2 rounded p-5 bg-light-{{$comment->status->color}} text-dark-75 font-weight-bold font-size-md text-left max-w-400px">
                                     {{$comment->body}}
                                 </div>
                             </div>

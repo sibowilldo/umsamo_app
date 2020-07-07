@@ -81,20 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 175);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 8:
+/***/ 175:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__("JigG");
+module.exports = __webpack_require__(176);
 
 
 /***/ }),
 
-/***/ "JigG":
+/***/ 176:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -141,7 +141,7 @@ var EventCreateFunction = function () {
   var initHolidays = function initHolidays() {
     axios.get('/cronos/public-holidays').then(function (response) {
       response.data.map(function (item) {
-        za_holidays.push(moment(item, 'YYYY-MM-DD'));
+        za_holidays.push(moment(item).format('YYYY-MM-DD'));
       });
       $('.datetimepicker').datetimepicker(datepickerOptions);
     })["catch"](function (error) {

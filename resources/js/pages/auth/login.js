@@ -64,24 +64,32 @@ let initAuthLogin = function(){
                                 });
                         })
                         .catch(function (error) {
-
                             loginSubmitButton.prop('disabled', false);
                             loginSubmitButton.text('Sign In').removeClass('spinner-dark spinner spinner-left px-15 btn-light btn-pill btn-hover-light').addClass('px-8 btn-primary');
-                            if(error.response.data.message === "CSRF token mismatch"){
-                                window.swal.fire({icon: 'error', title: error.response.data.message,text: "Please try again!"})
+
+                            if(error.response.status >= 500) {
+                                window.swal.fire({icon: 'error', title: error.response.statusText,text: "Please try again!"})
                                     .then(function(){
                                         window.location.reload();
                                     });
+                            }else if(error.response.status > 401){
+                                window.swal.fire({icon: 'error', title: error.response.statusText,text: error.response.data.errors.email[0]})
+                                    .then(function(){
+                                        window.location.reload();
+                                    });
+                            } else{
+                                window.swal.fire({
+                                    icon: 'error',
+                                    title: error.response.data.title,
+                                    text: error.response.data.text,
+                                });
                             }
-                            window.swal.fire({
-                                icon: 'error',
-                                title: error.response.data.title,
-                                text: error.response.data.text,
-                            });
+
                         });
                 }
                 else{
-
+                    loginSubmitButton.prop('disabled', false);
+                    loginSubmitButton.text('Sign In').removeClass('spinner-dark spinner spinner-left px-15 btn-light btn-pill btn-hover-light').addClass('px-8 btn-primary');
                 }
             });
 

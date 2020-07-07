@@ -26,45 +26,39 @@ var AppointmentIndexScript = function() {
             },
             columns: [
                 {
-                    field: '#',
-                    title: '#',
+                    field: 'reference',
+                    title: 'REFERENCE',
                     type: 'number',
                     autoHide: false,
-                    width: 30,
                     textAlign: 'center'
                 },
                 {
-                    field: 'STATUS',
-                    title: 'Status',
+                    field: 'scheduledFor',
+                    title: 'SCHEDULED FOR',
+                    autoHide: false,
+                    textAlign: 'center'
+                },
+                {
+                    field: 'status',
+                    title: 'STATUS',
                     autoHide: false,
                     width: 150,
                 },
                 {
-                    field: 'TYPE',
-                    title: 'Type',
+                    field: 'type',
+                    title: 'TYPE',
                     autoHide: false,
                     width: 150,
                 },
                 {
-                    field: 'RESERVED',
-                    title: 'Reserved',
+                    field: 'reserved',
+                    title: 'RESERVED',
                     autoHide: true,
                     width: 100
                 },
                 {
-                    field: 'DESCRIPTION',
-                    title: 'description',
-                    autoHide: true,
-                    width: 320
-                },
-                {
-                    field: 'EVENT DETAILS',
-                    title: 'Event Details',
-                    autoHide: true,
-                },
-                {
-                    field: 'ACTION',
-                    title: 'Action',
+                    field: 'action',
+                    title: 'ACTION',
                     textAlign: 'right',
                     sortable: false,
                     autoHide: false,

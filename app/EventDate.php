@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class EventDate extends Model
 {
     protected $fillable = ['event_id', 'status_id', 'date_time', 'limit'];
-
-    protected $dates = ['date_time'];
+    protected $withCount = ['appointments'];
+    protected $casts = ['date_time'=>'date:Y-m-d'];
 
     public function status()
     {
@@ -22,7 +22,7 @@ class EventDate extends Model
 
     public function appointments()
     {
-        $this->hasMany(Appointment::class);
+        return $this->hasMany(Appointment::class);
     }
 
 }

@@ -81,12 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 86);
+/******/ 	return __webpack_require__(__webpack_require__.s = 739);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "0g5C":
+/***/ 739:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(740);
+
+
+/***/ }),
+
+/***/ 740:
 /***/ (function(module, exports) {
 
 // Class definition
@@ -108,14 +116,6 @@ var KTBootstrapSelect = function () {
 jQuery(document).ready(function () {
   KTBootstrapSelect.init();
 });
-
-/***/ }),
-
-/***/ 86:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("0g5C");
-
 
 /***/ })
 

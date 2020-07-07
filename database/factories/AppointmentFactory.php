@@ -4,6 +4,7 @@
 
 use App\Appointment;
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 $factory->define(Appointment::class, function (Faker $faker) {
     $event_dates = \App\EventDate::pluck('id');
@@ -13,6 +14,7 @@ $factory->define(Appointment::class, function (Faker $faker) {
 
     return [
         'uuid' => $faker->uuid,
+        'reference' => Str::upper($faker->randomElement(['FAM-', 'SLF-']) . sprintf('%03d', rand(000, 999)) . '-'. Str::random(4)),
         'event_date_id' => $faker->randomElement($event_dates),
         'status_id' => $faker->randomElement($statuses),
         'type' => $faker->randomElement(['Consulting', 'Cleansing']),

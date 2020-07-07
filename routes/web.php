@@ -1,5 +1,8 @@
 <?php
 
+use App\Notifications\AppointmentReminder;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes(['verify' => true]);
 //, 'verified'
-Route::middleware(['auth'])->group(function(){
+Route::middleware(['auth', 'firewall.all'])->group(function(){
     Route::get('/', 'PagesController@index')->name('dashboard');
     Route::patch('appointments/{appointment}/cancel', 'AppointmentController@cancel')->name('appointments.cancel');
     Route::resource('appointments', 'AppointmentController');
@@ -32,6 +35,12 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get('/home', 'HomeController@index')->name('home');
 
+    //Administrator Prefixed Controllers
+    Route::prefix('administrator')->namespace('Administrator')->group(function(){
+        Route::get('appointments/today', 'AppointmentController@today')->name('appointments.today');
+        Route::get('appointments/upcoming', 'AppointmentController@upcoming')->name('appointments.upcoming');
+        Route::get('appointments/historical', 'AppointmentController@historical')->name('appointments.historical');
+    });
     //Ajax Controllers
     Route::prefix('ajax')->namespace('Ajax')->group(function(){
         Route::get('event-dates', 'EventDateController@index')->name('ajax.event-dates.index');
@@ -43,6 +52,16 @@ Route::middleware(['auth'])->group(function(){
 Route::prefix('cronos')->group(function(){
     Route::get('public-holidays', 'CronController@getPublicHolidays');
 });
+
+
+Route::get('getToken', function () {
+
+    $user =  \App\User::findOrFail(20);
+    $user->notify(new AppointmentReminder());
+
+    return response()->json($user, 200);
+});
+
 
 // Demo routes
 Route::get('/datatables', 'PagesController@datatables');

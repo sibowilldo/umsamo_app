@@ -1,7 +1,7 @@
 @extends('layout.default')
 
 @section('mobile-toggle')
-    <button class="mr-4 d-inline-block d-lg-none" id="kt_subheader_mobile_toggle">
+    <button class="mr-4 d-inline-block d-lg-none btn btn-light-success" id="kt_subheader_mobile_toggle">
         <span></span>
         {{ Metronic::getSVG('media/svg/icons/Navigation/Arrow-from-left.svg') }}
     </button>
@@ -24,10 +24,10 @@
                 <div class="flex-row-fluid ml-lg-8">
                     <!--begin::Row-->
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-xl-6 col-md-12">
                             @include('pages.widgets._recent-comments', ['class'=>' card-stretch gutter-b'])
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-xl-6 col-md-12">
                             @include('pages.widgets._user-families')
                         </div>
                     </div>
@@ -45,6 +45,7 @@
 @stop
 
 @section('scripts')
+    <script src="{{ asset('js/pages/backend/profile/offcanvas.js') }}"></script>
     <script>
         jQuery(document).ready(function(){
 

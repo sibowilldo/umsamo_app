@@ -14,9 +14,9 @@ $factory->define(Item::class, function (Faker $faker) {
         'description' => $faker->realText(),
         'price' => $faker->randomFloat(2, 100.00, 999.99),
         'featured' => $faker->boolean,
-        'type_is' => $faker->word,
-        'category_is' => $faker->word,
-        'rate_is' => $faker->word,
+        'type_is' => $faker->realText(10),
+        'category_is' => $faker->realText(10),
+        'rate_is' => 14,
         'thumbnail' => $faker->imageUrl(),
     ];
 });

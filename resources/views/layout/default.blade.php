@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" {{ Metronic::printAttrs('html') }} {{ Metronic::printClasses('html') }}>
     <head>
         <meta charset="utf-8"/>
+        <meta http-equiv="Content-Security-Policy" content="child-src 'none';">
 
         {{-- Title Section --}}
         <title>{{ config('app.name') }} | @yield('title', $page_title ?? '')</title>
@@ -37,6 +38,11 @@
         {{-- Includable CSS --}}
         @yield('styles')
 
+        <style>
+            body.aside-minimize .logo-text{
+                display: none !important;
+            }
+        </style>
         <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
     </head>
 

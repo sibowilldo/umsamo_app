@@ -81,12 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 109);
+/******/ 	return __webpack_require__(__webpack_require__.s = 785);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "+cGt":
+/***/ 785:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(786);
+
+
+/***/ }),
+
+/***/ 786:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -308,14 +316,6 @@ var KTDatatableJsonRemoteDemo = function () {
 jQuery(document).ready(function () {
   KTDatatableJsonRemoteDemo.init();
 });
-
-/***/ }),
-
-/***/ 109:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("+cGt");
-
 
 /***/ })
 

@@ -39,11 +39,11 @@
                         <table class="table table-head-custom table-head-bg table-borderless table-vertical-center">
                             <thead>
                             <tr class="text-left text-uppercase">
-                                <th class="pl-7">
+                                <th class="pl-7 w-200px">
                                     <span class="text-dark-75">Scheduled For</span>
                                 </th>
                                 <th>Status</th>
-                                <th>Appointment Type</th>
+                                <th class="w-150px">Appointment Type</th>
                                 <th>Scheduled</th>
                                 <th style="min-width: 80px"></th>
                             </tr>

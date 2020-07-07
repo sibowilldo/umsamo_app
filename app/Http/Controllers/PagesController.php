@@ -32,8 +32,8 @@ class PagesController extends Controller
                 $q->latest()->take(4);
             }])
             ->findOrFail(Auth::id());
-
-        $members  = $members = $user->families;
+        $members  = $user->families;
+        
         $family_appointments = $user->familyAppointments;
         $appointments =$user->appointments->where('event_date.date_time', '>=', Carbon::now()->format('Y-m-d'))->sortBy('event_date.date_time')->take(5);
 

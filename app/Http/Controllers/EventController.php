@@ -8,6 +8,7 @@ use App\Status;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use DatePeriod;
+use Dyrynda\Database\Casts\EfficientUuid;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -64,12 +65,22 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\JsonResponse
+     * @param $uuid
+     * @return Response
      */
-    public function show(Event $event)
+    public function show($event)
     {
-        return response()->view('backend.event.show', compact('event'));
+
+        $data = ['appointments' => $event->event_dates->sum('appointments_count'),
+                'total_limits' => $event->event_dates->sum('limit')];
+        
+        $data['appointments'] == 0
+            ? $data['percentage'] = 0
+            : $data['percentage'] = ceil(($event->event_dates->sum('appointments_count')/$event->event_dates->sum('limit'))*100);
+
+        return request()->wantsJson()
+            ? new Response([$data])
+            : response()->view('backend.event.show', compact('event'));
     }
 
     /**

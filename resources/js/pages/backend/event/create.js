@@ -1,3 +1,4 @@
+
 'use strict'
 // Class definition
 var EventCreateFunction = function() {
@@ -44,7 +45,7 @@ var EventCreateFunction = function() {
         axios.get('/cronos/public-holidays')
             .then((response)=>{
                 response.data.map((item)=>{
-                    za_holidays.push(moment(item, 'YYYY-MM-DD'));
+                    za_holidays.push(moment(item).format('YYYY-MM-DD'));
                 });
                 $('.datetimepicker').datetimepicker(datepickerOptions);
             })

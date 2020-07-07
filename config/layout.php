@@ -75,7 +75,7 @@ return [
 
     // Page loader
     'page-loader' => [
-        'type' => 'default' // default, spinner-message, spinner-logo
+        'type' => 'spinner-message' // default, spinner-message, spinner-logo
     ],
 
     // Header
@@ -152,7 +152,7 @@ return [
             'display' => true,
             'fixed' => true,
             'minimize' => [
-                'toggle' => false, // allow toggle
+                'toggle' => true, // allow toggle
                 'default' => false // default state
             ]
         ],

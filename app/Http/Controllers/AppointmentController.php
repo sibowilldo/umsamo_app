@@ -20,7 +20,6 @@ use Symfony\Component\HttpFoundation\Response as HTTPResponse;
 
 class AppointmentController extends Controller
 {
-    const APPOINTMENT_CANCELLED_STATUS = 12;
     /**
      * Display a listing of the resource.
      *
@@ -31,16 +30,15 @@ class AppointmentController extends Controller
         $page_title = "Appointments";
 
         $appointment_types = Appointment::$types;
+        $user = User::with(['families', 'families.appointments'])->findOrFail(Auth::id());
 
-        $user = Auth::user();
-        $appointments = AppointmentRepository::GET_APPOINTMENTS( $user,
+        $appointments = AppointmentRepository::GET_APPOINTMENTS($user,
             ['status','event_date','event_date.event','event_date.event.status'],
-            ['uuid', 'event_date_id', 'status_id','type', 'created_at']);
+            ['uuid','reference', 'event_date_id','appointmentable_type', 'appointmentable_id', 'status_id','type', 'created_at']);
 
         $statuses = $appointments->pluck('status')->unique();
-        $events = $appointments->pluck('event_date.event')->unique();
 
-        return response()->view('backend.appointment.index', compact('appointments', 'appointment_types', 'events', 'statuses', 'page_title'));
+        return response()->view('backend.appointment.index', compact('user','appointments', 'appointment_types',  'statuses', 'page_title'));
     }
 
     /**
@@ -77,7 +75,7 @@ class AppointmentController extends Controller
                 $family_members = $request->family_members;
                 array_push($family_members, $user->uuid);
                 $family = Family::findOrFail($request->family);
-                $appointment = AppointmentRepository::NEW_APPOINTMENT($family, $event_date, $request);
+                $appointment = AppointmentRepository::NEW_APPOINTMENT($family, $event_date, $request, 'fam');
                 FamilyAppointmentRepository::NEW_FAMILY_APPOINTMENT($family, $appointment, $family_members, $request);
             }else{
                 if($request->with_family){
@@ -85,7 +83,7 @@ class AppointmentController extends Controller
                     array_push($family_members, $user->uuid);
                     $family = $user->families()->firstOrCreate(['name' => $request->family_name]);
                     $family->users()->updateExistingPivot($user->id, ['is_head' => true, 'joined_at' => Carbon::now()]);
-                    $appointment =  AppointmentRepository::NEW_APPOINTMENT($family, $event_date, $request);
+                    $appointment =  AppointmentRepository::NEW_APPOINTMENT($family, $event_date, $request, 'fam');
                     FamilyAppointmentRepository::NEW_FAMILY_APPOINTMENT($family, $appointment,$family_members, $request);
                 }else{
                     AppointmentRepository::NEW_APPOINTMENT($user, $event_date, $request);
@@ -110,7 +108,7 @@ class AppointmentController extends Controller
         Gate::authorize('view', $appointment);
 
         $page_title = "View Appointment";
-        $comments = Comment::where('appointment_id', $appointment->id)->with(['status'])->get();
+        $comments = Comment::where('appointment_id', $appointment->id)->with(['status', 'user'])->get();
 
         return response()->view('backend.appointment.show', compact('appointment', 'comments', 'page_title'));
     }
@@ -150,7 +148,7 @@ class AppointmentController extends Controller
     {
         Gate::authorize('update', $appointment);
 
-        $appointment->update(['status_id' => self::APPOINTMENT_CANCELLED_STATUS ]);
+        $appointment->update(['status_id' => Appointment::STATUS_CANCELLED ]);
 
         return response()->json([
             "message"=> 'Your appointment was cancelled successfully',
@@ -169,10 +167,4 @@ class AppointmentController extends Controller
         //
     }
 
-    public function today()
-    {
-         $appointments = Appointment::with(['user', 'event_date'])->whereDate('');
-
-         return response()->json($appointments);
-    }
 }

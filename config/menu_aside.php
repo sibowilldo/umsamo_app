@@ -35,7 +35,19 @@ return [
                     'title' => 'Today\'s List',
                     'roles' => [User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE],
                     'icon' => 'media/svg/icons/Home/Clock.svg',
-                    'page' => 'appointments.index',
+                    'page' => 'appointments.today',
+                ],
+                [
+                    'title' => 'Upcoming',
+                    'roles' => [User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE],
+                    'icon' => 'media/svg/icons/Home/Clock.svg',
+                    'page' => 'appointments.upcoming',
+                ],
+                [
+                    'title' => 'Historical',
+                    'roles' => [User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE],
+                    'icon' => 'media/svg/icons/Home/Clock.svg',
+                    'page' => 'appointments.historical',
                 ],
                 [
                     'title' => 'My Appointments',

@@ -1,9 +1,9 @@
 @extends('layout.default')
 
 @section('mobile-toggle')
-    <button class="mr-4 d-inline-block d-lg-none" id="kt_subheader_mobile_toggle">
+    <button class="mr-4 d-inline-block d-lg-none btn btn-light-success" id="kt_subheader_mobile_toggle">
         <span></span>
-        {{ \App\Classes\Theme\Metronic::getSVG('media/svg/icons/Navigation/Arrow-from-left.svg') }}
+        {{ Metronic::getSVG('media/svg/icons/Navigation/Arrow-from-left.svg') }}
     </button>
 @endsection
 

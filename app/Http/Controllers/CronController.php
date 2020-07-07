@@ -20,12 +20,13 @@ class CronController extends Controller
                 return $response->json();
             });
 
-            $disabled_dates = EventDate::whereDate('date_time', '>', Carbon::now())->pluck('date_time')->toArray();
+            $disabled_dates = EventDate::where('date_time', '>', Carbon::today())->pluck('date_time')->toArray();
             foreach(cache('public_holidays')['response']['holidays'] as $entry){
                 if($entry['type'][0] === 'National holiday'){
                     array_push($disabled_dates, new Carbon($entry['date']['iso']));
                 }
             }
+            sort($disabled_dates);
 
             return response()->json($disabled_dates, 200);
         } catch (\Exception $e) {

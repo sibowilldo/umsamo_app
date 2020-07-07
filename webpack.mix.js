@@ -39,7 +39,8 @@ mix.scripts('resources/metronic/plugins/formvalidation/dist/js/plugins/Tachyons.
     .scripts('resources/metronic/plugins/formvalidation/dist/js/plugins/Transformer.js', 'public/plugins/custom/formvalidation/plugins/Transformer.js');
 
 mix.copy('resources/system/fonts/blowbrush.ttf', 'public/system/fonts')
-    .copyDirectory('resources/system/images', 'public/system/images');
+    .copyDirectory('resources/system/images', 'public/system/images')
+    .copyDirectory('resources/system/favicons', 'public/system/favicons');
 
 mix.scripts(['resources/metronic/js/vendors/plugins/sweetalert2.init.js'], 'public/js/init-plugins.js');
 

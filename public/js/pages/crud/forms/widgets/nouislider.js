@@ -81,12 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 95);
+/******/ 	return __webpack_require__(__webpack_require__.s = 757);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "2nUG":
+/***/ 757:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(758);
+
+
+/***/ }),
+
+/***/ 758:
 /***/ (function(module, exports) {
 
 // Class definition
@@ -356,14 +364,6 @@ var KTnoUiSliderDemos = function () {
 jQuery(document).ready(function () {
   KTnoUiSliderDemos.init();
 });
-
-/***/ }),
-
-/***/ 95:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("2nUG");
-
 
 /***/ })
 

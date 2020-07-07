@@ -12,9 +12,10 @@ class Family extends Model
 {
     use GeneratesUuid, SoftDeletes;
 
-    protected $fillable = ['uuid', 'name'];
-
     protected $dates = ['deleted_at'];
+    protected $fillable = ['uuid', 'name'];
+    protected $with = ['users'];
+    protected $withCount = ['users'];
 
 
     public function users()

@@ -11,6 +11,13 @@ class AppointmentPolicy
 {
     use HandlesAuthorization;
 
+
+    public function before($user, $ability)
+    {
+        if ($user->hasAnyRole([User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE])) {
+            return true;
+        }
+    }
     /**
      * Determine whether the user can view any models.
      *
@@ -19,7 +26,7 @@ class AppointmentPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasAnyRole([User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE, User::CLIENT_ROLE]);
+
     }
 
     /**
@@ -33,11 +40,11 @@ class AppointmentPolicy
     {
         switch(class_basename($appointment->appointmentable_type)){
             case 'Family':
-                return $user->families->where('id', $appointment->appointmentable->id)->first() != null;
+                return ($user->families->where('id', $appointment->appointmentable->id)->first() != null);
             case 'User':
-                return $user->id === $appointment->appointmentable->id;
+                return ($user->id === $appointment->appointmentable->id);
             default:
-                return $user->hasAnyRole([User::ADMIN_ROLE], User::SUPER_ADMIN_ROLE);
+                return false;
         }
     }
 
@@ -49,7 +56,7 @@ class AppointmentPolicy
      */
     public function create(User $user)
     {
-        return $user->hasAnyRole([User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE, User::CLIENT_ROLE])
+        return $user->hasAnyRole([User::CLIENT_ROLE])
             ? Response::allow()
             : Response::deny('You are not allowed to make Appointments.');
     }
@@ -69,7 +76,7 @@ class AppointmentPolicy
             case 'User':
                 return $user->id === $appointment->appointmentable->id;
             default:
-                return $user->hasAnyRole([User::ADMIN_ROLE], User::SUPER_ADMIN_ROLE);
+                return false;
         }
     }
 

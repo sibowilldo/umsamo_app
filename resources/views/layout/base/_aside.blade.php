@@ -14,7 +14,6 @@
         $logo_text_color = 'text-white ';
  @endphp
 @endif
-
 <div class="aside aside-left {{ Metronic::printClasses('aside', false) }} d-flex flex-column flex-row-auto" id="kt_aside">
 
     {{-- Brand --}}
@@ -22,7 +21,7 @@
         <div class="brand-logo">
             <a href="{{ url('/') }}" class="{{$logo_text_color}} d-flex align-items-center">
                 <img alt="{{ config('app.name') }}" src="{{asset("system/images/$kt_logo_image")}}" class="w-50px h-50px"/>
-                <span><span style="font-family: blowbrush,serif;" class="text-uppercase font-size-h4">{{ config('app.name') }}</span><sup>&trade;</sup></span>
+                <span class="logo-container logo-text"><span style="font-family: blowbrush,serif;" class="text-uppercase font-size-h5">{{ config('app.name') }}</span><sup>&trade;</sup></span>
             </a>
         </div>
 

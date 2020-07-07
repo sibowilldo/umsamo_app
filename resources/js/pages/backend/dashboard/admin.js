@@ -16,7 +16,6 @@ var DashboardAdmin = function () {
         format: 'YYYY-MM-DD',
         inline: true,
         defaultDate: false,
-        daysOfWeekDisabled:[0,6],
         minDate: moment(),
         sideBySide:true,
         enabledDates: [],
@@ -314,8 +313,6 @@ var DashboardAdmin = function () {
         axios.get('ajax/event-dates')
             .then(response=>{
                 _event_dates =  response.data.data;
-
-
                 _appointment_datepicker.on('dp.show', function(e){
                     let limit_label = $('#limit_value');
                     let consultation_option = $('#consultation_option')
@@ -323,30 +320,16 @@ var DashboardAdmin = function () {
 
                     _event_dates.some(function(item){
                         let selected_date = moment(item.date_time);
-                        let is_weekend = false;
+                        $('input[name=event_date]').attr('data-id', item.id);
 
-                        switch(selected_date.weekday() ){
-                            case 0:
-                            case 6:
-                                is_weekend = true;
-                                break;
-                        }
+                        limit_label.html(`<strong>${selected_date.format('MMM DD, YYYY')}</strong> has
+                                        <strong>${item.limit}</strong> ${item.limit === 1?'spot':'spots'}
+                                        available for consultation.`);
 
-                        if(is_weekend){
-                            return false;
-                        }else{
-                            $('input[name=event_date]').attr('data-id', item.id);
+                        _event_date.val(selected_date.format('YYYY-MM-DD'));
 
-                            limit_label.html(`<strong>${selected_date.format('MMM DD, YYYY')}</strong> has
-                                            <strong>${item.limit}</strong> ${item.limit === 1?'spot':'spots'}
-                                            available for consultation.`);
-
-                            _event_date.val(selected_date.format('YYYY-MM-DD'));
-
-                            if(item.limit < 1){
-                                consultation_option.attr('disabled', 'disabled').parent().addClass('radio-disabled');
-                                return true;
-                            }
+                        if(item.limit < 1){
+                            consultation_option.attr('disabled', 'disabled').parent().addClass('radio-disabled');
                             return true;
                         }
                     })

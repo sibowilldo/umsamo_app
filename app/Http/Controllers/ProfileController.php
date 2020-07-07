@@ -29,7 +29,7 @@ class ProfileController extends Controller
 
 
         $family_appointments = $user->familyAppointments;
-        $appointments =$user->appointments->where('event_date.date_time', '>=', now())->sortBy('event_date.date_time')->take(5);
+        $appointments = $user->appointments->where('event_date.date_time', '>=', now())->sortBy('event_date.date_time')->take(5);
         $families = $user->families;
         $comments = $user->comments->sort();
 

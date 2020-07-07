@@ -42,6 +42,23 @@
             </div>
         <!--end: Item-->
         @empty
+                <div class="d-flex flex-column min-h-400px align-items-center p-5 text-center justify-content-center">
+                    <div class="mr-6">
+                        <span class="svg-icon svg-icon-info svg-icon-10x">
+                         {{ Metronic::getSVG("media/svg/icons/Files/User-folder.svg") }}
+                        </span>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <h4 class="text-dark font-weight-boldest font-size-h4 mb-3">
+                            No family details found
+                        </h4>
+                        <div class="text-muted">
+                            You are not part of any family.
+                            <br>You can <a href="#"class="btn btn-light-primary btn-sm font-weight-bold">create one</a> here,
+                            <br>and invite members of the family to join.
+                        </div>
+                    </div>
+                </div>
         @endforelse
     </div>
     <!--end: Card Body-->

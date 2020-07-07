@@ -13,6 +13,8 @@ class Event extends Model
 {
     use SoftDeletes, GeneratesUuid;
 
+    protected $with = ['event_dates'];
+
     /**
      * The attributes that are mass assignable.
      *
