@@ -3,21 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Appointment;
-use App\Comment;
-use App\Event;
-use App\EventDate;
-use App\Family;
-use App\Http\Resources\EventResource;
+use App\Notifications\AppointmentReminder;
 use App\Region;
-use App\Repositories\AppointmentRepository;
-use App\Repositories\CommentRepository;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
-use PhpParser\Node\Expr\Cast\Object_;
 
 class PagesController extends Controller
 {
@@ -58,5 +48,13 @@ class PagesController extends Controller
     public function quickSearch()
     {
         return view('layout.partials.extras._quick_search_result');
+    }
+
+    public function testSMS()
+    {
+        $user =  Auth::user();
+        $user->notify(new AppointmentReminder());
+
+        return response()->json($user, 200);
     }
 }

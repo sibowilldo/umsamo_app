@@ -49,20 +49,14 @@ Route::middleware(['auth', 'verified',  'firewall.all'])->group(function(){
 
     Route::get('/print/appointments/today', 'PrintController@appointmentsTodayPdf')->name('print.appointments.today');
 
+    Route::get('send-sms','PagesController@testSMS');
 });
 
 Route::prefix('cronos')->group(function(){
     Route::get('public-holidays', 'CronController@getPublicHolidays');
 });
 
-//
-//Route::get('getToken', function () {
-//
-//    $user =  \App\User::findOrFail(20);
-//    $user->notify(new AppointmentReminder());
-//
-//    return response()->json($user, 200);
-//});
+
 //
 //Route::get('viewmail', function () {
 //    $appointment = \App\Appointment::first();

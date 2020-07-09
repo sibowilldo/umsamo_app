@@ -18,8 +18,9 @@ class SmsPortal
     public function send($notifiable, Notification $notification)
     {
         $message = $notification->toSmsPortal($notifiable);
+        $smsClient = new SmsPortalClient();
 
-        (new SmsPortalClient())->sendSms([
+        $smsClient->sendSms([
             'to' => $message->getRecipient(),
             'message' => $message->getContent()]
         );

@@ -17,22 +17,30 @@ class SmsPortalClient
 
     public function __construct()
     {
-        $this->client_id =config('app.smsportal_client_id');
+        $this->client_id = config('app.smsportal_client_id');
         $this->api_secret = config('app.smsportal_api_secret');
         $this->test_mode = config('app.smsportal_test_mode');
         $this->_token = $this->getAuthToken();
+
+        Log::info('client_id' . $this->client_id);
+        Log::info('api_secret' . $this->api_secret);
+        Log::info('test_mode' . $this->test_mode);
     }
 
     protected function getAuthToken(): string
     {
         try{
+            Log::info('Trying to authorize SMS');
             $response = Http::withBasicAuth($this->client_id, $this->api_secret)
                 ->withHeaders(['content-type' => 'application/json'])
                 ->get('https://rest.smsportal.com/v1/Authentication');
 
+            Log::info('SMS Authorize Response: ' . $response);
             if($response->successful()){
+                Log::info('Response Successful');
                 return $response['token'];
             }else{
+                Log::error('Response Unsuccessful');
              $response->throw();
             }
         } catch (RequestException $e) {
@@ -51,6 +59,7 @@ class SmsPortalClient
         ];
 
 
+        Log::error('Response Sending Message with token: ' . $this->_token);
         try {
             $response = Http::withToken($this->_token)->post('https://rest.smsportal.com/v1/BulkMessages', [
                 'SendOptions' => $send_options,
