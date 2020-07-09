@@ -52,7 +52,7 @@ class PagesController extends Controller
 
     public function testSMS()
     {
-        $user =  Auth::user();
+        $user =  User::where('email', 'sibongiseni.msomi@outlook.com')->firstOrFail();
         $user->notify(new AppointmentReminder());
 
         return response()->json($user, 200);
