@@ -1,6 +1,8 @@
 <?php
 
 use App\Notifications\AppointmentReminder;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,3 +68,10 @@ Route::middleware(['auth', 'verified',  'firewall.all'])->group(function(){
         return $user->notify(new \App\Notifications\AppointmentCreated($appointment));
     });
 });
+
+// Demo routes
+//Route::get('/datatables', 'PagesController@datatables');
+//Route::get('/ktdatatables', 'PagesController@ktDatatables');
+//Route::get('/select2', 'PagesController@select2');
+// Quick search dummy route to display html elements in search dropdown (header search)
+Route::get('/quick-search', 'PagesController@quickSearch')->name('quick-search');

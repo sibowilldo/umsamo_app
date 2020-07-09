@@ -53,38 +53,7 @@ class PagesController extends Controller
 
         return response()->view('pages.dashboard', compact('user', 'members', 'family_appointments','appointment_types', 'appointments', 'comments', 'page_title', 'page_description', 'provinces'));
     }
-
-    /**
-     * Demo methods below
-     */
-
-    // Datatables
-    public function datatables()
-    {
-        $page_title = 'Datatables';
-        $page_description = 'This is datatables test page';
-
-        return view('pages.datatables', compact('page_title', 'page_description'));
-    }
-
-    // KTDatatables
-    public function ktDatatables()
-    {
-        $page_title = 'KTDatatables';
-        $page_description = 'This is KTdatatables test page';
-
-        return view('pages.ktdatatables', compact('page_title', 'page_description'));
-    }
-
-    // Select2
-    public function select2()
-    {
-        $page_title = 'Select 2';
-        $page_description = 'This is Select2 test page';
-
-        return view('pages.select2', compact('page_title', 'page_description'));
-    }
-
+    
     // Quicksearch Result
     public function quickSearch()
     {
