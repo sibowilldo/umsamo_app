@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Appointment;
 use App\Profile;
 use App\Repositories\ProfileRepository;
 use App\User;
@@ -32,8 +33,8 @@ class ProfileController extends Controller
         $appointments = $user->appointments->where('event_date.date_time', '>=', now())->sortBy('event_date.date_time')->take(5);
         $families = $user->families;
         $comments = $user->comments->sort();
-
-        return response()->view('backend.profile.overview', compact('user', 'families', 'family_appointments', 'appointments', 'comments', 'page_title', 'page_description'));
+        $appointment_types = Appointment::types();
+        return response()->view('backend.profile.overview', compact('appointment_types','user', 'families', 'family_appointments', 'appointments', 'comments', 'page_title', 'page_description'));
     }
 
     public function personal_information(User $user)
