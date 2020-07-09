@@ -124,6 +124,9 @@ var DashboardAdmin = function () {
 
                     let output = '', outputContainer = $('#review_info');
                     for (var pair of form_data.entries()) {
+                        if(pair[0]  === "appointment_type"){
+                            output +=`<tr><th scope="row">${pair[0].toUpperCase().replace(/_/g, ' ')}</th><td>${$('input[name=appointment_type]:checked').data('value')}</td></tr>`
+                        }else
                         if(pair[1]!==""){
                             output +=`<tr><th scope="row">${pair[0].toUpperCase().replace(/_/g, ' ')}</th><td>${pair[1]}</td></tr>`
                         }

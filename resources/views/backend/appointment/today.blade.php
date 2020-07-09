@@ -1,7 +1,7 @@
 @extends('layout.default')
 
 @section('content')
-    <div class="card card-custom">
+    <div class="card card-custom  {{ @$class }}">
         <div class="card-header flex-wrap pt-6 pb-0">
             <div class="card-title">
                 <h3 class="card-label">Appointments</h3>
@@ -23,7 +23,7 @@
                                 Choose an option:
                             </li>
                             <li class="navi-item">
-                                <a href="#" class="navi-link">
+                                <a href="#" class="navi-link d-none">
                                 <span class="navi-icon">
                                     <i class="flaticon2-print"></i>
                                 </span>
@@ -31,7 +31,7 @@
                                 </a>
                             </li>
                             <li class="navi-item">
-                                <a href="#" class="navi-link">
+                                <a href="{{ route('print.appointments.today') }}" class="navi-link">
                                 <span class="navi-icon">
                                     <i class="far fa-file-pdf"></i>
                                 </span>
@@ -109,10 +109,10 @@
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center">
-                                <span class="bullet bullet-bar bg-{{ $appointment->status->color }} align-self-stretch pb-10 mr-4"></span>
-                                <div class="font-weight-bolder">{{ $appointment->reference }} <span
-                                        class="font-size-xs text-muted text-uppercase d-block">{{ class_basename($appointment->appointmentable)}} Appointment</span>
-                                </div>
+                                    <span class="bullet bullet-bar bg-{{ $appointment->status->color }} align-self-stretch pb-10 mr-4"></span>
+                                    <div class="font-weight-bolder">{{ $appointment->reference }} <span
+                                            class="font-size-xs text-muted text-uppercase d-block">{{ class_basename($appointment->appointmentable)}} Appointment</span>
+                                    </div>
                                 </div>
                             </td>
                             <td>
@@ -132,8 +132,8 @@
                                 <div class="d-flex align-items-center">
                                     <div>
                                         <span
-                                           class="text-dark-75 font-weight-bolder d-block text-hover-primary mb-1 font-size-lg">{{ $appointment->event_date->date_time->format('D M d, Y') }}</span>
-                                        <span class="text-muted font-weight-bold">{{ $appointment->type }}</span>
+                                            class="text-dark-75 font-weight-bolder d-block text-hover-primary mb-1 font-size-lg">{{ $appointment->event_date->date_time->format('D M d, Y') }}</span>
+                                        <span class="text-muted font-weight-bold">{{ $appointment_types->where('id', $appointment->type )->first()['title']}}</span>
                                     </div>
                                 </div>
                             </td>
@@ -168,78 +168,78 @@
                         </tr>
                     @elseif(class_basename($appointment->appointmentable_type) == 'Family')
                         @foreach( $appointment->familyAppointments as $family_appointment )
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <span class="bullet bullet-bar bg-{{ $appointment->status->color }} align-self-stretch pb-10 mr-4"></span>
-                                <div class="font-weight-bolder">{{ $appointment->reference }} <span
-                                        class="font-size-xs text-muted text-uppercase d-block">{{ $appointment->appointmentable->name}}</span>
-                                </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="symbol symbol-40 symbol-sm flex-shrink-0">
-                                        <img class="" src="{{ $family_appointment->user->profile->avatar_url }}" alt="{{ $family_appointment->user->profile->fullname }}"></div>
-                                    <div class="ml-4">
-                                        <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">
-                                            {{ $family_appointment->user->profile->fullname }}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="bullet bullet-bar bg-{{ $appointment->status->color }} align-self-stretch pb-10 mr-4"></span>
+                                        <div class="font-weight-bolder">{{ $appointment->reference }} <span
+                                                class="font-size-xs text-muted text-uppercase d-block">Family: {{ $appointment->appointmentable->name}}</span>
                                         </div>
-                                        <span class="text-muted font-weight-bold">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="symbol symbol-40 symbol-sm flex-shrink-0">
+                                            <img class="" src="{{ $family_appointment->user->profile->avatar_url }}" alt="{{ $family_appointment->user->profile->fullname }}"></div>
+                                        <div class="ml-4">
+                                            <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">
+                                                {{ $family_appointment->user->profile->fullname }}
+                                            </div>
+                                            <span class="text-muted font-weight-bold">
                                             {{ $family_appointment->user->profile->id_number }}</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div>
                                         <span
-                                           class="text-dark-75 d-block font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ $appointment->event_date->date_time->format('D M d, Y') }}</span>
-                                        <span class="text-muted font-weight-bold">{{ $appointment->type }}</span>
+                                            class="text-dark-75 d-block font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ $appointment->event_date->date_time->format('D M d, Y') }}</span>
+                                            <span class="text-muted font-weight-bold">{{ $appointment_types->where('id', $appointment->type )->first()['title']}}</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td>
+                                </td>
+                                <td>
                         <span>
                             <span
                                 class="label label-inline label-lg font-weight-bolder label-light-{{ $family_appointment->status->color }}">
                         {{ $family_appointment->status->title }}</span>
                         </span>
-                            </td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div>
                                         <span
                                             class="text-dark-75 d-block font-weight-bolder text-hover-primary mb-1 font-size-lg">
                                             {{ $family_appointment->user->profile->cell_number }}
                                         </span>
-                                        <span class="text-muted font-size-sm">
+                                            <span class="text-muted font-size-sm">
                                             {{ $family_appointment->user->email }}
                                         </span>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="d-flex align-items-center justify-content-end"
-                                     aria-label="Available Actions">
-                                    <a href="{{ route('appointments.show', $appointment->uuid) }}"
-                                       class="btn btn-light btn-hover-primary btn-sm" data-toggle="tooltip"
-                                       title="View Details">
-                                        {{ Metronic::getSVG('media/svg/icons/General/Settings-1.svg', 'svg-icon svg-icon-md svg-icon-primary') }}
-                                        View
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center justify-content-end"
+                                         aria-label="Available Actions">
+                                        <a href="{{ route('appointments.show', $appointment->uuid) }}"
+                                           class="btn btn-light btn-hover-primary btn-sm" data-toggle="tooltip"
+                                           title="View Details">
+                                            {{ Metronic::getSVG('media/svg/icons/General/Settings-1.svg', 'svg-icon svg-icon-md svg-icon-primary') }}
+                                            View
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
                         @endforeach
                     @endif
                 @endforeach
-
                 </tbody>
             </table>
             <!--end: Datatable-->
         </div>
     </div>
+
 @endsection
 
 @section('scripts')

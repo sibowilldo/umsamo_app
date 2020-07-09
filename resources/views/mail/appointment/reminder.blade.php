@@ -1,5 +1,5 @@
 @component('mail::message')
-# Greetings {{ $fullname }}
+# Greetings {{ $full_name }}
 
 You have an appointment coming up in 2 days
 

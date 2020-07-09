@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class EventDate extends Model
 {
+
+    const STATUS_ACTIVE = 8;
+    const STATUS_FULL = 9;
+
     protected $fillable = ['event_id', 'status_id', 'date_time', 'limit'];
     protected $withCount = ['appointments'];
     protected $casts = ['date_time'=>'date:Y-m-d'];

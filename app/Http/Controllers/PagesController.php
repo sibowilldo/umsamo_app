@@ -24,7 +24,7 @@ class PagesController extends Controller
     public function index()
     {
         $provinces = Region::$provinces;
-        $appointment_types = Appointment::$types;
+        $appointment_types = Appointment::types();
 
         $user = User::with(['comments.status','comments.appointment', 'appointments.status:id,title,color',
             'appointments.event_date', 'families', 'familyAppointments', 'families.users', 'families.users.profile',
@@ -33,9 +33,16 @@ class PagesController extends Controller
             }])
             ->findOrFail(Auth::id());
         $members  = $user->families;
-        
+
         $family_appointments = $user->familyAppointments;
-        $appointments =$user->appointments->where('event_date.date_time', '>=', Carbon::now()->format('Y-m-d'))->sortBy('event_date.date_time')->take(5);
+        if($user->hasAnyRole(User::SUPER_ADMIN_ROLE, User::ADMIN_ROLE)){
+            $appointments = Appointment::with(['status:id,title,color', 'familyAppointments', 'familyAppointments.user', 'familyAppointments.status:id,title,color'])
+                ->get()
+                ->where('event_date.date_time', '=', Carbon::today()->format('Y-m-d H:i:s'));
+        }else{
+
+            $appointments =$user->appointments->where('event_date.date_time', '>=', Carbon::now()->format('Y-m-d'))->sortBy('event_date.date_time')->take(5);
+        }
 
 
         $comments = $user->comments->sort();

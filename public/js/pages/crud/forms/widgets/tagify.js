@@ -81,20 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 761);
+/******/ 	return __webpack_require__(__webpack_require__.s = 97);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 761:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(762);
-
-
-/***/ }),
-
-/***/ 762:
+/***/ "58ui":
 /***/ (function(module, exports) {
 
 // Class definition
@@ -328,6 +320,14 @@ var KTTagifyDemos = function () {
 jQuery(document).ready(function () {
   KTTagifyDemos.init();
 });
+
+/***/ }),
+
+/***/ 97:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("58ui");
+
 
 /***/ })
 

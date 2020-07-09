@@ -1,10 +1,10 @@
 @component('mail::message')
-# Welcome {{ $user->profile->fullname }}
+# Introduction
 
 The body of your message.
 
-@component('mail::button', ['url' => $url])
-Set Password
+@component('mail::button', ['url' => ''])
+Button Text
 @endcomponent
 
 Thanks,<br>

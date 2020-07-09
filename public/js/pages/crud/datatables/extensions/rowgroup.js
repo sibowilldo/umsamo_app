@@ -81,20 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 687);
+/******/ 	return __webpack_require__(__webpack_require__.s = 60);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 687:
+/***/ 60:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(688);
+module.exports = __webpack_require__("RPQ6");
 
 
 /***/ }),
 
-/***/ 688:
+/***/ "RPQ6":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

@@ -14,9 +14,13 @@ class Appointment extends Model
 
     use GeneratesUuid;
 
+    const STATUS_DELETED = 14;
+    const STATUS_ACTIVE = 11;
     const STATUS_CANCELLED = 12;
     const STATUS_CONFIRMED = 13;
     const STATUS_PENDING = 15;
+    const TYPE_CLEANSING = 1;
+    const TYPE_CONSULTING = 2;
 
     protected $with = ['event_date', 'appointmentable'];
 
@@ -50,10 +54,11 @@ class Appointment extends Model
         'uuid' => EfficientUuid::class,
     ];
 
-    public static $types = [
-        'cleansing' => 'Cleansing',
-        'consulting' => 'Consulting'
-    ];
+    protected $appends = ['has_passed'];
+
+    public static function types(){
+        return collect([['id' => 1, 'title' => 'Cleansing'], ['id' => 2, 'title' => 'Consulting']]);
+    }
 
     public function attachments()
     {
@@ -102,9 +107,9 @@ class Appointment extends Model
         return 'uuid';
     }
 
-    public function scopeDueToday($query)
+    public function getHasPassedAttribute()
     {
-        return $query->where('event_date.date_time', '=', Carbon::today()->format('Y-m-d H:i:s'));
-    }
 
+        return $this->event_date->date_time->lessThan(Carbon::today());
+    }
 }

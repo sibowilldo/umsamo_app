@@ -6,41 +6,6 @@
             <div class="card-title">
                 <h3 class="card-label">Appointments</h3>
             </div>
-            <div class="card-toolbar">
-                <!--begin::Dropdown-->
-                <div class="dropdown dropdown-inline mr-2">
-                    <button type="button" class="btn btn-light-primary font-weight-bolder dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="svg-icon svg-icon-md">
-                    {{ Metronic::getSvg('media/svg/icons/Design/PenAndRuller.svg') }}
-                </span>Export</button>
-                    <!--begin::Dropdown Menu-->
-                    <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                        <!--begin::Navigation-->
-                        <ul class="navi flex-column navi-hover py-2">
-                            <li class="navi-header font-weight-bolder text-uppercase font-size-sm text-primary pb-2">Choose an option:</li>
-                            <li class="navi-item">
-                                <a href="#" class="navi-link">
-                                <span class="navi-icon">
-                                    <i class="flaticon2-print"></i>
-                                </span>
-                                    <span class="navi-text">Print</span>
-                                </a>
-                            </li>
-                            <li class="navi-item">
-                                <a href="#" class="navi-link">
-                                <span class="navi-icon">
-                                    <i class="far fa-file-pdf"></i>
-                                </span>
-                                    <span class="navi-text">PDF</span>
-                                </a>
-                            </li>
-                        </ul>
-                        <!--end::Navigation-->
-                    </div>
-                    <!--end::Dropdown Menu-->
-                </div>
-                <!--end::Dropdown-->
-            </div>
         </div>
         <div class="card-body">
             <!--begin::Search Form-->
@@ -73,7 +38,7 @@
                                     <select class="form-control" id="kt_datatable_search_type">
                                         <option value="">All</option>
                                         @foreach($appointment_types as $appointment_type)
-                                            <option value="{{ $appointment_type }}">{{ $appointment_type }}</option>
+                                            <option value="{{ $appointment_type['id'] }}">{{ $appointment_type['title'] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -117,7 +82,7 @@
                         </span>
                         </td>
                         <td>
-                            <span class="text-muted font-weight-bold">{{ $appointment->type }}</span>
+                            <span class="text-muted font-weight-bold">{{ $appointment_types->where('id', $appointment->type )->first()['title'] }}</span>
                         </td>
                         <td>
                             <span class="text-muted font-weight-bold">{{ $appointment->created_at->diffForHumans() }}</span>
@@ -158,7 +123,7 @@
                         </span>
                         </td>
                         <td>
-                            <span class="text-muted font-weight-bold">{{ $appointment->type }}</span>
+                            <span class="text-muted font-weight-bold">{{ $appointment_types->where('id', $appointment->type )->first()['title']}}</span>
                         </td>
                         <td>
                             <span class="text-muted font-weight-bold">{{ $appointment->created_at->diffForHumans() }}</span>
@@ -168,7 +133,7 @@
                                 <a href="{{ route('appointments.show', $appointment->uuid) }}" class="btn btn-light btn-hover-primary btn-sm" data-toggle="tooltip" title="View Details">
                                     {{ Metronic::getSVG('media/svg/icons/General/Settings-1.svg', 'svg-icon svg-icon-md svg-icon-primary') }} View
                                 </a>
-                                @if(!$appointment->status->cancelled)
+                                @if(!$appointment->status->cancelled || $appointment->has_passed)
                                     <button type="button" class="btn btn-light btn-hover-danger btn-sm cancelBtn ml-3" data-url="{{route('appointments.cancel', $appointment->uuid)}}" data-record="{{ $appointment->uuid }}" data-placement="top"  data-toggle="tooltip" data-original-title="Cancel Appointment">
                                         <span class="ml-1">{{ Metronic::getSVG('media/svg/icons/Code/Stop.svg', 'svg-icon svg-icon-md svg-icon-danger') }}Cancel</span>
                                     </button>
@@ -250,7 +215,8 @@
                 });
 
                 $('#kt_datatable_search_type').on('change', function() {
-                    datatable.search($(this).val().toLowerCase(), 'TYPE');
+                    let selected = $(this).find("option:selected").text().toLowerCase() === 'all' ? null: $(this).find("option:selected").text().toLowerCase();
+                    datatable.search(selected, 'TYPE');
                 });
 
                 $('#kt_datatable_search_status, #kt_datatable_search_type').selectpicker();

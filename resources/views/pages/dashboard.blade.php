@@ -7,7 +7,7 @@
         @include('pages.widgets.admin._make-appointment')
         <div class="row">
             <div class="col-lg-8 col-xxl-8">
-                @include('pages.widgets._upcoming-appointments', ['class' => 'card-stretch min-h-550px gutter-b'])
+                @include('pages.widgets.admin._today', ['class' => 'card-stretch min-h-550px gutter-b'])
             </div>
             <div class="col-lg-4 col-xxl-4">
                 @include('pages.widgets._recent-comments', ['class' => 'card-stretch gutter-b'])

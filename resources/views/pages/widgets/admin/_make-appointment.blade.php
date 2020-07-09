@@ -82,14 +82,13 @@
                                                 <div class="form-group">
                                                     <div class="radio-list">
                                                         <label for="appointment_type" class="font-weight-bolder">Select Appointment Type:</label>
-                                                        <label class="radio">
-                                                            <input type="radio" name="appointment_type" value="Cleansing"/>  Cleansing
-                                                            <span></span>
-                                                        </label>
-                                                        <label class="radio">
-                                                            <input type="radio" id="consultation_option" name="appointment_type" value="Consulting"/> Consultation
-                                                            <span></span>
-                                                        </label>
+                                                        @foreach($appointment_types as $type)
+                                                            <label class="radio  {{ $type['id'] == 1 ? 'radio-disabled':'' }}">
+                                                                <input type="radio" id="{{ \Str::lower($type['title']) }}_option" name="appointment_type" data-value="{{ $type['title'] }}" value="{{ $type['id'] }}" {{ $type['id'] == 1 ? 'disabled':'' }}/>
+                                                                {{ $type['title'] }} {{ $type['id'] == 1 ? '(Currently unavailable)':'' }}
+                                                                <span></span>
+                                                            </label>
+                                                        @endforeach
                                                     </div>
                                                 </div>
                                             </div>

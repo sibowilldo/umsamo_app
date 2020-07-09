@@ -29,11 +29,11 @@ class AppointmentController extends Controller
     {
         $page_title = "Appointments";
 
-        $appointment_types = Appointment::$types;
+        $appointment_types = Appointment::types();
         $user = User::with(['families', 'families.appointments'])->findOrFail(Auth::id());
 
         $appointments = AppointmentRepository::GET_APPOINTMENTS($user,
-            ['status','event_date','event_date.event','event_date.event.status'],
+            ['status','event_date','event_date.event','event_date.event.status', 'appointmentable'],
             ['uuid','reference', 'event_date_id','appointmentable_type', 'appointmentable_id', 'status_id','type', 'created_at']);
 
         $statuses = $appointments->pluck('status')->unique();
@@ -106,11 +106,11 @@ class AppointmentController extends Controller
     public function show(Appointment $appointment)
     {
         Gate::authorize('view', $appointment);
-
+        $appointment_types = Appointment::types();
         $page_title = "View Appointment";
         $comments = Comment::where('appointment_id', $appointment->id)->with(['status', 'user'])->get();
 
-        return response()->view('backend.appointment.show', compact('appointment', 'comments', 'page_title'));
+        return response()->view('backend.appointment.show', compact('appointment_types','appointment', 'comments', 'page_title'));
     }
 
     /**

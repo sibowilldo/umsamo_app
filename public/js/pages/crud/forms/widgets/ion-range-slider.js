@@ -81,20 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 755);
+/******/ 	return __webpack_require__(__webpack_require__.s = 94);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 755:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(756);
-
-
-/***/ }),
-
-/***/ 756:
+/***/ "6wY2":
 /***/ (function(module, exports) {
 
 // Class definition
@@ -171,6 +163,14 @@ var KTIONRangeSlider = function () {
 jQuery(document).ready(function () {
   KTIONRangeSlider.init();
 });
+
+/***/ }),
+
+/***/ 94:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("6wY2");
+
 
 /***/ })
 

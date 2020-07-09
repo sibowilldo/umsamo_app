@@ -3,8 +3,10 @@
 namespace App\Observers;
 
 use App\Appointment;
+use App\Notifications\AppointmentCreated;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\EventDateRepository;
+use Illuminate\Support\Facades\Auth;
 
 class AppointmentObserver
 {
@@ -17,6 +19,11 @@ class AppointmentObserver
     public function created(Appointment $appointment)
     {
         EventDateRepository::UPDATE_LIMIT($appointment->event_date, $appointment);
+        if($appointment->appointmentable_type == 'App\User'){
+            $appointment->appointmentable->notify(new AppointmentCreated($appointment));
+        }else{
+
+        }
     }
 
     /**

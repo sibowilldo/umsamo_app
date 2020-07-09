@@ -31,8 +31,8 @@ class WelcomeNewUserMail extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        ;
-        return $this->markdown('emails.users.welcome')
+        return $this->markdown('mail.users.welcome')
+                    ->subject('Welcome to ' .  config('app.name'))
                     ->with(['url' => route('password.reset', $this->getToken()),
                             'user' => $this->user]);
     }

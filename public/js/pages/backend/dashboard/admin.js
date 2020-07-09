@@ -81,20 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 171);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 171:
+/***/ 6:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(172);
+module.exports = __webpack_require__("CPRG");
 
 
 /***/ }),
 
-/***/ 172:
+/***/ "CPRG":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -246,7 +246,9 @@ var DashboardAdmin = function () {
             for (_iterator.s(); !(_step = _iterator.n()).done;) {
               var pair = _step.value;
 
-              if (pair[1] !== "") {
+              if (pair[0] === "appointment_type") {
+                output += "<tr><th scope=\"row\">".concat(pair[0].toUpperCase().replace(/_/g, ' '), "</th><td>").concat($('input[name=appointment_type]:checked').data('value'), "</td></tr>");
+              } else if (pair[1] !== "") {
                 output += "<tr><th scope=\"row\">".concat(pair[0].toUpperCase().replace(/_/g, ' '), "</th><td>").concat(pair[1], "</td></tr>");
               }
             }

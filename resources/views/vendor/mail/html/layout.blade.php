@@ -27,7 +27,13 @@ width: 100% !important;
 <tr>
 <td align="center">
 <table class="content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
-{{ $header ?? '' }}
+    <tr>
+        <td align="center" style="width: 570px">
+            <table width="570px" cellpadding="0" cellspacing="0">
+                {{ $header ?? '' }}
+            </table>
+        </td>
+    </tr>
 
 <!-- Email Body -->
 <tr>

@@ -188,6 +188,7 @@ return [
          * Package Service Providers...
          */
         App\Providers\MetronicServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
         Dyrynda\Database\LaravelEfficientUuidServiceProvider::class,
         /*
          * Application Service Providers...
@@ -236,6 +237,7 @@ return [
         'Mail' => Illuminate\Support\Facades\Mail::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
         'Password' => Illuminate\Support\Facades\Password::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
         'Queue' => Illuminate\Support\Facades\Queue::class,
         'Redirect' => Illuminate\Support\Facades\Redirect::class,
         'Redis' => Illuminate\Support\Facades\Redis::class,

@@ -53,7 +53,7 @@ class AppointmentReminder extends Notification implements ShouldQueue
 
         return (new MailMessage)
             ->subject('Appointment Reminder')
-            ->markdown('mail.appointment.reminder', ['url'=>$url, 'fullname' => $notifiable->profile->fullname]);
+            ->markdown('mail.appointment.reminder', ['url'=>$url, 'full_name' => $notifiable->profile->fullname]);
     }
 
     /**

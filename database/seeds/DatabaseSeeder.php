@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
         factory(App\Status::class, 31)->create();
 
         //Profile & User
-        factory(App\Profile::class, 15)->create();
+//        factory(App\Profile::class, 15)->create();
 
         //Items
         factory(App\Item::class, 5)->create();
@@ -35,9 +35,9 @@ class DatabaseSeeder extends Seeder
         });
 
         //Assign users to roles
-        $users = \App\User::all()->each(function ($user){
-            $user->assignRole('client');
-        });
+//        $users = \App\User::all()->each(function ($user){
+//            $user->assignRole('client');
+//        });
 
         $faker = Faker\Factory::create();
 
@@ -97,26 +97,26 @@ class DatabaseSeeder extends Seeder
          * Create 100 Appointments and attach a random number of Attachments between 0-3, then assignment those
          * Appointments to a variable for later use.
          */
-        $users->each(function ($user){
-                $user->appointments()->save(factory(App\Appointment::class)->make());
-            });
+//        $users->each(function ($user){
+//                $user->appointments()->save(factory(App\Appointment::class)->make());
+//            });
 
         /**
          * Create 100 Appointments and attach a random number of Attachments between 0-3, then assignment those
          * Appointments to a variable for later use.
          */
-        Appointment::all()->each(function ($appointment){
-                $appointment->attachments()->saveMany(factory(Attachment::class,rand(0,3) )->make());
-            });
+//        Appointment::all()->each(function ($appointment){
+//                $appointment->attachments()->saveMany(factory(Attachment::class,rand(0,3) )->make());
+//            });
 
 
         //Attachments Meta
-        Attachment::all()->each(function ($attachment){
-                $attachment->attachment_meta()->save(factory(App\AttachmentMeta::class)->make());
-        });
+//        Attachment::all()->each(function ($attachment){
+//                $attachment->attachment_meta()->save(factory(App\AttachmentMeta::class)->make());
+//        });
 
         //Comments
-        factory(App\Comment::class, 500)->create();
+//        factory(App\Comment::class, 500)->create();
 
     }
 }

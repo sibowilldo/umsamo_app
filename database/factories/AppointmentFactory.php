@@ -17,7 +17,7 @@ $factory->define(Appointment::class, function (Faker $faker) {
         'reference' => Str::upper($faker->randomElement(['FAM-', 'SLF-']) . sprintf('%03d', rand(000, 999)) . '-'. Str::random(4)),
         'event_date_id' => $faker->randomElement($event_dates),
         'status_id' => $faker->randomElement($statuses),
-        'type' => $faker->randomElement(['Consulting', 'Cleansing']),
+        'type' => $faker->randomElement([1,2]),
         'with_family' => $faker->boolean(0),
         'region_id' => $faker->randomElement($regions),
     ];

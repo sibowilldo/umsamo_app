@@ -40,8 +40,6 @@ class AppointmentRepository
      */
     public static function NEW_APPOINTMENT($appointmentable, EventDate $event_date, Request $request, $reference_prepend='slf'): Appointment
     {
-
-
         return $appointmentable->appointments()->updateOrCreate(
             ['event_date_id' => $event_date->id],
             [   'reference' => self::GENERATE_REFERENCE($reference_prepend),
@@ -60,7 +58,7 @@ class AppointmentRepository
     {
         do
         {
-            $reference = Str::upper($prepend .'-'. sprintf('%03d', rand(000, 999)) . '-'. Str::random(4));
+            $reference = Str::upper($prepend .'-'. sprintf('%04d', rand(0000, 9999)) . '-'. Str::random(4));
             $result = Appointment::where('reference', $reference)->first();
         }
         while($result);

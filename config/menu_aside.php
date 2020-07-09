@@ -50,12 +50,7 @@ return [
                     'page' => 'appointments.historical',
                 ],
                 [
-                    'title' => 'My Appointments',
-                    'roles' => [User::CLIENT_ROLE],
-                    'page' => 'appointments.index',
-                ],
-                [
-                    'title' => 'Family Appointments',
+                    'title' => 'All Appointments',
                     'roles' => [User::CLIENT_ROLE],
                     'page' => 'appointments.index',
                 ],

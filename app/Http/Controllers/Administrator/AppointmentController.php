@@ -10,36 +10,51 @@ use DB;
 
 class AppointmentController extends Controller
 {
-
+    public $appointment_types;
+    public function __construct()
+    {
+        $this->appointment_types = Appointment::types();
+    }
 
     public function today()
     {
-        $page_title = "Today's Appointments";
-        $page_description = "Showing only Today's Appointments " . Carbon::today()->format('M d, Y');
-         $appointments = Appointment::with(['status:id,title,color', 'familyAppointments', 'familyAppointments.user', 'familyAppointments.status:id,title,color'])->get()->where('event_date.date_time', '=', Carbon::today()->format('Y-m-d H:i:s'));
-//         return response()->json($appointments);
+        $appointment_types = $this->appointment_types;
+         $page_title = "Today's Appointments";
+         $page_description = "Showing only Today's Appointments " . Carbon::today()->format('M d, Y');
+         $appointments = Appointment::with(['status:id,title,color', 'familyAppointments', 'familyAppointments.user', 'familyAppointments.status:id,title,color'])
+                         ->get()
+                         ->where('event_date.date_time', '=', Carbon::today()->format('Y-m-d H:i:s'));
+
          $appointment_groups = $appointments->pluck('appointmentable_type')->unique();
          $statuses = $appointments->pluck('status')->unique();
-         return response()->view('backend.appointment.today', compact('appointments','statuses', 'appointment_groups', 'page_description', 'page_title'));
+         return response()->view('backend.appointment.today', compact('appointment_types','appointments','statuses', 'appointment_groups', 'page_description', 'page_title'));
     }
 
     public function upcoming()
     {
+        $appointment_types = $this->appointment_types;
         $page_title = "Upcoming Appointments";
         $page_description = "Showing only upcoming Appointments";
-         $appointments = Appointment::with(['status:id,title,color', 'familyAppointments', 'familyAppointments.user', 'familyAppointments.status:id,title,color'])->get()->where('event_date.date_time', '>', Carbon::today()->format('Y-m-d H:i:s'));
-//         return response()->json($appointments);
-         $appointment_groups = $appointments->pluck('appointmentable_type')->unique();
-         $statuses = $appointments->pluck('status')->unique();
-         return response()->view('backend.appointment.today', compact('appointments','statuses', 'appointment_groups'));
+        $appointments = Appointment::with(['status:id,title,color', 'familyAppointments', 'familyAppointments.user', 'familyAppointments.status:id,title,color'])
+            ->get()
+            ->where('event_date.date_time', '>', Carbon::today()->format('Y-m-d H:i:s'));
+
+        $appointment_groups = $appointments->pluck('appointmentable_type')->unique();
+        $statuses = $appointments->pluck('status')->unique();
+        return response()->view('backend.appointment.upcoming', compact('appointment_types','appointments','statuses', 'appointment_groups', 'page_description', 'page_title'));
     }
 
     public function historical()
     {
-         $appointments = Appointment::with(['status:id,title,color', 'familyAppointments', 'familyAppointments.user', 'familyAppointments.status:id,title,color'])->get()->where('event_date.date_time', '<', Carbon::today()->format('Y-m-d H:i:s'));
-         return response()->json($appointments);
-         $appointment_groups = $appointments->pluck('appointmentable_type')->unique();
-         $statuses = $appointments->pluck('status')->unique();
-         return response()->view('backend.appointment.today', compact('appointments','statuses', 'appointment_groups'));
+        $appointment_types = $this->appointment_types;
+        $page_title = "Historical Appointments";
+        $page_description = "Showing only past Appointments";
+        $appointments = Appointment::with(['status:id,title,color', 'familyAppointments', 'familyAppointments.user', 'familyAppointments.status:id,title,color'])
+            ->get()
+            ->where('event_date.date_time', '<', Carbon::today()->format('Y-m-d H:i:s'));
+
+        $appointment_groups = $appointments->pluck('appointmentable_type')->unique();
+        $statuses = $appointments->pluck('status')->unique();
+        return response()->view('backend.appointment.historical', compact('appointment_types','appointments','statuses', 'appointment_groups', 'page_description', 'page_title'));
     }
 }

@@ -1,8 +1,6 @@
 <?php
 
 use App\Notifications\AppointmentReminder;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes(['verify' => true]);
 //, 'verified'
-Route::middleware(['auth', 'firewall.all'])->group(function(){
+Route::middleware(['auth', 'verified',  'firewall.all'])->group(function(){
     Route::get('/', 'PagesController@index')->name('dashboard');
     Route::patch('appointments/{appointment}/cancel', 'AppointmentController@cancel')->name('appointments.cancel');
     Route::resource('appointments', 'AppointmentController');
@@ -47,25 +45,24 @@ Route::middleware(['auth', 'firewall.all'])->group(function(){
         Route::get('families/{family}/members', 'FamilyController@members')->name('families.members');
     });
 
+    Route::get('/print/appointments/today', 'PrintController@appointmentsTodayPdf')->name('print.appointments.today');
+
+    Route::prefix('cronos')->group(function(){
+        Route::get('public-holidays', 'CronController@getPublicHolidays');
+    });
+
+
+    Route::get('getToken', function () {
+
+        $user =  \App\User::findOrFail(20);
+        $user->notify(new AppointmentReminder());
+
+        return response()->json($user, 200);
+    });
+
+    Route::get('viewmail', function () {
+        $appointment = \App\Appointment::first();
+        $user = \App\User::findOrFail(1);
+        return $user->notify(new \App\Notifications\AppointmentCreated($appointment));
+    });
 });
-
-Route::prefix('cronos')->group(function(){
-    Route::get('public-holidays', 'CronController@getPublicHolidays');
-});
-
-
-Route::get('getToken', function () {
-
-    $user =  \App\User::findOrFail(20);
-    $user->notify(new AppointmentReminder());
-
-    return response()->json($user, 200);
-});
-
-
-// Demo routes
-Route::get('/datatables', 'PagesController@datatables');
-Route::get('/ktdatatables', 'PagesController@ktDatatables');
-Route::get('/select2', 'PagesController@select2');
-// Quick search dummy route to display html elements in search dropdown (header search)
-Route::get('/quick-search', 'PagesController@quickSearch')->name('quick-search');

@@ -10,11 +10,7 @@ use App\Status;
 
 class EventDateRepository
 {
-    const APPOINTMENT_STATUS_CANCELLED = 12;
-    const APPOINTMENT_STATUS_DELETED = 14;
-    const APPOINTMENT_STATUS_ACTIVE = 11;
-    const EVENT_DATE_STATUS_ACTIVE = 8;
-    const EVENT_DATE_STATUS_FULL = 9;
+
 
     /**
      * Decrease Event Date limit by 1 if Appointment Type is Consulting"
@@ -26,22 +22,22 @@ class EventDateRepository
      */
     public static function UPDATE_LIMIT(EventDate $event_date, Appointment $appointment) : EventDate
     {
-
-        if(strcasecmp($appointment->type, 'Consulting') == 0){
+        if($appointment->type == Appointment::TYPE_CONSULTING){
 
             switch ($appointment->status_id){
-                case self::APPOINTMENT_STATUS_DELETED:
-                case self::APPOINTMENT_STATUS_CANCELLED:
+                case Appointment::STATUS_DELETED:
+                case Appointment::STATUS_CANCELLED:
                     $event_date->increment('limit');
                     break;
-                case self::APPOINTMENT_STATUS_ACTIVE:
+                case Appointment::STATUS_ACTIVE:
+                case Appointment::STATUS_CONFIRMED:
                     $event_date->decrement('limit');
                     break;
             }
         }
 
 
-       $event_date->limit > 1 ?: $event_date->update(['status_id' => self::EVENT_DATE_STATUS_FULL]);
+       $event_date->limit > 1 ?: $event_date->update(['status_id' => EventDate::STATUS_FULL]);
 
         return $event_date;
     }

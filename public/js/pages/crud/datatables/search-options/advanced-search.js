@@ -81,20 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 695);
+/******/ 	return __webpack_require__(__webpack_require__.s = 64);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 695:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(696);
-
-
-/***/ }),
-
-/***/ 696:
+/***/ "0Tzo":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -366,6 +358,14 @@ var KTDatatablesSearchOptionsAdvancedSearch = function () {
 jQuery(document).ready(function () {
   KTDatatablesSearchOptionsAdvancedSearch.init();
 });
+
+/***/ }),
+
+/***/ 64:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("0Tzo");
+
 
 /***/ })
 

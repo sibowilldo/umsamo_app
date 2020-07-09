@@ -81,20 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 173);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 173:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(174);
-
-
-/***/ }),
-
-/***/ 174:
+/***/ "2qjB":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -135,7 +127,6 @@ var DashboardClient = function () {
     format: 'YYYY-MM-DD',
     inline: true,
     defaultDate: false,
-    daysOfWeekDisabled: [0, 6],
     minDate: moment(),
     sideBySide: true,
     enabledDates: [],
@@ -257,6 +248,8 @@ var DashboardClient = function () {
                 });
               } else if (pair[0] === "family") {
                 output += "<tr><th scope=\"row\">".concat(pair[0].toUpperCase().replace(/_/g, ' '), "</th><td>").concat($('input[name=family]:checked').data('family-name'), "</td></tr>");
+              } else if (pair[0] === "appointment_type") {
+                output += "<tr><th scope=\"row\">".concat(pair[0].toUpperCase().replace(/_/g, ' '), "</th><td>").concat($('input[name=appointment_type]:checked').data('value'), "</td></tr>");
               } else if (pair[1] !== "") {
                 output += "<tr><th scope=\"row\">".concat(pair[0].toUpperCase().replace(/_/g, ' '), "</th><td>").concat(pair[1], "</td></tr>");
               }
@@ -380,28 +373,13 @@ var DashboardClient = function () {
 
         _event_dates.some(function (item) {
           var selected_date = moment(item.date_time);
-          var is_weekend = false;
+          $('input[name=event_date]').attr('data-id', item.id);
+          limit_label.html("<strong>".concat(selected_date.format('MMM DD, YYYY'), "</strong> has\n                                        <strong>").concat(item.limit, "</strong> ").concat(item.limit === 1 ? 'spot' : 'spots', "\n                                        available for consultation."));
 
-          switch (selected_date.weekday()) {
-            case 0:
-            case 6:
-              is_weekend = true;
-              break;
-          }
+          _event_date.val(selected_date.format('YYYY-MM-DD'));
 
-          if (is_weekend) {
-            return false;
-          } else {
-            $('input[name=event_date]').attr('data-id', item.id);
-            limit_label.html("<strong>".concat(selected_date.format('MMM DD, YYYY'), "</strong> has\n                                            <strong>").concat(item.limit, "</strong> ").concat(item.limit === 1 ? 'spot' : 'spots', "\n                                            available for consultation."));
-
-            _event_date.val(selected_date.format('YYYY-MM-DD'));
-
-            if (item.limit < 1) {
-              consultation_option.attr('disabled', 'disabled').parent().addClass('radio-disabled');
-              return true;
-            }
-
+          if (item.limit < 1) {
+            consultation_option.attr('disabled', 'disabled').parent().addClass('radio-disabled');
             return true;
           }
         });
@@ -592,6 +570,14 @@ jQuery(document).ready(function () {
   DashboardClient.init();
   $('input[name=cell_number]').inputmask('(999) 999-9999');
 });
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("2qjB");
+
 
 /***/ })
 
