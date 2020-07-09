@@ -126,9 +126,9 @@ return [
     |
     */
 
-    'smsportal_client_id' => env('SMSPORTAL_CLIENT_ID', ''),
-    'smsportal_api_secret' => env('SMSPORTAL_API_SECRET', ''),
-    'smsportal_test_mode' => env('SMSPORTAL_TEST_MODE', 1),
+    'smsportal_client_id' => env('SMSPORTAL_CLIENT_ID'),
+    'smsportal_api_secret' => env('SMSPORTAL_API_SECRET'),
+    'smsportal_test_mode' => env('SMSPORTAL_TEST_MODE'),
 
     /*
     |--------------------------------------------------------------------------
