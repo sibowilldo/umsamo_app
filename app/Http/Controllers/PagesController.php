@@ -53,7 +53,7 @@ class PagesController extends Controller
 
         return response()->view('pages.dashboard', compact('user', 'members', 'family_appointments','appointment_types', 'appointments', 'comments', 'page_title', 'page_description', 'provinces'));
     }
-    
+
     // Quicksearch Result
     public function quickSearch()
     {
