@@ -39,7 +39,7 @@ class AppointmentCreated extends Notification implements ShouldQueue
     public function toSmsPortal($notifiable): SmsMessage
     {
         return (new SmsMessage())
-            ->setContent('REF: '. $this->appointment->reference .'. Your appointment for '. $this->appointment->event_date->date_time->format('D, d M Y') . ' was confirmed succefully! uMsamo Institute')
+            ->setContent('REF: '. $this->appointment->reference .'. Your appointment for '. $this->appointment->event_date->date_time->format('D, d M Y') . ' was confirmed successfully! uMsamo Institute')
             ->setRecipient($notifiable->profile->cell_number);
     }
 
