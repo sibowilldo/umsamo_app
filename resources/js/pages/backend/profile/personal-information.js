@@ -62,6 +62,7 @@ var initPersonalInformation = function () {
                 }
             }
         );
+
         $('#submitButton').on('click', function(e) {
             e.preventDefault();
             let submitButton = $(this);

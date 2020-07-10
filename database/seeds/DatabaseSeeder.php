@@ -30,9 +30,10 @@ class DatabaseSeeder extends Seeder
         factory(App\Item::class, 5)->create();
 
         //Events & Regions
-        factory(App\Region::class, 3)->create()->each(function ($region) {
-            $region->events()->attach(factory(App\Event::class, 2)->create());
-        });
+        factory(App\Region::class, 3)->create();
+//            ->each(function ($region) {
+//            $region->events()->attach(factory(App\Event::class, 2)->create());
+//        });
 
         //Assign users to roles
 //        $users = \App\User::all()->each(function ($user){
@@ -90,7 +91,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         //Event Dates
-        factory(App\EventDate::class, 15)->create();
+//        factory(App\EventDate::class, 15)->create();
 
 
         /**

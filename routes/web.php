@@ -1,8 +1,5 @@
 <?php
 
-use App\Notifications\AppointmentReminder;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,11 +21,15 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::resource('appointments', 'AppointmentController');
     Route::resource('events', 'EventController')->middleware(['role:kingpin|administrator']);
     Route::resource('event-dates', 'EventDateController')->middleware(['role:kingpin|administrator']);
+    Route::post('families/{family}/invite', 'FamilyController@invite')->name('families.invite');
+    Route::get('families/accept/{family}/{user}/{code}', 'FamilyController@accept')->name('families.accept');
     Route::resource('families', 'FamilyController');
+    Route::get('profile/manage-family/{user}', 'ProfileController@manage_family')->name('profiles.manage-family');
     Route::get('profile/overview/{user}', 'ProfileController@overview')->name('profiles.overview');
     Route::get('profile/personal-information/{user}', 'ProfileController@personal_information')->name('profiles.personal-information');
     Route::get('profile/account-information/{user}', 'ProfileController@account_information')->name('profiles.account-information');
     Route::get('profile/change-password/{user}', 'ProfileController@change_password')->name('profiles.change-password');
+    Route::get('profiles/search/{profile}', 'ProfileController@search')->name('profiles.search');
     Route::resource('profiles', 'ProfileController')->only('update', 'destroy', 'show');
     Route::resource('regions', 'RegionController')->middleware(['role:kingpin']);
     Route::resource('statuses', 'StatusController')->middleware(['role:kingpin']);
@@ -48,7 +49,6 @@ Route::middleware(['auth', 'verified'])->group(function(){
     });
 
     Route::get('/print/appointments/today', 'PrintController@appointmentsTodayPdf')->name('print.appointments.today');
-
     Route::get('send-sms','PagesController@testSMS');
 });
 

@@ -104,6 +104,17 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     }
 
     /**
+     *
+     *A user hasMany Pin Code
+     *
+     * @return HasMany
+     */
+    public function pin_codes()
+    {
+        return $this->hasMany(PinCode::class);
+    }
+
+    /**
      * A user hasOne profile
      *
      * @return HasOne

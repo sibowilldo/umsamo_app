@@ -2,23 +2,34 @@
 
 namespace App\Notifications;
 
+use App\Family;
+use App\PinCode;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
-class FamilyMemberInvite extends Notification
+class FamilyMemberInvite extends Notification implements ShouldQueue
 {
     use Queueable;
+
+    private $family;
+    private $sender;
 
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param Family $family
+     * @param User $sender
      */
-    public function __construct()
+    public function __construct(Family $family)
     {
-        //
+        $this->family = $family;
+        $this->sender = Auth::user();
     }
 
     /**
@@ -40,7 +51,17 @@ class FamilyMemberInvite extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->markdown('mail.family.invite.requested');
+        $code = $notifiable->pin_codes()->create([
+            'code' => Str::random(9),
+            'expires_at' => Carbon::now()->addDay(),
+            'is_active' =>true,
+        ]);
+        $sender = $this->sender;
+        $family = $this->family;
+        $accept_url = route('families.accept', [$family->uuid, $notifiable->uuid, $code->code] );
+
+        return (new MailMessage)->markdown('mail.family.invite.requested', compact('sender', 'family', 'accept_url'))
+                                ->subject('[uMsamo Institute] You have been invite to join a Family Group.');
     }
 
     /**

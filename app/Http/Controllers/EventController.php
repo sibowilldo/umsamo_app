@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
-use App\Http\Requests\Region;
+use App\Region;
 use App\Repositories\EventRepository;
 use App\Status;
 use Carbon\Carbon;
@@ -55,6 +55,7 @@ class EventController extends Controller
         $repo_event_dates = EventRepository::getEventDates($request['event_date'], $request->has('auto_select_dates'));
 
         $event = Event::create($request->only('title', 'description', 'item_id', 'status_id'));
+
 
         Region::first()->events()->attach($event->id);
 

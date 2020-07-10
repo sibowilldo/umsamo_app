@@ -47,7 +47,7 @@ class Status extends Model
         'App\Comment' => 'Comments',
         'App\Event' => 'Events',
         'App\EventDate' => 'Event Dates',
-        'App\FamilyAppointments' => 'Family Appointments',
+        'App\FamilyAppointment' => 'Family Appointments',
         'App\Item' => 'Items',
         'App\Invoice' => 'Invoices'
     ];

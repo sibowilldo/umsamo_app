@@ -3,7 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Family;
+use App\Notifications\FamilyMemberInvite;
+use App\Profile;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class FamilyController extends Controller
 {
@@ -31,11 +38,19 @@ class FamilyController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        DB::transaction(function () use ($request) {
+            $family = Family::create(['name' => $request->family_name]);
+            Auth::user()->families()->attach($family->id, ['is_head' => true, 'joined_at' => now()]);
+        });
+
+        return response()->json([
+                            'title' => 'Family created successfully',
+                            'message' => 'You can now invite members from the Overview screen.',
+                            'redirect_url' => route('profiles.overview', Auth::user()->uuid)], Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -47,7 +62,7 @@ class FamilyController extends Controller
     public function show(Family $family)
     {
         return \request()->wantsJson()
-            ?new Response(['data' => $family], 200):$family;
+            ?new Response(['data' => $family], Response::HTTP_ACCEPTED):$family;
     }
 
     /**
@@ -82,5 +97,46 @@ class FamilyController extends Controller
     public function destroy(Family $family)
     {
         //
+    }
+
+    /**
+     *
+     *
+     * @param \App\Family $family
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function invite($id, Request $request)
+    {
+        $family = Family::whereUuid($id)->firstOrFail();
+
+        $profile = Profile::where('id_number', $request->member)->firstOrFail();
+        $profile->user->families()->detach($family->id);
+        $profile->user->families()->attach($family->id, ['is_head' => false]);
+        $profile->user->notify(new FamilyMemberInvite($family));
+
+        return response()->json([],Response::HTTP_CREATED);
+    }
+
+    /**
+     *
+     *
+     * @param $fam
+     * @param User $user
+     * @param $code
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function accept($fam, User $user, $code)
+    {
+        Auth::id() === $user->id?:abort(403, 'This action is unauthorized');
+
+        $family = Family::whereUuid($fam)->firstOrFail();
+
+        $user->families()->updateExistingPivot($family->id, ['joined_at' => now()]);
+
+        $verify = $user->pin_codes()->where('code', $code)->firstOrFail();
+        $verify->delete();
+
+        return response()->redirectToRoute('dashboard');
     }
 }

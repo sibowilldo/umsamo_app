@@ -81,12 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 20);
+/******/ 	return __webpack_require__(__webpack_require__.s = 22);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 20:
+/***/ 22:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("uNhu");
@@ -10038,6 +10038,63 @@ if ( true && typeof module.exports !== 'undefined') {
 
 /***/ }),
 
+/***/ "mSne":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var ValidateIDNumber = function ValidateIDNumber(idNumber) {
+  var the = this;
+  var rsaID = idNumber;
+
+  var generateLuhnDigit = function generateLuhnDigit(inputString) {
+    var total = 0;
+    var count = 0;
+
+    for (var i = 0; i < inputString.length; i++) {
+      var multiple = count % 2 + 1;
+      count++;
+      var temp = multiple * +inputString[i];
+      temp = Math.floor(temp / 10) + temp % 10;
+      total += temp;
+    }
+
+    total = total * 9 % 10;
+    return total;
+  };
+
+  the.isValid = function () {
+    var number = rsaID.substring(0, rsaID.length - 1);
+    return generateLuhnDigit(number) === +rsaID[rsaID.length - 1];
+  };
+
+  the.getBirthdate = function () {
+    var year = rsaID.substring(0, 2);
+    var currentYear = new Date().getFullYear() % 100;
+    var prefix = "19";
+    if (+year < currentYear) prefix = "20";
+    var month = rsaID.substring(2, 4);
+    var day = rsaID.substring(4, 6);
+    return moment(prefix + year + "/" + month + "/" + day, "YYYY-MM-DD");
+  };
+
+  the.getGender = function () {
+    return +rsaID.substring(6, 7) < 5 ? "F" : "M";
+  };
+
+  the.getCitizenship = function () {
+    return +rsaID.substring(10, 11) === 0 ? "citizen" : "resident";
+  };
+}; // webpack support
+
+
+if ( true && typeof module.exports !== 'undefined') {
+  module.exports = ValidateIDNumber;
+}
+
+/***/ }),
+
 /***/ "pRxv":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -10515,7 +10572,10 @@ window.KTLayoutQuickUser = __webpack_require__("gJo/");
 window.KTLayoutScrolltop = __webpack_require__("KVLo");
 window.KTLayoutSearch = window.KTLayoutSearchOffcanvas = __webpack_require__("sSFn");
 
-__webpack_require__("3vuG");
+__webpack_require__("3vuG"); // Other scripts (custom)
+
+
+window.ValidateIDNumber = __webpack_require__("mSne");
 
 /***/ }),
 

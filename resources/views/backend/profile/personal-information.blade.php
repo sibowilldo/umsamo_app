@@ -162,9 +162,5 @@
 
 @section('scripts')
     <script src="{{ asset('js/pages/backend/profile/offcanvas.js') }}"></script>
-
-    <script>
-    </script>
-
     <script src="{{ asset('js/pages/backend/profile/personal-information.js') }}"></script>
 @stop

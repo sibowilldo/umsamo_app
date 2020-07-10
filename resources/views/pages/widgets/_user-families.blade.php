@@ -5,6 +5,9 @@
     <div class="card-header border-0">
         <h3 class="card-title font-weight-bolder text-dark">Family Details</h3>
         <div class="card-toolbar">
+            <button type="button" class="btn btn-light-success btn-sm font-weight-bold" data-toggle="modal" data-target="#newFamilyModal">
+                New Family
+            </button>
         </div>
     </div>
     <!--end::Header-->
@@ -54,7 +57,7 @@
                         </h4>
                         <div class="text-muted">
                             You are not part of any family.
-                            <br>You can <a href="#"class="btn btn-light-primary btn-sm font-weight-bold">create one</a> here,
+                            <br>You can create one using the button at the corner,
                             <br>and invite members of the family to join.
                         </div>
                     </div>
@@ -62,6 +65,35 @@
         @endforelse
     </div>
     <!--end: Card Body-->
+</div>
+
+<!-- Modal-->
+<div class="modal fade" id="newFamilyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create a new Family Group</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('families.store') }}" method="post" id="createFamilyForm">
+                    <div class="form-group">
+                        <label>Family Name</label>
+                        <input type="text" name="family_name" class="form-control"  placeholder="e.g oKhabazela"/>
+                        <span class="form-text text-muted">Short and Meaningful</span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="d-flex flex-fill flex-row align-items-center justify-content-between">
+                    <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Nevermind</button>
+                    <button type="button" class="btn btn-primary font-weight-bold" id="createFamilyButton">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!--end: Card-->
 <!--end: List Widget 10-->

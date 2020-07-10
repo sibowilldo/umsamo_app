@@ -8,6 +8,7 @@ use App\Repositories\ProfileRepository;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -58,6 +59,13 @@ class ProfileController extends Controller
         return response()->view('backend.profile.change-password', compact('user', 'page_title', 'page_description'));
     }
 
+    public function manage_family(User $user)
+    {
+        $page_title = "Manage Family";
+        $page_description = "";
+        return response()->view('backend.profile.add-family', compact('user', 'page_title', 'page_description'));
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -71,6 +79,21 @@ class ProfileController extends Controller
             :$profile;
     }
 
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param Profile $profile
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function search(Profile $profile)
+    {
+        if($profile->id === Auth::user()->profile->id){
+            return response()->json(['message' => 'Can\'t search yourself, in this instance.'], Response::HTTP_NOT_IMPLEMENTED);
+        }
+
+        return response()->json(['profile' => $profile, 'family'=>$profile->user->families()->get()], 200);
+    }
 
     /**
      * Update the specified resource in storage.

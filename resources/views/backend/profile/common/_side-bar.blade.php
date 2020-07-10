@@ -61,6 +61,16 @@
                     <span class="navi-text font-size-lg">Personal Information</span>
                 </a>
             </div>
+{{--            <div class="navi-item mb-2">--}}
+{{--                <a href="{{ route('profiles.manage-family', $user) }}"  class="navi-link py-4 {{ Request::routeIs('profiles.manage-family')? 'active':'' }}">--}}
+{{--                                    <span class="navi-icon mr-2">--}}
+{{--                                        <span class="svg-icon">--}}
+{{--                                            {{ Metronic::getSvg('media/svg/icons/Communication/Group.svg') }}--}}
+{{--                                        </span>--}}
+{{--                                    </span>--}}
+{{--                    <span class="navi-text font-size-lg">Manage Family</span>--}}
+{{--                </a>--}}
+{{--            </div>--}}
             <div class="navi-item mb-2">
                 <a href="{{ route('profiles.account-information', $user) }}"  class="navi-link py-4 {{ Request::routeIs('profiles.account-information')? 'active':'' }}">
                                         <span class="navi-icon mr-2">
