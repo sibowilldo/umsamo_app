@@ -126,8 +126,8 @@ return [
     |
     */
 
-    'smsportal_client_id' => '0ea4e6e0-eb79-4625-ace0-17f8d5aca57f',
-    'smsportal_api_secret' => 'T2B6+9Etsh6il3Q29vjNHa/YjfW3apP9',
+    'smsportal_client_id' => '7ffcfedf-eab5-4b9e-9857-ad0fa23d9447',
+    'smsportal_api_secret' => 'P+ZOsN0ZBYzdf/IlUZWrwNchLNJkG9Hc',
     'smsportal_test_mode' => 0,
 
     /*
