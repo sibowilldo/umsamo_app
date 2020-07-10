@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use App\Channels\SmsPortal;
 use App\Notifications\Messages\SmsMessage;
+use App\PinCode;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -41,6 +42,7 @@ class ConfirmCellNumber extends Notification implements ShouldQueue
     {
         $pin_code = $notifiable->pin_codes()->create([
             'code' => Str::upper(Str::random(5)),
+            'type' => PinCode::VERIFY_OTP_TYPE,
             'expires_at' => Carbon::now()->addHours(4),
             'is_active' => true
         ]);

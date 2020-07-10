@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class PinCode extends Model
 {
+
+    const VERIFY_OTP_TYPE = 1;
+    const FAMILY_INVITE_TYPE = 2;
+
     /**
      * The attributes that are mass assignable.
      *

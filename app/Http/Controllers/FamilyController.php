@@ -113,6 +113,7 @@ class FamilyController extends Controller
         $profile = Profile::where('id_number', $request->member)->firstOrFail();
         $profile->user->families()->detach($family->id);
         $profile->user->families()->attach($family->id, ['is_head' => false]);
+
         $profile->user->notify(new FamilyMemberInvite($family));
 
         return response()->json(['title' => 'Success', 'message' => $profile->fullname. ' was invited successfully',

@@ -52,8 +52,6 @@
             <div class="card card-custom text-center bg-light gutter-b card-stretch shadow m-5" style="background-color: rgba(255,255,255,.5) !important; backdrop-filter: blur(10px)">
                 <!--begin::Body-->
                 <div class="card-body">
-                    <form class="d-inline" method="POST" action="{{ route('auth.cell.confirm') }}">
-                        @csrf
                         <div class="p-4 flex-column ">
                             <h3 class="text-dark font-weight-bolder mb-7">{{ __('Verify Your Cell Phone Number') }}</h3>
                             @if (session('error'))
@@ -61,24 +59,34 @@
                                     {{ session('error') }}
                                 </div>
                             @endif
+                            @if (session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
                             <p class="font-size-lg mb-7">
                                 {{ __('We have sent you an SMS containing a One Time Pin, ') }}
                                 {{ __('using the cell number you provided during registration.') }}
                             </p>
-                            <div class="form-group">
-                                <label for="onetime" class="font-weight-bolder">Enter One Time Pin</label>
-                                <input type="text" class="form-control text-center" name="onetime" id="onetime" placeholder=""/>
-                            </div>
+                            <form class="d-inline" method="POST" action="{{ route('auth.cell.confirm') }}" id="verifyForm">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="onetime" class="font-weight-bolder">Enter One Time Pin</label>
+                                    <input type="text" class="form-control text-center" name="onetime" id="onetime" placeholder=""/>
+                                </div>
+                            </form>
                             <div class="d-flex justify-content-between">
-                                <button type="button" class="btn btn-light-danger px-6 py-3">
-                                    {{ __('Request Another') }}
-                                </button>
-                                <button type="submit" class="btn btn-primary font-weight-bolder px-6 py-3">
+                                <button type="button" class="btn btn-primary font-weight-bolder px-6 py-3" id="verifyButton">
                                     {{ __('Verify OTP') }}
                                 </button>
+                                <form action="{{ route('auth.cell.request', \Auth::user()->uuid) }}" method="post" id="requestAnotherForm">
+                                    @csrf
+                                    <button type="button" class="btn btn-light-danger px-6 py-3" id="requestAnotherButton">
+                                        {{ __('Request Another') }}
+                                    </button>
+                                </form>
                             </div>
                         </div>
-                    </form>
                 </div>
                 <!--end::Body-->
             </div>
@@ -96,7 +104,7 @@
     <script src="{{ asset($script) }}" type="text/javascript"></script>
 @endforeach
 
-<script src="{{ asset('js/pages/auth/verify.js') }}" type="text/javascript"></script>
+<script src="{{ asset('js/pages/auth/otp.js') }}" type="text/javascript"></script>
 <!--end:Verify-->
 </body>
 </html>

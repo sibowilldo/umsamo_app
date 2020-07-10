@@ -53,6 +53,7 @@ class FamilyMemberInvite extends Notification implements ShouldQueue
     {
         $code = $notifiable->pin_codes()->create([
             'code' => Str::random(9),
+            'type' => PinCode::FAMILY_INVITE_TYPE,
             'expires_at' => Carbon::now()->addDay(),
             'is_active' =>true,
         ]);
