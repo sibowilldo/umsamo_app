@@ -142,7 +142,7 @@
                                         </td>
 {{--                                        <td>--}}
 {{--                                            <span class="text-muted font-weight-bold">{{ $appointment_types->where('id', $appointment->type )->first()['title']}}</span></td>--}}
-{{--                                        <td>--}}
+                                        <td>
                                             <span class="text-muted font-weight-bold">{{ $appointment->created_at->diffForHumans() }}</span>
                                         </td>
                                         <td class="pr-0 text-right">
