@@ -34,8 +34,6 @@ class PagesController extends Controller
             $appointments =$user->appointments->where('event_date.date_time', '>=', Carbon::now()->format('Y-m-d'))->sortBy('event_date.date_time')->take(5);
         }
 
-//        dd($family_appointments->first());
-
         $comments = $user->comments->sort();
 
         $page_title = 'Dashboard';

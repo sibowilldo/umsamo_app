@@ -15,7 +15,7 @@ class CreateFamilyAppointmentsTable extends Migration
     {
         Schema::create('family_appointments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('family_id')->constrained();
             $table->foreignId('appointment_id')->constrained();
             $table->foreignId('status_id')->constrained();

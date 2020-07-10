@@ -23,7 +23,7 @@ class CreateFamiliesTable extends Migration
 
         Schema::create('family_user', function (Blueprint $table){
             $table->foreignId('family_id')->constrained();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->boolean('is_head')->default(false);
             $table->timestamp('joined_at')->nullable();
             $table->softDeletes();
