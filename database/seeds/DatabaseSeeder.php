@@ -44,9 +44,9 @@ class DatabaseSeeder extends Seeder
 
         $admin = \App\User::create([
             'uuid' => $faker->uuid,
-            'email' => 'msomis@gmail.co.za',
+            'email' => 'sibongiseni.msomis@gmail.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('admin123'),// '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => Hash::make('&9I2ii5A6Oo&9'),// '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ]);
 
@@ -63,14 +63,14 @@ class DatabaseSeeder extends Seeder
             'city' => 'Durban',
             'province' => 'KwaZulu-Natal',
             'postal_code' => '4001',
-            'profile_completed_at' => Carbon::now()
+            'profile_completed_at' => null
         ]);
 
         $kingpin = \App\User::create([
             'uuid' => $faker->uuid,
             'email' => 'sibongiseni.msomi@outlook.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('admin123'),// '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => Hash::make('&9I2ii5A6Oo&9'),// '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ]);
 

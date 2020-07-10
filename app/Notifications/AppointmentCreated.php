@@ -36,6 +36,7 @@ class AppointmentCreated extends Notification implements ShouldQueue
         return ['mail', SmsPortal::class];
     }
 
+
     public function toSmsPortal($notifiable): SmsMessage
     {
         return (new SmsMessage())

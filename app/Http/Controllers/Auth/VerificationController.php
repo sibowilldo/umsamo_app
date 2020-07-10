@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\User;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VerificationController extends Controller
 {
@@ -54,4 +56,41 @@ class VerificationController extends Controller
             ? redirect($this->redirectPath())
             : view('auth.verify')->with(['page_title' => 'Verify your email address']);
     }
+
+
+
+    /**
+     * Show the email verification notice.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return mixed
+     */
+    public function show_cell()
+    {
+        return response()->view('auth.cell');
+    }
+
+    /**
+     * Show the email verification notice.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return mixed
+     */
+    public function confirm_cell(Request $request)
+    {
+
+        $user = User::findOrFail(Auth::id());
+        $pin_code = $user->pin_codes()->where('code', $request->onetime)->first();
+
+        if($pin_code === null){
+            return back()->with('error',  'One Time Pin Expired!');
+        }
+
+        $user->profile->update(['cell_number_verified_at' => now()]);
+
+        $pin_code->delete();
+
+        return response()->redirectToRoute('dashboard');
+    }
+
 }
