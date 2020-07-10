@@ -34,12 +34,12 @@ class PagesController extends Controller
             $appointments =$user->appointments->where('event_date.date_time', '>=', Carbon::now()->format('Y-m-d'))->sortBy('event_date.date_time')->take(5);
         }
 
+//        dd($family_appointments->first());
 
         $comments = $user->comments->sort();
 
         $page_title = 'Dashboard';
         $page_description = "Welcome {$user->profile->fullname}";
-
 
         return response()->view('pages.dashboard', compact('user', 'members', 'family_appointments','appointment_types', 'appointments', 'comments', 'page_title', 'page_description', 'provinces'));
     }

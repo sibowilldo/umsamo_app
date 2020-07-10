@@ -169,7 +169,7 @@ var ProfileOverview = function(){
                                 member: member.id_number
                             })
                                 .then(response => {
-                                    if (response.status !== 200) {
+                                    if (response.status !== 201) {
                                         throw new Error(response.statusText)
                                     }
 

@@ -115,7 +115,8 @@ class FamilyController extends Controller
         $profile->user->families()->attach($family->id, ['is_head' => false]);
         $profile->user->notify(new FamilyMemberInvite($family));
 
-        return response()->json([],Response::HTTP_CREATED);
+        return response()->json(['title' => 'Success', 'message' => $profile->fullname. ' was invited successfully',
+            'redirect_url' => route('profiles.overview', Auth::user()->uuid)],Response::HTTP_CREATED);
     }
 
     /**

@@ -27,6 +27,7 @@ class AppointmentController extends Controller
      */
     public function index()
     {
+
         $page_title = "Appointments";
 
         $appointment_types = Appointment::types();

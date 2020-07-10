@@ -276,7 +276,7 @@ var ProfileOverview = function () {
               axios.post("/families/".concat(selected_family.data('family-id'), "/invite"), {
                 member: member.id_number
               }).then(function (response) {
-                if (response.status !== 200) {
+                if (response.status !== 201) {
                   throw new Error(response.statusText);
                 }
 

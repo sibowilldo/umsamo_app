@@ -8,6 +8,7 @@ use App\Appointment;
 use App\EventDate;
 use App\Family;
 use App\FamilyAppointment;
+use App\Notifications\AppointmentCreated;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -33,6 +34,9 @@ class FamilyAppointmentRepository
                 ['user_id'=> $family_member->id, 'appointment_id' => $appointment->id,],
                 ['family_id' => $family->id,'status_id' => FamilyAppointment::STATUS_CONFIRMED]);
             array_push($familyAppointments, $familyAppointment);
+
+            //notify each
+            $family_member->notify(new AppointmentCreated($appointment));
         }
         return $familyAppointments;
     }

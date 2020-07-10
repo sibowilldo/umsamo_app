@@ -21,8 +21,6 @@ class AppointmentObserver
         EventDateRepository::UPDATE_LIMIT($appointment->event_date, $appointment);
         if($appointment->appointmentable_type == 'App\User'){
             $appointment->appointmentable->notify(new AppointmentCreated($appointment));
-        }else{
-
         }
     }
 

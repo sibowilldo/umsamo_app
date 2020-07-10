@@ -43,7 +43,7 @@
                                     <span class="text-dark-75">Scheduled For</span>
                                 </th>
                                 <th>Status</th>
-{{--                                <th class="w-150px">Appointment Type</th>--}}
+                                <th class="w-150px">Appointment Type</th>
                                 <th>Scheduled</th>
                                 <th style="min-width: 80px"></th>
                             </tr>
@@ -66,9 +66,9 @@
                                     {{ $appointment->status->title }}</span>
                                     </span>
                                     </td>
-{{--                                    <td>--}}
-{{--                                        <span class="text-muted font-weight-bold">{{ $appointment_types->where('id', $appointment->type )->first()['title']}}</span></td>--}}
-{{--                                    <td>--}}
+                                    <td>
+                                        <span class="text-muted font-weight-bold">{{ $appointment_types->where('id', $appointment->type )->first()['title']}}</span></td>
+                                    <td>
                                         <span class="text-muted font-weight-bold">{{ $appointment->created_at->diffForHumans() }}</span>
                                     </td>
                                     <td class="pr-0 text-right">
@@ -117,7 +117,7 @@
                                     <span class="text-dark-75">Scheduled For</span>
                                 </th>
                                 <th>Status</th>
-{{--                                <th>Appointment Type</th>--}}
+                                <th>Appointment Type</th>
                                 <th>Reserved</th>
                                 <th style="min-width: 80px"></th>
                             </tr>
@@ -140,8 +140,8 @@
                                         {{ $appointment->status->title }}</span>
                                         </span>
                                         </td>
-{{--                                        <td>--}}
-{{--                                            <span class="text-muted font-weight-bold">{{ $appointment_types->where('id', $appointment->type )->first()['title']}}</span></td>--}}
+                                        <td>
+                                            <span class="text-muted font-weight-bold">{{ $appointment_types->where('id', $appointment->appointment->type )->first()['title']}}</span></td>
                                         <td>
                                             <span class="text-muted font-weight-bold">{{ $appointment->created_at->diffForHumans() }}</span>
                                         </td>
