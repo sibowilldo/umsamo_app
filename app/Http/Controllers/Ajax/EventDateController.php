@@ -16,7 +16,7 @@ class EventDateController extends Controller
         $user = Auth::user();
 
         if($user->hasAnyRole([User::SUPER_ADMIN_ROLE, User::ADMIN_ROLE])){
-            $event_dates = EventDate::whereDate('date_time', '>=', Carbon::now())->orderBy('date_time')->get();
+            $event_dates = EventDate::whereDate('date_time', '>=', Carbon::now())->where(['status_id', EventDate::STATUS_ACTIVE])->orderBy('date_time')->get();
         }elseif($user->hasRole(USER::CLIENT_ROLE)){
             $appointments = [];
 
