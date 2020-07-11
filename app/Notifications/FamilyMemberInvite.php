@@ -62,7 +62,7 @@ class FamilyMemberInvite extends Notification implements ShouldQueue
         $accept_url = route('families.accept', [$family->uuid, $notifiable->uuid, $code->code] );
 
         return (new MailMessage)->markdown('mail.family.invite.requested', compact('sender', 'family', 'accept_url'))
-                                ->subject('[uMsamo Institute] You have been invite to join a Family Group.');
+                                ->subject('uMsamo Institute - You have been invited to join a Family Group.');
     }
 
     /**

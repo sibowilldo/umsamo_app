@@ -13,6 +13,7 @@ class AppointmentController extends Controller
     public $appointment_types;
     public function __construct()
     {
+        $this->middleware(['role:kingpin|administrator']);
         $this->appointment_types = Appointment::types();
     }
 

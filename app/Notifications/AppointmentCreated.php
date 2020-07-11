@@ -56,7 +56,7 @@ class AppointmentCreated extends Notification implements ShouldQueue
         $appointment_reference = $this->appointment->reference;
 
         return (new MailMessage)->markdown('mail.appointment.created', compact('appointment_reference', 'appointment_date'))
-                                ->subject('[Umsamo Institute] Appointment Confirmation');
+                                ->subject('Umsamo Institute - Appointment Confirmation');
     }
 
     /**

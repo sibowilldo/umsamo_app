@@ -56,7 +56,7 @@ class ResetPassword extends ResetPasswordNotification implements ShouldQueue
         ], false));
 
         return (new MailMessage)
-            ->subject("[$app_name] Reset Password Notification")
+            ->subject("$app_name - Reset Password Notification")
             ->markdown('mail.users.resetPasswordNotifications', ['url'=> $url, 'full_name' => $notifiable->profile->fullname, 'expire' => $expire['count']]);
 
     }

@@ -61,6 +61,8 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
+        $user->updated_at = now();
+        $user->save();
         return response()->json(['url' =>$this->redirectTo], HTTPResponse::HTTP_ACCEPTED);
     }
 

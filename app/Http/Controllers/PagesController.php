@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Appointment;
+use App\Notifications\AppointmentCreated;
 use App\Notifications\AppointmentReminder;
 use App\Region;
 use App\User;
@@ -54,5 +55,14 @@ class PagesController extends Controller
         $user->notify(new AppointmentReminder());
 
         return response()->json($user, 200);
+    }
+
+
+    public function testNotifications()
+    {
+        $appointment = Appointment::first();
+        $user = User::where('email', 'sibongiseni.msomi@outlook.com')->firstOrFail();
+        $user->notify(new AppointmentCreated($appointment));
+        return response()->json('OK!', 200);
     }
 }
