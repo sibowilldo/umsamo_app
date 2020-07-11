@@ -33,7 +33,7 @@ class EventDateController extends Controller
 
             $event_dates = EventDate::whereDate('date_time', '>=', Carbon::now())
                                     ->whereNotIn('id', $appointments??[])
-                                    ->where(['status_id', EventDate::STATUS_ACTIVE])
+//                                    ->where(['status_id', EventDate::STATUS_ACTIVE])
                                     ->orderBy('date_time')
                                     ->get();
         }
