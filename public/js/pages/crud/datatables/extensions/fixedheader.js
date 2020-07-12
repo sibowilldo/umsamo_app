@@ -81,12 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 60);
+/******/ 	return __webpack_require__(__webpack_require__.s = 691);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "59C5":
+/***/ 691:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(692);
+
+
+/***/ }),
+
+/***/ 692:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -191,14 +199,6 @@ var KTDatatablesExtensionsFixedheader = function () {
 jQuery(document).ready(function () {
   KTDatatablesExtensionsFixedheader.init();
 });
-
-/***/ }),
-
-/***/ 60:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("59C5");
-
 
 /***/ })
 

@@ -1,6 +1,6 @@
 <!--begin::Form group-->
 <div class="form-group text-left">
-    <input class="form-control form-control-solid form-control-lg" type="email" placeholder="Email" name="email" autocomplete="off" />
+    <input class="form-control form-control-solid form-control-lg" type="email" placeholder="Email" name="email" autocomplete="off" value="{{ $email ?? old('email') }}"/>
     <span class="form-text text-muted">We'll never share your email with anyone else.</span>
 </div>
 <!--end::Form group-->

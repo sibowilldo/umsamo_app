@@ -55,14 +55,6 @@ class UserController extends Controller
         return response()->view('backend.profile.account-information', compact('user', 'page_title', 'page_description'));
     }
 
-    public function change_password(User $user)
-    {
-        Gate::authorize('view', $user);
-        $page_title = "Profile";
-        $page_description = "Update your password";
-        return response()->view('backend.profile.change-password', compact('user', 'page_title', 'page_description'));
-    }
-
     public function manage_family(User $user)
     {
         Gate::authorize('view', $user);

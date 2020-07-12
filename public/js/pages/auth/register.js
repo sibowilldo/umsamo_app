@@ -81,20 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 169);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 4:
+/***/ 169:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__("R/f6");
+module.exports = __webpack_require__(170);
 
 
 /***/ }),
 
-/***/ "R/f6":
+/***/ 170:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -445,17 +445,24 @@ var KTWizard2 = function () {
           window.location.replace(destination);
         });
       })["catch"](function (error) {
-        submitButton.removeClass('spinner-white spinner spinner-left').addClass('px-9').removeAttr('disabled').text('Submit');
-        var errorBag = error.response.data.errors;
-        var error_messages = '';
-        Object.entries(errorBag).forEach(function (item, index) {
-          error_messages += "<div>".concat(item[1][0], "</div>");
-        });
-        swal.fire({
-          icon: 'error',
-          title: error.response.data.message,
-          html: error_messages
-        });
+        if (error.response.status === 422) {
+          var errorBag = error.response.data.errors;
+          var error_messages = '';
+          Object.entries(errorBag).forEach(function (item, index) {
+            error_messages += "<div>".concat(item[1][0], "</div>");
+          });
+          window.swal.fire({
+            icon: 'error',
+            title: error.response.data.message,
+            html: error_messages
+          });
+        } else {
+          window.swal.fire({
+            icon: 'error',
+            title: error.response.statusText,
+            text: "Please try again!"
+          });
+        }
       });
     });
   };

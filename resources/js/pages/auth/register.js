@@ -347,18 +347,20 @@ var KTWizard2 = function () {
                         });
                 })
                 .catch(function (error) {
-                    submitButton.removeClass('spinner-white spinner spinner-left').addClass('px-9').removeAttr('disabled').text('Submit');
-                    let errorBag = error.response.data.errors
-                    let error_messages='';
-                    Object.entries(errorBag).forEach(function(item, index){
-                        error_messages += `<div>${item[1][0]}</div>`;
-                    });
-
-                    swal.fire({
-                        icon: 'error',
-                        title: error.response.data.message,
-                        html: error_messages,
-                    });
+                    if(error.response.status === 422) {
+                        let errorBag = error.response.data.errors
+                        let error_messages='';
+                        Object.entries(errorBag).forEach(function(item, index){
+                            error_messages += `<div>${item[1][0]}</div>`;
+                        });
+                        window.swal.fire({
+                            icon: 'error',
+                            title: error.response.data.message,
+                            html: error_messages,
+                        });
+                    }else {
+                        window.swal.fire({icon: 'error', title: error.response.statusText,text: "Please try again!"})
+                    }
                 })
         });
     };

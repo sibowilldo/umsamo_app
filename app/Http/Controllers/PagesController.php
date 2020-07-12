@@ -9,6 +9,8 @@ use App\Region;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class PagesController extends Controller
 {

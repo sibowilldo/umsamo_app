@@ -81,16 +81,16 @@
 {{--                    <span class="navi-text font-size-lg">Account Information</span>--}}
 {{--                </a>--}}
 {{--            </div>--}}
-{{--            <div class="navi-item mb-2">--}}
-{{--                <a href="{{ route('profiles.change-password', $user) }}"  class="navi-link py-4 {{ Request::routeIs('profiles.change-password')? 'active':'' }}">--}}
-{{--                                        <span class="navi-icon mr-2">--}}
-{{--                                            <span class="svg-icon">--}}
-{{--                                                {{ Metronic::getSvg('media/svg/icons/Communication/Shield-user.svg') }}--}}
-{{--                                            </span>--}}
-{{--                                        </span>--}}
-{{--                    <span class="navi-text font-size-lg">Change Password</span>--}}
-{{--                </a>--}}
-{{--            </div>--}}
+            <div class="navi-item mb-2">
+                <a href="{{ route('profiles.change-password', $user) }}"  class="navi-link py-4 {{ Request::routeIs('profiles.change-password')? 'active':'' }}">
+                                        <span class="navi-icon mr-2">
+                                            <span class="svg-icon">
+                                                {{ Metronic::getSvg('media/svg/icons/Communication/Shield-user.svg') }}
+                                            </span>
+                                        </span>
+                    <span class="navi-text font-size-lg">Change Password</span>
+                </a>
+            </div>
         </div>
         <!--end::Nav-->
     </div>

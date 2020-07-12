@@ -163,8 +163,6 @@
 @section('styles')
     <style>
         @import '{{ asset('css/pages/wizard/wizard-2.css') }}';
-
-
     </style>
 @endsection
 

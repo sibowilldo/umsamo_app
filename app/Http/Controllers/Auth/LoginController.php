@@ -61,8 +61,11 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        $user->updated_at = now();
+        Cache::put("user.{$user->id}.last_online", $user->online_at??now());
+
+        $user->online_at = now();
         $user->save();
+
         return response()->json(['url' =>$this->redirectTo], HTTPResponse::HTTP_ACCEPTED);
     }
 
@@ -88,7 +91,6 @@ class LoginController extends Controller
      */
     protected function loggedOut(Request $request)
     {
-        Cache::forget('logged_in_user');
-        Cache::forget('logged_in_user_profile');
+
     }
 }

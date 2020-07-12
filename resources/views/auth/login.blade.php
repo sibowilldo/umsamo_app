@@ -1,7 +1,11 @@
 @extends('layout.auth.auth-classic-2')
 
 @section('content')
-
+    @if (session('unlocked'))
+        <div class="alert alert-success">
+            {{ session('unlocked') }}
+        </div>
+    @endif
     <!--begin::Form-->
     <form class="form" novalidate="novalidate" id="loginForm" method="POST" data-action="{{ route('login') }}">
         <!--begin::Title-->
