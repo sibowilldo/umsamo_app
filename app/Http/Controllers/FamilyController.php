@@ -133,11 +133,13 @@ class FamilyController extends Controller
     {
         Auth::id() === $user->id?:abort(403, 'This action is unauthorized. Please use an account that received this invitation.');
         $family = Family::whereUuid($fam)->firstOrFail();
+
         DB::transaction(function () use(&$family, &$user, $code){
             $user->families()->updateExistingPivot($family->id, ['joined_at' => now(), 'is_head' => false]);
             $verify = $user->pin_codes()->where('code', $code)->firstOrFail();
             $verify->delete();
         });
+
         return response()->redirectToRoute('dashboard');
     }
 }
