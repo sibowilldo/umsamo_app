@@ -41,7 +41,7 @@ Route::middleware(['auth', 'verified', 'cell_number_verified', 'is_locked'])->gr
     Route::get('users/profile/overview/{user}', 'UserController@overview')->name('profiles.overview');
     Route::get('users/profile/personal-information/{user}', 'UserController@personal_information')->name('profiles.personal-information');
     Route::get('users/profile/account-information/{user}', 'UserController@account_information')->name('profiles.account-information');
-    Route::get('profiles/search/{profile}', 'ProfileController@search')->name('profiles.search');
+    Route::post('profiles/search/{profile}', 'ProfileController@search')->name('profiles.search');
     Route::resource('profiles', 'ProfileController')->only('update', 'destroy', 'show');
     Route::resource('regions', 'RegionController')->middleware(['role:kingpin']);
     Route::resource('statuses', 'StatusController')->middleware(['role:kingpin']);

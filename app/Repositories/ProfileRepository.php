@@ -4,8 +4,12 @@
 namespace App\Repositories;
 
 
+use App\Family;
+use App\Profile;
 use App\User;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class ProfileRepository
 {
@@ -21,6 +25,30 @@ class ProfileRepository
     public static function CREATE_PROFILE(User $user, Request $request)
     {
 
+    }
+
+    /**
+     * @param Profile $profile
+     * @param Request $request
+     * @return array|bool
+     */
+    public static function DO_SEARCH_SECURITY_CHECK(Profile $profile, Request $request)
+    {
+        if($profile->id === Auth::user()->profile->id){
+            return ['response_text' =>[ 'message' => 'Can\'t search yourself, in this instance.'], 'status_code' => Response::HTTP_NOT_IMPLEMENTED];
+        }
+        if($profile->user->email_verified_at == null){
+            return ['response_text' => ['message' => 'Member has not verified their account!'], 'status_code' => Response::HTTP_NOT_IMPLEMENTED];
+        }
+        if($profile->user->is_locked){
+            return ['response_text' => ['message' => 'Member has does not have an active account!'], 'status_code' => Response::HTTP_NOT_IMPLEMENTED];
+        }
+        $family = Family::whereUuid($request->family)->firstOrFail();
+        if($family->users()->where('user_id', $profile->user->id)->first() !== null){
+            return ['response_text' => ['message' => 'This member is already part of this family!'], 'status_code' => Response::HTTP_NOT_IMPLEMENTED];
+        }
+
+        return true;
     }
 
     /**
@@ -44,9 +72,7 @@ class ProfileRepository
                     break;
             }
         }
-
-
-            return $response_data;
+        return $response_data;
     }
 
     protected function update_personal_information(User $user, array $data)

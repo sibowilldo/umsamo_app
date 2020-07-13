@@ -111,11 +111,12 @@ class FamilyController extends Controller
         $family = Family::whereUuid($id)->firstOrFail();
 
         $profile = Profile::where('id_number', $request->member)->firstOrFail();
-        $profile->user->families()->detach($family->id);
-        $profile->user->families()->attach($family->id, ['is_head' => false]);
+        DB::transaction(function () use (&$family, &$profile){
+            $profile->user->families()->detach($family->id);
+            $profile->user->families()->attach($family->id, ['is_head' => false]);
+        });
 
         $profile->user->notify(new FamilyMemberInvite($family));
-
         return response()->json(['title' => 'Success', 'message' => $profile->fullname. ' was invited successfully',
             'redirect_url' => route('profiles.overview', Auth::user()->uuid)],Response::HTTP_CREATED);
     }
@@ -130,15 +131,13 @@ class FamilyController extends Controller
      */
     public function accept($fam, User $user, $code)
     {
-        Auth::id() === $user->id?:abort(403, 'This action is unauthorized');
-
+        Auth::id() === $user->id?:abort(403, 'This action is unauthorized. Please use an account that received this invitation.');
         $family = Family::whereUuid($fam)->firstOrFail();
-
-        $user->families()->updateExistingPivot($family->id, ['joined_at' => now(), 'is_head' => false]);
-
-        $verify = $user->pin_codes()->where('code', $code)->firstOrFail();
-        $verify->delete();
-
+        DB::transaction(function () use(&$family, &$user, $code){
+            $user->families()->updateExistingPivot($family->id, ['joined_at' => now(), 'is_head' => false]);
+            $verify = $user->pin_codes()->where('code', $code)->firstOrFail();
+            $verify->delete();
+        });
         return response()->redirectToRoute('dashboard');
     }
 }

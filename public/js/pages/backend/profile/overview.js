@@ -227,7 +227,7 @@ var ProfileOverview = function () {
       var selected_family = $(this);
       window.swal.fire({
         title: 'Look up Member by ID Number',
-        text: 'The Member must already be registered, and have their account verified!',
+        text: 'The Member must already be registered, and have an active, verified account!',
         input: 'text',
         inputAttributes: {
           autocapitalize: 'off'
@@ -247,7 +247,9 @@ var ProfileOverview = function () {
             return;
           }
 
-          return axios.get("/profiles/search/".concat(id_number)).then(function (response) {
+          return axios.post("/profiles/search/".concat(id_number), {
+            family: selected_family.data('family-id')
+          }).then(function (response) {
             if (response.status !== 200) {
               throw new Error(response.statusText);
             }

@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Appointment;
 use App\Profile;
 use App\Repositories\ProfileRepository;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class ProfileController extends Controller
@@ -18,14 +15,15 @@ class ProfileController extends Controller
      * Search the specified resource in storage.
      *
      * @param Profile $profile
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function search(Profile $profile)
+    public function search(Profile $profile, Request $request)
     {
-        if($profile->id === Auth::user()->profile->id){
-            return response()->json(['message' => 'Can\'t search yourself, in this instance.'], Response::HTTP_NOT_IMPLEMENTED);
+        $search_response = ProfileRepository::DO_SEARCH_SECURITY_CHECK($profile, $request);
+        if($search_response !== true){
+            return response()->json($search_response['response_text'], Response::HTTP_NOT_IMPLEMENTED);
         }
-
         return response()->json(['profile' => $profile, 'family'=>$profile->user->families()->get()], 200);
     }
 
@@ -58,7 +56,6 @@ class ProfileController extends Controller
         $user = $profile->user;
         $data= $request->only('update', 'first_name', 'last_name', 'address', 'city', 'province', 'postal_code',
             'email', 'current_password', 'password', 'password_confirmation');
-
         $response_message = ProfileRepository::UPDATE_PROFILE($user, $data);
 
         return response()->json($response_message, 200);

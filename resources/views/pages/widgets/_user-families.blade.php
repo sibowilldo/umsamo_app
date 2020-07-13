@@ -77,21 +77,21 @@
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>
             </div>
+            <form action="{{ route('families.store') }}" method="post" id="createFamilyForm">
             <div class="modal-body">
-                <form action="{{ route('families.store') }}" method="post" id="createFamilyForm">
                     <div class="form-group">
                         <label>Family Name</label>
                         <input type="text" name="family_name" class="form-control"  placeholder="e.g oKhabazela"/>
                         <span class="form-text text-muted">Short and Meaningful</span>
                     </div>
-                </form>
             </div>
             <div class="modal-footer">
                 <div class="d-flex flex-fill flex-row align-items-center justify-content-between">
                     <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Nevermind</button>
-                    <button type="button" class="btn btn-primary font-weight-bold" id="createFamilyButton">Create</button>
+                    <button type="submit" class="btn btn-primary font-weight-bold" id="createFamilyButton">Create</button>
                 </div>
             </div>
+            </form>
         </div>
     </div>
 </div>
