@@ -134,7 +134,7 @@ class FamilyController extends Controller
 
         $family = Family::whereUuid($fam)->firstOrFail();
 
-        $user->families()->updateExistingPivot($family->id, ['joined_at' => now()]);
+        $user->families()->updateExistingPivot($family->id, ['joined_at' => now(), 'is_head' => false]);
 
         $verify = $user->pin_codes()->where('code', $code)->firstOrFail();
         $verify->delete();

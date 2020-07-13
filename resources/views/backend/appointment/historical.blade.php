@@ -134,7 +134,7 @@
                                 <div class="d-flex align-items-center">
                                     <div>
                                         <span
-                                           class="text-dark-75 font-weight-bolder d-block text-hover-primary mb-1 font-size-lg">{{ $appointment->event_date->date_time->format('D M d, Y') }}</span>
+                                           class="text-dark-75 font-weight-bolder d-block text-hover-primary mb-1 font-size-lg">{{ $appointment->event_date->date_time->format('d M, Y') }}</span>
                                         <span class="text-muted font-weight-bold">{{ $appointment_types->where('id', $appointment->type )->first()['title']}}</span>
                                     </div>
                                 </div>
@@ -196,7 +196,7 @@
                                 <div class="d-flex align-items-center">
                                     <div>
                                         <span
-                                           class="text-dark-75 d-block font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ $appointment->event_date->date_time->format('D M d, Y') }}</span>
+                                           class="text-dark-75 d-block font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ $appointment->event_date->date_time->format('d M, Y') }}</span>
                                         <span class="text-muted font-weight-bold">{{ $appointment_types->where('id', $appointment->type )->first()['title']}}</span>
                                     </div>
                                 </div>

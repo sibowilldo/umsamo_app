@@ -9,6 +9,7 @@ class PinCode extends Model
 
     const VERIFY_OTP_TYPE = 1;
     const FAMILY_INVITE_TYPE = 2;
+    const ACCOUNT_LOCKED_TYPE = 3;
 
     /**
      * The attributes that are mass assignable.
@@ -18,6 +19,7 @@ class PinCode extends Model
     protected $fillable = [
         'user_id',
         'code',
+        'type',
         'expires_at',
         'is_active',
     ];
