@@ -81,20 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 167);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 167:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(168);
-
-
-/***/ }),
-
-/***/ 168:
+/***/ "00rH":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -192,6 +184,14 @@ var CellVerificationModule = function () {
 jQuery(document).ready(function () {
   CellVerificationModule.init();
 });
+
+/***/ }),
+
+/***/ 4:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("00rH");
+
 
 /***/ })
 

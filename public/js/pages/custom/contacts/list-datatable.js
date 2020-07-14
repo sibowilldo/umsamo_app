@@ -81,20 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 817);
+/******/ 	return __webpack_require__(__webpack_require__.s = 125);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 817:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(818);
-
-
-/***/ }),
-
-/***/ 818:
+/***/ "0jjv":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -419,6 +411,14 @@ var KTAppsContactsListDatatable = function () {
 jQuery(document).ready(function () {
   KTAppsContactsListDatatable.init();
 });
+
+/***/ }),
+
+/***/ 125:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("0jjv");
+
 
 /***/ })
 

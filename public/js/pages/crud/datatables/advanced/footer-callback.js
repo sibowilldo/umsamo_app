@@ -81,20 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 661);
+/******/ 	return __webpack_require__(__webpack_require__.s = 47);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 661:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(662);
-
-
-/***/ }),
-
-/***/ 662:
+/***/ "1HIu":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -144,6 +136,14 @@ var KTDatatablesAdvancedFooterCalllback = function () {
 jQuery(document).ready(function () {
   KTDatatablesAdvancedFooterCalllback.init();
 });
+
+/***/ }),
+
+/***/ 47:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("1HIu");
+
 
 /***/ })
 

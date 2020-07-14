@@ -81,20 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 173);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 173:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(174);
-
-
-/***/ }),
-
-/***/ 174:
+/***/ "27y4":
 /***/ (function(module, exports) {
 
 jQuery(document).ready(function () {
@@ -129,6 +121,14 @@ jQuery(document).ready(function () {
     });
   });
 });
+
+/***/ }),
+
+/***/ 7:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("27y4");
+
 
 /***/ })
 

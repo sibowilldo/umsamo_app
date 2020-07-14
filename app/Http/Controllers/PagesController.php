@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 
 class PagesController extends Controller
 {
+
     public function index()
     {
         $provinces = Region::$provinces;

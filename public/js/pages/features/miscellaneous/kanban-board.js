@@ -81,20 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 891);
+/******/ 	return __webpack_require__(__webpack_require__.s = 162);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 891:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(892);
-
-
-/***/ }),
-
-/***/ 892:
+/***/ "0Onk":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -331,6 +323,14 @@ var KTKanbanBoardDemo = function () {
 jQuery(document).ready(function () {
   KTKanbanBoardDemo.init();
 });
+
+/***/ }),
+
+/***/ 162:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("0Onk");
+
 
 /***/ })
 

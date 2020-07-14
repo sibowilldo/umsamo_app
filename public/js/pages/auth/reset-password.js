@@ -81,20 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 171);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 171:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(172);
-
-
-/***/ }),
-
-/***/ 172:
+/***/ "4sf1":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -255,6 +247,14 @@ var initAuthChangePassword = function () {
 jQuery(document).ready(function () {
   initAuthChangePassword.init();
 });
+
+/***/ }),
+
+/***/ 6:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("4sf1");
+
 
 /***/ })
 

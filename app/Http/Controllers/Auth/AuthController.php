@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
@@ -50,6 +51,7 @@ class AuthController extends Controller
     {
         if(Auth::check()){
             Auth::logout();
+            Session::flush();
         }
 
         $token = html_entity_decode(\request()->query('t'));

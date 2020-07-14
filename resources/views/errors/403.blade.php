@@ -5,5 +5,5 @@
 @section('message', __($exception->getMessage() ?: 'Forbidden'))
 
 @section('image')
-    {{ asset('media/error/bg6.jpg') }}
+    {{ asset('media/error/403.jpg') }}
 @endsection
