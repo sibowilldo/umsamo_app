@@ -68,6 +68,8 @@ class AppointmentController extends Controller
 
             $event_date = EventDate::findOrFail($request->event_date);
 
+            abort_if($event_date->limit < 1, 403, 'The date you\'ve selected is full and is no longer accepting appointments, please select a different date .' );
+
             $user = $request->has('id_number')
                 ? UserRepository::NEW_USER($request->only('address', 'cell_number', 'city','date_of_birth', 'email', 'first_name', 'gender', 'id_number', 'last_name', 'postal_code', 'province'))
                 : User::findOrFail(Auth::id());
