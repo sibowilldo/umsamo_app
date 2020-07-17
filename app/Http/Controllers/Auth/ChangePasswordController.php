@@ -51,9 +51,9 @@ class ChangePasswordController extends Controller
 
         $user->notify(new PasswordChangedNotification($unlock_token));
 
-        Auth::logout();
+        Auth::logoutOtherDevices($request->password);
 
-        return response()->json(['title' => 'Your password was updated successfully', 'message' => 'Please sign in again with the new password',
+        return response()->json(['title' => 'Your password was updated successfully', 'message' => 'Please use your new Password to sign in next time',
                                 'redirect_url' => route('profiles.overview', $user->uuid)],
                             Response::HTTP_ACCEPTED);
     }
