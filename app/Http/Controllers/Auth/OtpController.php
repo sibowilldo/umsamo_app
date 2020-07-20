@@ -9,6 +9,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class OtpController extends Controller
 {
@@ -22,7 +23,11 @@ class OtpController extends Controller
     public function show()
     {
         $page_title = 'Verify your Cell Phone Number';
-        return !Auth::user()->profile->cell_number_verified_at?
+        $user = User::findOrFail(Auth::id());
+
+        Cache::forget("user.{$user->id}");
+
+        return !$user->profile->cell_number_verified_at?
             response()->view('auth.cell', compact('page_title')):
             response()->redirectToRoute('dashboard');
     }
