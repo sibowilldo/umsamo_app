@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 
 use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class UserRepository
@@ -45,6 +46,22 @@ class UserRepository
         $user->hasAnyRole([User::SUPER_ADMIN_ROLE, User::ADMIN_ROLE]) ? : $user->syncRoles(['client']);
 
         return $user;
+    }
 
+    public static function UPDATE_EMAIL(User $user, array $data) : User
+    {
+
+        Validator::make($data, [
+            'email' => ['required', 'string', 'unique:users'],
+        ])->validate();
+
+        $user->email = $data['email'];
+        $user->email_verified_at = null;
+        $user->save();
+
+        $user->sendEmailVerificationNotification();
+        Auth::logout();
+
+        return $user;
     }
 }

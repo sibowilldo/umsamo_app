@@ -17,7 +17,6 @@ class UserObserver
      */
     public function created(User $user)
     {
-        $user->notify(new ConfirmCellNumber());
         Cache::put("user.{$user->id}", $user, 120);
     }
 

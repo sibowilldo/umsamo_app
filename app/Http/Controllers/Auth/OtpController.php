@@ -22,7 +22,9 @@ class OtpController extends Controller
     public function show()
     {
         $page_title = 'Verify your Cell Phone Number';
-        return response()->view('auth.cell', compact('page_title'));
+        return !Auth::user()->profile->cell_number_verified_at?
+            response()->view('auth.cell', compact('page_title')):
+            response()->redirectToRoute('dashboard');
     }
 
     /**
@@ -43,9 +45,14 @@ class OtpController extends Controller
         $user->profile->update(['cell_number_verified_at' => now()]);
         $pin_code->delete();
 
-        return response()->json(['title'=>'OTP verified!',
+        flash()->overlay('You now have full access to the Appointment System.', 'OTP verified!')->success();
+
+        return request()->wantsJson() ?
+            response()->json(['title'=>'OTP verified!',
             'message' =>  'You now have full access to the Appointment System!',
-            'redirect_url' => route('dashboard')], Response::HTTP_ACCEPTED);
+            'redirect_url' => route('dashboard')], Response::HTTP_ACCEPTED) :
+            redirect()->route('dashboard');
+
     }
 
 

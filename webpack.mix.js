@@ -55,13 +55,6 @@ mix.scripts(['resources/metronic/js/vendors/plugins/sweetalert2.init.js'], 'publ
     mix.js(file, `public/${file.replace('resources/', '')}`);
 });
 
-
-// Global jquery
-// mix.autoload({
-    // 'jquery': ['$', 'jQuery'],
-    // Popper: ['popper.js', 'default'],
-// });
-
 // 3rd party plugins css/js
 mix.sass('resources/plugins/plugins.scss', 'public/plugins/global/plugins.bundle.css').then(() => {
     // remove unused preprocessed fonts folder

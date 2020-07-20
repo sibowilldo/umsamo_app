@@ -16,6 +16,10 @@ var CellVerificationModule = function(){
                                 max: 5,
                                 min: 5,
                                 message: 'Invalid OTP!'
+                            },
+                            regexp: {
+                                regexp: /^([a-zA-Z0-9]{5})/,
+                                message: 'Invalid OTP!'
                             }
                         }
                     }
@@ -33,29 +37,29 @@ var CellVerificationModule = function(){
             let form =  $('#verifyForm');
             validation.validate().then(function(status) {
                 if(status === 'Valid') {
-                    window.axios.post(form.attr('action'), {
+                    axios.post(form.attr('action'), {
                         'onetime': $('input[name=onetime]').val()
                     })
-                        .then(function (response) {
-                            swal.fire({
-                                icon: 'success',
-                                title: response.data.title,
-                                text: response.data.message
-                            }).then(function () {
-                                window.location.replace(response.data.redirect_url ?? '/');
-                            });
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                            swal.fire({
-                                icon: 'error',
-                                title: error.response.data.title,
-                                text: error.response.data.message
-                            });
-                        })
-                        .finally(function () {
-                            $('input[name=onetime]').val('')
+                    .then(function (response) {
+                        swal.fire({
+                            icon: 'success',
+                            title: response.data.title,
+                            text: response.data.message
+                        }).then(function () {
+                            window.location.replace(response.data.redirect_url ?? '/');
                         });
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                        swal.fire({
+                            icon: 'error',
+                            title: error.response.data.title,
+                            text: error.response.data.message
+                        });
+                    })
+                    .finally(function () {
+                        $('input[name=onetime]').val('')
+                    });
                 }
             });
 
@@ -93,6 +97,7 @@ var CellVerificationModule = function(){
         init: function(){
             verifyModule();
             requestAnotherModule();
+            $('input[name=onetime]').inputmask('*****')
         }
     }
 }();

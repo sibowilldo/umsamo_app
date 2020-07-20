@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response as HTTPResponse;
 
 class LoginController extends Controller
@@ -65,8 +66,7 @@ class LoginController extends Controller
 
         $user->online_at = now();
         $user->save();
-
-        return response()->json(['url' =>$this->redirectTo], HTTPResponse::HTTP_ACCEPTED);
+        return response()->json(['url' =>  $this->redirectTo], HTTPResponse::HTTP_ACCEPTED);
     }
 
     /**
@@ -80,17 +80,5 @@ class LoginController extends Controller
     protected function sendFailedLoginResponse(Request $request)
     {
         return response()->json(['title' => 'Incorrect Credentials', 'text' => 'The credentials you gave us did not match our records. Please try again.'], HTTPResponse::HTTP_UNAUTHORIZED);
-    }
-
-
-    /**
-     * The user has logged out of the application.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return mixed
-     */
-    protected function loggedOut(Request $request)
-    {
-
     }
 }

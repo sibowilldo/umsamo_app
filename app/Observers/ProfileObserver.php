@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Notifications\ConfirmCellNumber;
 use App\Profile;
 use App\User;
 
@@ -16,6 +17,7 @@ class ProfileObserver
     public function created(Profile $profile)
     {
         User::sendWelcomeEmail($profile);
+        $profile->user->notify(new ConfirmCellNumber());
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Appointment;
+use App\Repositories\ProfileRepository;
+use App\Repositories\UserRepository;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -61,6 +63,18 @@ class UserController extends Controller
         $page_title = "Manage Family";
         $page_description = "";
         return response()->view('backend.profile.add-family', compact('user', 'page_title', 'page_description'));
+    }
+
+    public function update_email(User $user, Request $request)
+    {
+        Gate::authorize('update', $user);
+
+        $profile = UserRepository::UPDATE_EMAIL($user, $request->only('email'));
+
+        return response()->json([
+            'title' => 'Update Success',
+            'message' => 'Your information was updated successfully',
+            'redirect_url' => route('profiles.overview', $user->uuid)], 200);
     }
 
 }

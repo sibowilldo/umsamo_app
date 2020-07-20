@@ -5,11 +5,13 @@ namespace App\Repositories;
 
 
 use App\Family;
+use App\Notifications\ConfirmCellNumber;
 use App\Profile;
 use App\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProfileRepository
 {
@@ -58,28 +60,26 @@ class ProfileRepository
      */
     public static function UPDATE_PROFILE(User $user, array $data) : array
     {
-        $response_data = [];
-        if(array_key_exists('update', $data)){
-            switch($data['update']){
-                case 'personal:information':
-                    $response_data = (new ProfileRepository)->update_personal_information($user, $data);
-                    break;
-                case 'account:information':
-//                    $data = $request->only('email');
-                    break;
-                case 'password:change':
-//                    $data = $request->only();
-                    break;
-            }
-        }
-        return $response_data;
+        $user->profile->update($data);
+        return ['title' => 'Update Success', 'message' => 'Your information was updated successfully', 'redirect_url' => route('profiles.overview', $user->uuid)];
     }
 
-    protected function update_personal_information(User $user, array $data)
+    /**
+     * @param Profile $profile
+     * @param array $data
+     * @return Profile
+     */
+    public static function UPDATE_CELL(Profile $profile, array $data) : Profile
     {
-        $user->profile->update($data);
+        Validator::make($data, [
+            'cell_number' => ['required', 'string', 'unique:profiles'],
+        ])->validate();
+        $profile->update($data);
+        $profile->cell_number_verified_at = null;
+        $profile->save();
 
-        //todo Send Email Notification
-        return ['title' => 'Update Success', 'message' => 'Your information was updated successfully', 'redirect_url' => route('profiles.overview', $user->uuid)];
+        $profile->user->notify(new ConfirmCellNumber());
+
+        return $profile;
     }
 }

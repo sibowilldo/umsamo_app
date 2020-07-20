@@ -19,16 +19,16 @@ class SmsPortalClient
     {
         $this->client_id = config('app.smsportal_client_id');
         $this->api_secret = config('app.smsportal_api_secret');
-        $this->test_mode = config('app.smsportal_api_secret');
+        $this->test_mode = config('app.smsportal_test_mode');
         $this->_token = $this->getAuthToken();
     }
 
     protected function getAuthToken(): string
     {
         try{
-            Log::info('client_id' . config('app.smsportal_client_id'));
+            Log::info('SMS CRED INFO: ' . config('app.smsportal_client_id'));
             Log::info('api_secret' . config('app.smsportal_api_secret'));
-            Log::info('test_mode' . config('app.smsportal_api_secret'));
+            Log::info('test_mode' . config('app.smsportal_test_mode'));
             Log::info('Trying to authorize SMS');
             $response = Http::withBasicAuth( config('app.smsportal_client_id'), config('app.smsportal_api_secret'))
                 ->withHeaders(['content-type' => 'application/json'])

@@ -81,18 +81,10 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 25);
+/******/ 	return __webpack_require__(__webpack_require__.s = 48);
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ 25:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("uNhu");
-
-
-/***/ }),
 
 /***/ "35z4":
 /***/ (function(module, exports, __webpack_require__) {
@@ -446,6 +438,14 @@ KTUtil.ready(function () {
 
   KTLayoutSearchOffcanvas().init('kt_quick_search_offcanvas');
 });
+
+/***/ }),
+
+/***/ 48:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("uNhu");
+
 
 /***/ }),
 

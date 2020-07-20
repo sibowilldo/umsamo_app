@@ -54,4 +54,17 @@ class VerificationController extends Controller
             ? redirect($this->redirectPath())
             : view('auth.verify')->with(['page_title' => 'Verify your email address']);
     }
+
+    /**
+     * The user has been verified.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return mixed
+     */
+    public function verified(Request $request)
+    {
+        flash('Email verified successfully!')->success();
+        return response()->redirectToRoute('dashboard');
+    }
+
 }

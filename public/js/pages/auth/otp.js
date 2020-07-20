@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 9);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -106,6 +106,10 @@ var CellVerificationModule = function () {
               max: 5,
               min: 5,
               message: 'Invalid OTP!'
+            },
+            regexp: {
+              regexp: /^([a-zA-Z0-9]{5})/,
+              message: 'Invalid OTP!'
             }
           }
         }
@@ -121,7 +125,7 @@ var CellVerificationModule = function () {
       var form = $('#verifyForm');
       validation.validate().then(function (status) {
         if (status === 'Valid') {
-          window.axios.post(form.attr('action'), {
+          axios.post(form.attr('action'), {
             'onetime': $('input[name=onetime]').val()
           }).then(function (response) {
             swal.fire({
@@ -177,6 +181,7 @@ var CellVerificationModule = function () {
     init: function init() {
       verifyModule();
       requestAnotherModule();
+      $('input[name=onetime]').inputmask('*****');
     }
   };
 }();
@@ -187,7 +192,7 @@ jQuery(document).ready(function () {
 
 /***/ }),
 
-/***/ 4:
+/***/ 9:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("00rH");
