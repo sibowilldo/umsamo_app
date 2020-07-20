@@ -62,7 +62,7 @@ class AccountRepository
             'password_confirmation' => ['same:password'],
         ])->validate();
 
-        $unlock_token = (new UserRepository())->getUnlockToken();
+        $unlock_token = (new AccountRepository())->getUnlockToken();
         $user = User::findOrFail(Auth::id());
         DB::transaction(function() use ($unlock_token, &$user, $data){
             $user->update(['password'=> Hash::make($data['password'])]);

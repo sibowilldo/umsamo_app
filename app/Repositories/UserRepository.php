@@ -12,7 +12,7 @@ class UserRepository
 {
     /**
      * Registers a new user with a random password.
-     * Via UserObserver this methods generate a random token and emails the user
+     * Via ProfileObserver this methods generate a random token and emails the user
      *
      * @param array $data
      * @return mixed
