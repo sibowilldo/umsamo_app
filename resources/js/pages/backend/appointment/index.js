@@ -84,7 +84,6 @@ var AppointmentIndexScript = function() {
             let cancelBtn = $(this);
             var record = cancelBtn.data("record");
             var url = cancelBtn.data("url");
-
             swal.fire({
                 icon: 'info',
                 title: 'Are you sure?',

@@ -60,7 +60,8 @@ class UserRepository
         $user->save();
 
         $user->sendEmailVerificationNotification();
-        Auth::logout();
+
+        array_key_exists('ignore_logout', $data)?:Auth::logout();
 
         return $user;
     }

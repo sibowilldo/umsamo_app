@@ -94,9 +94,9 @@
                             <span class="text-muted font-weight-bold">Due {{ $event_date->date_time->shortRelativeToNowDiffForHumans() }}</span>
                         </div>
                         <!--end::Title-->
-                        <!--begin::Lable-->
-                        <span class="font-weight-bolder text-{{ $event_date->status->color }}  py-1 font-size-lg">{{ round(($event_date->appointments_count/$event_date->limit)*100)}}%</span>
-                        <!--end::Lable-->
+                        <!--begin::Label-->
+                        <span class="font-weight-bolder text-{{ $event_date->status->color }}  py-1 font-size-lg">{{ $event_date->appointments_count?round((($event_date->appointments_count / ($event_date->appointments_count + $event_date->limit)))*100):0}}%</span>
+                        <!--end::Label-->
                     </div>
                     @empty
                     @endforelse
@@ -231,7 +231,6 @@
 
                 axios.get(`/events/${event}`).then(function(response) {
                     _options.series = [response.data[0].percentage]
-                    console.log()
                     var chart = new ApexCharts(element, _options);
                     chart.render();
                 })

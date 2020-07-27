@@ -80,7 +80,7 @@ class EventController extends Controller
 
         $data['appointments'] == 0
             ? $data['percentage'] = 0
-            : $data['percentage'] = ceil(($event->event_dates->sum('appointments_count')/$event->event_dates->sum('limit'))*100);
+            : $data['percentage'] = $event->event_dates->sum('appointments_count')?ceil(($event->event_dates->sum('appointments_count')/($event->event_dates->sum('appointments_count') + $event->event_dates->sum('limit')))*100):0;
 
         return request()->wantsJson()
             ? new Response([$data])

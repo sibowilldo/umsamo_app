@@ -61,7 +61,7 @@ class ProfileRepository
     public static function UPDATE_PROFILE(User $user, array $data) : array
     {
         $user->profile->update($data);
-        return ['title' => 'Update Success', 'message' => 'Your information was updated successfully', 'redirect_url' => route('profiles.overview', $user->uuid)];
+        return ['title' => 'Update Success', 'message' => 'Information was updated successfully', 'redirect_url' => route('profiles.overview', $user->uuid)];
     }
 
     /**

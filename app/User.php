@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Mail\WelcomeNewUserMail;
+use Carbon\Carbon;
 use Dyrynda\Database\Casts\EfficientUuid;
 use Dyrynda\Database\Support\GeneratesUuid;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
@@ -28,7 +29,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     const SUPER_ADMIN_ROLE = 'kingpin';
 
     protected $with = ['profile'];
-
     /**
      * The attributes that are mass assignable.
      *

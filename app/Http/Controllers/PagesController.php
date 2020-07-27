@@ -19,7 +19,6 @@ class PagesController extends Controller
     {
         $provinces = Region::$provinces;
         $appointment_types = Appointment::types();
-
         $user = User::with(['comments.status','comments.appointment', 'appointments.status:id,title,color',
             'appointments.event_date', 'families', 'familyAppointments', 'families.users', 'families.users.profile',
             'comments' => function($q){
@@ -32,7 +31,8 @@ class PagesController extends Controller
         if($user->hasAnyRole(User::SUPER_ADMIN_ROLE, User::ADMIN_ROLE)){
             $appointments = Appointment::with(['status:id,title,color', 'familyAppointments', 'familyAppointments.user', 'familyAppointments.status:id,title,color'])
                 ->get()
-                ->where('event_date.date_time', '=', Carbon::today()->format('Y-m-d H:i:s'));
+                ->where('event_date.date_time', '=', Carbon::today()->format('Y-m-d H:i:s'))
+                ->take(9);
         }else{
 
             $appointments =$user->appointments->where('event_date.date_time', '>=', Carbon::now()->format('Y-m-d'))->sortBy('event_date.date_time')->take(5);

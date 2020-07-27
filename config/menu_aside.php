@@ -56,6 +56,20 @@ return [
                 ],
             ],
         ],
+        [
+            'title' => 'Patients',
+            'icon' => 'media/svg/icons/Communication/Group.svg',
+            'bullet' => 'dot', // dot | line
+            'root' => true,
+            'roles'=>[User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE],
+            'submenu' => [
+                [
+                    'title' => 'All',
+                    'bullet' => 'dot',
+                    'page' => 'users.index'
+                ]
+            ]
+        ],
         // Custom
         [
             'section' => 'System',
