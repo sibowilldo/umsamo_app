@@ -27,8 +27,8 @@ class SmsPortalClient
     {
         try{
             Log::info('SMS CRED INFO: ' . config('app.smsportal_client_id'));
-            Log::info('api_secret' . config('app.smsportal_api_secret'));
-            Log::info('test_mode' . config('app.smsportal_test_mode'));
+            Log::info('api_secret: ' . config('app.smsportal_api_secret'));
+            Log::info('test_mode: ' . config('app.smsportal_test_mode'));
             Log::info('Trying to authorize SMS');
             $response = Http::withBasicAuth( config('app.smsportal_client_id'), config('app.smsportal_api_secret'))
                 ->withHeaders(['content-type' => 'application/json'])
@@ -49,7 +49,7 @@ class SmsPortalClient
 
     public function sendSMS(array $message): bool
     {
-        $send_options = ['TestMode' => $this->test_mode];
+        $send_options = ['TestMode' => config('app.smsportal_test_mode')];
         $messages = [
             [
                 'Content' => $message['message'],
