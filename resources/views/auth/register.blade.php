@@ -93,7 +93,7 @@
 
                                 <!--begin::Form group-->
                                 <div class="form-group">
-                                    <input class="form-control form-control-solid form-control-lg" type="tel" placeholder="Cell Phone Number" name="cell_number" autocomplete="on" value="(081) 589-2345"/>
+                                    <input class="form-control form-control-solid form-control-lg" type="tel" placeholder="Cell Phone Number" name="cell_number" autocomplete="on" value=""/>
                                     <span class="form-text text-muted">We'll never share your cell phone number with anyone else.</span>
                                 </div>
                                 <!--end::Form group-->

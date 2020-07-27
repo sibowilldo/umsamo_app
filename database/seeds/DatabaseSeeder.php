@@ -2,6 +2,7 @@
 
 use App\Appointment;
 use App\Attachment;
+use App\Region;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Faker as Faker;
@@ -31,14 +32,14 @@ class DatabaseSeeder extends Seeder
 
         //Events & Regions
         factory(App\Region::class, 3)->create();
-//            ->each(function ($region) {
-//            $region->events()->attach(factory(App\Event::class, 2)->create());
-//        });
 
         //Assign users to roles
-//        $users = \App\User::all()->each(function ($user){
-//            $user->assignRole('client');
-//        });
+        factory(App\User::class, 700)->create()->each(function ($user){
+
+            $user->assignRole('client');
+            $user->profile()->save(factory(App\Profile::class)->make());
+        });
+
 
         $faker = Faker\Factory::create();
 
@@ -63,7 +64,8 @@ class DatabaseSeeder extends Seeder
             'city' => 'Durban',
             'province' => 'KwaZulu-Natal',
             'postal_code' => '4001',
-            'profile_completed_at' => null
+            'profile_completed_at' => null,
+            'cell_number_verified_at' => now()
         ]);
 
         $kingpin = \App\User::create([
@@ -87,20 +89,24 @@ class DatabaseSeeder extends Seeder
             'city' => 'Durban',
             'province' => 'KwaZulu-Natal',
             'postal_code' => '4001',
-            'profile_completed_at' => Carbon::now()
+            'profile_completed_at' => Carbon::now(),
+            'cell_number_verified_at' => now()
         ]);
 
+        Region::all()->each(function ($region) {
+            $region->events()->attach(factory(App\Event::class, 4)->create());
+        });
         //Event Dates
-//        factory(App\EventDate::class, 15)->create();
+        factory(App\EventDate::class, 15)->create();
 
 
         /**
          * Create 100 Appointments and attach a random number of Attachments between 0-3, then assignment those
          * Appointments to a variable for later use.
          */
-//        $users->each(function ($user){
-//                $user->appointments()->save(factory(App\Appointment::class)->make());
-//            });
+        \App\User::all()->each(function ($user){
+                $user->appointments()->save(factory(App\Appointment::class)->make());
+            });
 
         /**
          * Create 100 Appointments and attach a random number of Attachments between 0-3, then assignment those
@@ -117,7 +123,7 @@ class DatabaseSeeder extends Seeder
 //        });
 
         //Comments
-//        factory(App\Comment::class, 500)->create();
+        factory(App\Comment::class, 500)->create();
 
     }
 }

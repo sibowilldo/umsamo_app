@@ -3,16 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Appointment;
-use App\Repositories\ProfileRepository;
+use App\Region;
 use App\Repositories\UserRepository;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
-{    /**
+{
+    public function index()
+    {
+        $page_title =  "Manage Patients";
+        $provinces = Region::$provinces;
+        return response()->view('backend.user.index', compact('page_title', 'provinces'));
+    }
+
+    public function edit(User $user)
+    {
+        $page_title =  "Edit Patients";
+        $page_description =  $user->profile->fullname;
+        $provinces = Region::$provinces;
+        return response()->view('backend.user.edit', compact('user','page_title', 'provinces', 'page_description'));
+    }
+
+
+/**
  * Display overview of a user's profile.
  *
  * @param User $user

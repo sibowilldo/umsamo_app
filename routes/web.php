@@ -52,6 +52,7 @@ Route::middleware(['auth', 'verified', 'cell_number_verified', 'is_locked'])->gr
     Route::resource('profiles', 'ProfileController')->only('update', 'destroy', 'show');
     Route::resource('regions', 'RegionController')->middleware(['role:kingpin']);
     Route::resource('statuses', 'StatusController')->middleware(['role:kingpin']);
+    Route::resource('users', 'UserController')->middleware(['role:kingpin']);
 
 
     //Administrator Prefixed Controllers
@@ -63,8 +64,15 @@ Route::middleware(['auth', 'verified', 'cell_number_verified', 'is_locked'])->gr
 
     //Ajax Controllers
     Route::prefix('ajax')->namespace('Ajax')->group(function(){
+        Route::apiResource('users', 'UserController')->names([ 'index' => 'ajax.users.index',
+            'show' => 'ajax.users.show', 'update' => 'ajax.users.update', 'destroy' => 'ajax.users.destroy'
+        ]);
+//        Get
         Route::get('event-dates', 'EventDateController@index')->name('ajax.event-dates.index');
         Route::get('families/{family}/members', 'FamilyController@members')->name('families.members');
+//        Patch
+        Route::patch('users/toggle-lock/{user}', 'UserController@toggleLock')->name('user.toggle.lock');
+
     });
 
     Route::get('/print/appointments/today', 'PrintController@appointmentsTodayPdf')->name('print.appointments.today');

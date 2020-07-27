@@ -81,18 +81,10 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 58);
+/******/ 	return __webpack_require__(__webpack_require__.s = 60);
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ 58:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("TKxz");
-
-
-/***/ }),
 
 /***/ "5E5Q":
 /***/ (function(module, exports, __webpack_require__) {
@@ -452,6 +444,14 @@ Docs & License: https://fullcalendar.io/
     Object.defineProperty(exports, '__esModule', { value: true });
 
 }));
+
+
+/***/ }),
+
+/***/ 60:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("TKxz");
 
 
 /***/ }),

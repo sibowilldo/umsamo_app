@@ -68,6 +68,9 @@
             body.aside-minimize .logo-text{
                 display: none !important;
             }
+            .swal2-popup.swal2-toast .swal2-content {
+                margin-top: 0;
+            }
         </style>
         <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
     </head>
@@ -121,9 +124,22 @@
                         document.getElementById('logout-form').submit();
                     })
                 }
+                var initSwalToast = function(){
+                    window.Toast = swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 6000,
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', swal.stopTimer)
+                            toast.addEventListener('mouseleave', swal.resumeTimer)
+                        }
+                    })
+                };
                 return {
                     //main function to initiate the module
                     init: function () {
+                        initSwalToast();
                         initSessionTimeoutModule();
                     }
                 };

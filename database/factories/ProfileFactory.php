@@ -7,10 +7,11 @@ use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(Profile::class, function (Faker $faker) {
+
+    $id_number =  $faker->idNumber;
     return [
-        'user_id' => factory(\App\User::class),
         'avatar' => 'media/users/blank.png',
-        'id_number' => $faker->idNumber,
+        'id_number' => $id_number,
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'gender' => $faker->randomElement(['M','F']),
@@ -20,6 +21,7 @@ $factory->define(Profile::class, function (Faker $faker) {
         'city' => $faker->city,
         'province' => $faker->state,
         'postal_code' => $faker->postcode,
-        'profile_completed_at' => Carbon::now()
+        'profile_completed_at' => Carbon::now(),
+        'cell_number_verified_at' => now()
     ];
 });
