@@ -65,6 +65,7 @@ Route::middleware(['auth', 'verified', 'cell_number_verified', 'is_locked'])->gr
     //Ajax Controllers
     Route::prefix('ajax')->namespace('Ajax')->group(function(){
         Route::apiResource('users', 'UserController')->names([ 'index' => 'ajax.users.index',
+            'store' => ' ajax.users.store',
             'show' => 'ajax.users.show', 'update' => 'ajax.users.update', 'destroy' => 'ajax.users.destroy'
         ]);
 //        Get
