@@ -141,7 +141,8 @@
                                         </span>
                                         </td>
                                         <td>
-                                            <span class="text-muted font-weight-bold">{{ $appointment_types->where('id', $appointment->appointment->type )->first()['title']}}</span></td>
+                                            <span class="text-muted font-weight-bold">{{ $appointment_types->where('id', $appointment->appointment->type )->first()['title']}}</span>
+                                        </td>
                                         <td>
                                             <span class="text-muted font-weight-bold">{{ $appointment->created_at->diffForHumans() }}</span>
                                         </td>

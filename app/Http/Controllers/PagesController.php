@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Appointment;
+use App\EventDate;
 use App\Notifications\AppointmentCreated;
 use App\Notifications\AppointmentReminder;
 use App\Region;
@@ -19,26 +20,33 @@ class PagesController extends Controller
     {
         $provinces = Region::$provinces;
         $appointment_types = Appointment::types();
-        $user = User::with(['comments.status','comments.appointment', 'appointments.status:id,title,color',
-            'appointments.event_date', 'families', 'familyAppointments', 'families.users', 'families.users.profile',
-            'comments' => function($q){
-                $q->latest()->take(4);
-            }])
-            ->findOrFail(Auth::id());
-        $members  = $user->families;
+        $user = Auth::user();
 
-        $family_appointments = $user->familyAppointments;
+        $family_appointments = [];
+        $appointments = [];
+        $members = [];
+        $comments = [];
         if($user->hasAnyRole(User::SUPER_ADMIN_ROLE, User::ADMIN_ROLE)){
-            $appointments = Appointment::with(['status:id,title,color', 'familyAppointments', 'familyAppointments.user', 'familyAppointments.status:id,title,color'])
-                ->get()
-                ->where('event_date.date_time', '=', Carbon::today()->format('Y-m-d H:i:s'))
-                ->take(9);
-        }else{
-
-            $appointments =$user->appointments->where('event_date.date_time', '>=', Carbon::now()->format('Y-m-d'))->sortBy('event_date.date_time')->take(5);
+            $event_date = EventDate::where('date_time', '=', Carbon::today()->format('Y-m-d H:i:s'))
+                ->with(['appointments' => function($q){
+                    $q->limit(9);
+                },'appointments.appointmentable','appointments.status:id,title,color','status:id,title,color'])
+                ->first();
+            if($event_date){
+                $appointments = $event_date->appointments;
+            }
         }
+        else{
+            $user = User::where('id',$user->id)->with(['appointments', 'appointments.status:id,title,color',
+                            'comments.status:id,title,color','comments.appointment',
+                            'familyAppointments','familyAppointments.status', 'familyAppointments.appointment',
+                            'families', 'families.users', 'families.users.profile'])->first();
+            $members  = $user->families;
+            $comments = $user->comments->sort()->take(4);
 
-        $comments = $user->comments->sort();
+            $family_appointments = $user->familyAppointments;
+            $appointments =$user->appointments->where('event_date.date_time', '>=', Carbon::today()->format('Y-m-d'))->sortBy('event_date.date_time')->take(5);
+        }
 
         $page_title = 'Dashboard';
         $page_description = "Welcome {$user->profile->fullname}";
@@ -54,8 +62,14 @@ class PagesController extends Controller
 
     public function testSMS()
     {
+        $details = [];
+        $details['date_time'] = Carbon::today()->format('M d, Y');
+        $appointment = Appointment::first();
+        $details['reference'] = $appointment->reference;
+        $details['url'] = route('appointments.show', $appointment->uuid);
+
         $user =  User::where('email', 'sibongiseni.msomi@outlook.com')->firstOrFail();
-        $user->notify(new AppointmentReminder());
+        $user->notify(new AppointmentReminder($details));
 
         return response()->json($user, 200);
     }

@@ -35,9 +35,8 @@ class DatabaseSeeder extends Seeder
 
         //Assign users to roles
         factory(App\User::class, 700)->create()->each(function ($user){
-
-            $user->assignRole('client');
             $user->profile()->save(factory(App\Profile::class)->make());
+            $user->assignRole('client');
         });
 
 

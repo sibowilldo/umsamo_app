@@ -12,15 +12,16 @@ use Illuminate\Notifications\Notification;
 class AppointmentReminder extends Notification implements ShouldQueue
 {
     use Queueable;
+    protected $details;
 
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param array $details
      */
-    public function __construct()
+    public function __construct(array $details)
     {
-        //
+        $this->details = $details;
     }
 
     /**
@@ -31,13 +32,13 @@ class AppointmentReminder extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail', SmsPortal::class];
+        return ['mail', SmsPortal::class];//
     }
 
     public function toSmsPortal($notifiable): SmsMessage
     {
         return (new SmsMessage())
-            ->setContent('Your appointment is coming up in 2 days')
+            ->setContent('Thokozani bogogo nomkhulu. This is a reminder for your appointment with us, on '. $this->details['date_time'] . '. ' . config('app.name'))
             ->setRecipient($notifiable->profile->cell_number);
     }
 
@@ -49,11 +50,9 @@ class AppointmentReminder extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        $url =  route('appointments.show', $notifiable->uuid);
-
         return (new MailMessage)
-            ->subject('Appointment Reminder')
-            ->markdown('mail.appointment.reminder', ['url'=>$url, 'full_name' => $notifiable->profile->fullname]);
+            ->subject(config('app.name') .' - Appointment Reminder')
+            ->markdown('mail.appointment.reminder', ['url'=> $this->details['url'], 'date_time' => $this->details['date_time']]);
     }
 
     /**

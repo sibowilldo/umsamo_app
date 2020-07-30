@@ -1,7 +1,7 @@
 @extends('layout.default')
 
 @section('mobile-toggle')
-    <button class="mr-4 d-inline-block d-lg-none btn btn-light-success" id="kt_subheader_mobile_toggle">
+    <button class="mr-4 d-inline-block d-lg-none btn btn-light-success btn-sm" id="kt_subheader_mobile_toggle">
         <span></span>
         {{ Metronic::getSVG('media/svg/icons/Navigation/Arrow-from-left.svg') }}
     </button>
@@ -33,7 +33,7 @@
                     </div>
                     <!--end::Row-->
 
-                    @include('pages.widgets._upcoming-appointments')
+                    @include('pages.widgets._upcoming-appointments', ['class'=> 'min-h-600px'])
                 </div>
                 <!--end::Content-->
             </div>

@@ -57,19 +57,25 @@ class SmsPortalClient
             ]
         ];
 
-
         Log::error('Response Sending Message with token: ' . $this->_token);
         try {
-            $response = Http::withToken($this->_token)->post('https://rest.smsportal.com/v1/BulkMessages', [
-                'SendOptions' => $send_options,
-                'Messages' => $messages,
-            ]);
-            Log::info($response);
-            if($response->successful()){
-                Log::info("SMS sent successfully to ". count($messages) . " recipient(s)");
-                return true;
+
+            Log::info("Environment : ". config('app.env') );
+            if(config('app.env') == 'production'){
+                $response = Http::withToken($this->_token)
+                    ->post('https://rest.smsportal.com/v1/BulkMessages', [
+                        'SendOptions' => $send_options,
+                        'Messages' => $messages,
+                    ]);
+                if($response->successful()){
+                    Log::info("SMS sent successfully to ". count($messages) . " recipient(s)");
+                    return true;
+                }else{
+                    $response->throw();
+                }
             }else{
-                $response->throw();
+                Log::info('Fake Sending SMS ');
+                return true;
             }
         }catch (RequestException $e){
             Log::error('SMSPortal Send SMS ', $e->getTrace());

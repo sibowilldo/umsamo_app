@@ -47,15 +47,9 @@ class ConfirmCellNumber extends Notification implements ShouldQueue
             'expires_at' => Carbon::now()->addHours(4),
             'is_active' => true
         ]);
-        if(config('app.env') == 'production'){
-            return (new SmsMessage())
-                ->setContent( "Your OTP for Cell Phone Number verification is {$pin_code->code} and is valid for only 4 hours. " . config('app.name'))
-                ->setRecipient($notifiable->profile->cell_number);
-        }else{
-            Log::info('Fake Sending SMS to ' . $notifiable->cell_number);
-            return (new SmsMessage())
-                ->setContent( "Your OTP for Cell Phone Number verification is {$pin_code->code} and is valid for only 4 hours. " . config('app.name'))
-                ->setRecipient('0718988006');
-        }
+        return (new SmsMessage())
+            ->setContent( "Your OTP for Cell Phone Number verification is {$pin_code->code} and is valid for only 4 hours. " . config('app.name'))
+            ->setRecipient($notifiable->profile->cell_number);
+
     }
 }

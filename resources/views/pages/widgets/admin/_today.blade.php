@@ -34,7 +34,7 @@
                                 <span class="navi-icon">
                                     <i class="far fa-file-pdf"></i>
                                 </span>
-                                    <span class="navi-text">PDF (Not Possible)</span>
+                                    <span class="navi-text">PDF</span>
                                 </a>
                             </li>
                         @else

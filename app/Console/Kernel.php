@@ -2,8 +2,12 @@
 
 namespace App\Console;
 
+use App\CronJobs\ProcessUpcomingAppointmentReminders;
+use App\Notifications\AppointmentReminder;
+use App\User;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,7 +28,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('inspire')->everyMinute();
+        $schedule->command('backup:run')->daily()->at('1:00');
+        $schedule->command('backup:monitor')->weeklyOn(5);
+        $schedule->call(new ProcessUpcomingAppointmentReminders)->dailyAt('5:30');
     }
 
     /**

@@ -73,6 +73,15 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     }
 
     /**
+     *
+     * @return MorphMany
+     */
+    public function appointments()
+    {
+        return $this->morphMany(Appointment::class, 'appointmentable');
+    }
+
+    /**
      * A user hasOne profile
      *
      * @return hasMany
@@ -80,16 +89,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     public function comments()
     {
         return $this->hasMany(Comment::class);
-    }
-
-    /**
-     * A user hasOne profile
-     *
-     * @return BelongsToMany
-     */
-    public function families()
-    {
-        return $this->belongsToMany(Family::class)->withPivot(['is_head', 'joined_at']);
     }
 
     /**
@@ -101,6 +100,16 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     public function familyAppointments()
     {
         return $this->hasMany(FamilyAppointment::class);
+    }
+
+    /**
+     * A user hasOne profile
+     *
+     * @return BelongsToMany
+     */
+    public function families()
+    {
+        return $this->belongsToMany(Family::class)->withPivot(['is_head', 'joined_at']);
     }
 
     /**
@@ -122,15 +131,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     public function profile()
     {
         return $this->hasOne(Profile::class);
-    }
-
-    /**
-     *
-     * @return MorphMany
-     */
-    public function appointments()
-    {
-        return $this->morphMany(Appointment::class, 'appointmentable');
     }
 
     public static function sendWelcomeEmail($profile)

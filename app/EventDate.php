@@ -28,5 +28,4 @@ class EventDate extends Model
     {
         return $this->hasMany(Appointment::class);
     }
-
 }

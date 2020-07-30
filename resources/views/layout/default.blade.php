@@ -148,6 +148,13 @@
                 SessionTimeout.init();
             });
         </script>
+
+        <style>
+            .phpdebugbar-widgets-sql-duplicate{
+                background-color: hotpink !important;
+                border-bottom: 1px solid #fff;
+            }
+        </style>
     </body>
 </html>
 

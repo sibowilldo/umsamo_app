@@ -24,9 +24,8 @@
         "laravolt/avatar": "^3.2",
         "spatie/laravel-permission": "^3.11",
         "yajra/laravel-datatables-buttons": "^4.0",
-        "yajra/laravel-datatables-oracle": "^9.10"
-        "spatie/laravel-backup": "^6.11",
-        "spatie/laravel-permission": "^3.11"
+        "yajra/laravel-datatables-oracle": "^9.10",
+        "spatie/laravel-backup": "^6.11"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",

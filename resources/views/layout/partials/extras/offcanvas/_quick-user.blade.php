@@ -26,7 +26,7 @@
 				<i class="symbol-badge bg-success"></i>
             </div>
             <div class="d-flex flex-column">
-                <a href="{{ route('profiles.overview',Auth::user() ) }}" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
+                <a href="{{ route('profiles.overview',Auth::user()->uuid ) }}" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
                     {{Auth::user()->profile->full_name }}
 				</a>
                 <div class="text-muted mt-1">

@@ -21,6 +21,8 @@ class Appointment extends Model
     const STATUS_PENDING = 15;
     const TYPE_CLEANSING = 1;
     const TYPE_CONSULTING = 2;
+    const MORPH_TYPE_USER = 'App\User';
+    const MORPH_TYPE_FAMILY = 'App\Family';
 
     protected $with = ['event_date', 'appointmentable'];
 
