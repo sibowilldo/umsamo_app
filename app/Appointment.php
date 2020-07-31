@@ -116,4 +116,16 @@ class Appointment extends Model
 
         return $this->event_date->date_time->lessThan(Carbon::today());
     }
+
+    public static function APPOINTMENT_TYPES(int $int)
+    {
+        switch($int){
+            case 1 :
+                return "Cleansing";
+            case 2 :
+                return "Consulting";
+            default :
+                return "Invalid";
+        }
+    }
 }

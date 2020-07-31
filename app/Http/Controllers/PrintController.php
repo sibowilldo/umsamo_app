@@ -23,12 +23,10 @@ class PrintController extends Controller
 
         $total = count($appointments);
         $statuses =$appointments->pluck('status')->unique();
-        $page_title = 'Patients List - '. $date;
+        $page_title = 'Patients List';
 
         $pdf = PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif'])->loadView('pdf.appointment.today', compact('appointments', 'statuses', 'date', 'total', 'page_title'));
 
         return $pdf->stream();
-
-        return response()->view('pdf.appointment.today', compact('appointments', 'statuses', 'date', 'total', 'page_title'));
     }
 }

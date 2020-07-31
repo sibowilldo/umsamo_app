@@ -3,13 +3,8 @@
 namespace App\Console;
 
 use App\Appointment;
-use App\CronJobs\ProcessPatientList;
-use App\CronJobs\ProcessUpcomingAppointmentReminders;
-use App\Notifications\AppointmentReminder;
-use App\User;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -37,9 +32,11 @@ class Kernel extends ConsoleKernel
         //[description]"sends reminders to patients"
         $schedule->command("appointment:reminder ". today()->addDays(2)->format('Y-m-d')." --status=".Appointment::STATUS_CONFIRMED)->dailyAt('5:30');
 
-//        $schedule->command('patient:send')->everyMinute();
+        //[description] "Sends a preliminary list, that is subject to change"
+        $schedule->command('patient:send')->dailyAt('17:00');
+        //[description] "Sends an actual list."
+        $schedule->command('patient:send actual')->dailyAt('0:30');
 
-//        $schedule->call((new ProcessPatientList())->process())->dailyAt('5:30');
     }
 
     /**
