@@ -35,10 +35,10 @@ class SendPatientsList extends Mailable implements ShouldQueue
     public function build()
     {
         $message = $this->is_actual?
-            'Please find patients list attached.':
-            'Please find patients list attached. Kindly note, this is a preliminary list and is subject to change!';
+            'Please find attached, patients list for today.':
+            'Please find attached, patients list for tomorrow. Kindly note, this is a preliminary list and is subject to change.';
         return $this->markdown('mail.admin.appointment.list', compact('message'))
-                    ->subject(config('app.name'))
+                    ->subject(config('app.name'). ' - Patients List')
                     ->attach($this->attachment);
     }
 }
