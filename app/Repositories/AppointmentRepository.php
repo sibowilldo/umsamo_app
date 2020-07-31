@@ -8,8 +8,10 @@ use App\Appointment;
 use App\EventDate;
 use App\Status;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use phpDocumentor\Reflection\Types\This;
@@ -63,5 +65,24 @@ class AppointmentRepository
         }
         while($result);
         return $reference;
+    }
+
+    /**
+     * @param string $custom_date
+     * @param array $appointment_statuses
+     * @return Collection
+     */
+    public static function CUSTOM_DATE_APPOINTMENTS(string $custom_date, array $appointment_statuses) : Collection
+    {
+        $event_date = EventDate::where('date_time', '=', $custom_date)
+            ->with(['appointments' => function($q) use ($appointment_statuses){
+                $q->with([
+                    'familyAppointments', 'familyAppointments.user', 'familyAppointments.status:id,title,color',
+                    'status:id,title,color'
+                ])->whereIn('status_id', $appointment_statuses);
+            }])
+            ->first();
+
+        return $event_date?$event_date->appointments:Collect([]);
     }
 }

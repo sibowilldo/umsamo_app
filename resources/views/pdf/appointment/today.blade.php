@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Document</title>
+    <title>{{ $page_title ?? 'Patient List' }}</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
 
@@ -108,7 +108,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($appointments as $appointment)
+        @forelse($appointments as $appointment)
             @if(class_basename($appointment->appointmentable_type) == 'User')
                 <tr>
                     <td>
@@ -156,7 +156,11 @@
                     </tr>
                 @endforeach
             @endif
-        @endforeach
+        @empty
+            <tr>
+                <td colspan="5" style="padding:50px;text-align: center"> List is Empty</td>
+            </tr>
+        @endforelse
         </tbody>
     </table>
 </body>

@@ -52,7 +52,7 @@ Route::middleware(['auth', 'verified', 'cell_number_verified', 'is_locked'])->gr
     Route::resource('profiles', 'ProfileController')->only('update', 'destroy', 'show');
     Route::resource('regions', 'RegionController')->middleware(['role:kingpin']);
     Route::resource('statuses', 'StatusController')->middleware(['role:kingpin']);
-    Route::resource('users', 'UserController')->middleware(['role:kingpin']);
+    Route::resource('users', 'UserController')->middleware(['role:kingpin|administrator']);
 
 
     //Administrator Prefixed Controllers
