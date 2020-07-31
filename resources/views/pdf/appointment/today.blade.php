@@ -72,7 +72,7 @@
     <table class="header">
         <tbody>
         <tr>
-            <td><img src="{{ public_path('system/images/umsamo-logo-color.png') }}" alt="" width="150px"><h1 class="heading">{{ $page_title }}</h1></td>
+            <td><h1 class="heading">{{ $page_title }}</h1></td>
             <td style="text-align: right">
                 <h2><small style="color: #80808F">{{ $date }}</small></h2>
 
@@ -116,7 +116,7 @@
                         <span>{{ class_basename($appointment->appointmentable)}} Appointment</span>
                     </td>
                     <td>
-                        <div>{{ $appointment->type }}</div>
+                        <div>{{ \App\Appointment::APPOINTMENT_TYPES($appointment->type ) }}</div>
                         <span class="label label-inline label-lg font-weight-bolder label-light-success">{{ $appointment->status->title }}</span>
                     </td>
                     <td>
