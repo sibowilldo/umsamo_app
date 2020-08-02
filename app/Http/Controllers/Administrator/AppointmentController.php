@@ -56,6 +56,7 @@ class AppointmentController extends Controller
 
         $appointment_groups = $appointments->pluck('appointmentable_type')->unique();
         $statuses = $appointments->pluck('status')->unique();
+
         return response()->view('backend.appointment.historical', compact('appointment_types','appointments','statuses', 'appointment_groups', 'page_description', 'page_title'));
     }
 }
