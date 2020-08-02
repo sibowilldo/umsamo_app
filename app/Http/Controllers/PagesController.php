@@ -48,6 +48,7 @@ class PagesController extends Controller
             $appointments =$user->appointments->where('event_date.date_time', '>=', Carbon::today()->format('Y-m-d'))->sortBy('event_date.date_time')->take(5);
         }
 
+//        return response()->json($appointments->pluck('appointmentable'));
         $page_title = 'Dashboard';
         $page_description = "Welcome {$user->profile->fullname}";
 

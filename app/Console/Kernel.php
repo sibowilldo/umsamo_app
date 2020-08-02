@@ -35,7 +35,7 @@ class Kernel extends ConsoleKernel
         //[description] "Sends a preliminary list, that is subject to change"
         $schedule->command('patient:send')->dailyAt('17:00');
         //[description] "Sends an actual list."
-        $schedule->command('patient:send actual')->dailyAt('0:49');
+        $schedule->command('patient:send actual')->dailyAt('0:05');
 
     }
 
