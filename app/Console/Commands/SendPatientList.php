@@ -48,30 +48,37 @@ class SendPatientList extends Command
     public function handle()
     {
         $list_type = $this->argument('list');
-        $administrators = User::role(Collect([User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE]))->get();
-
         $custom_date = $list_type === 'preliminary'? Carbon::tomorrow(): Carbon::today();
         $appointment_statuses = [Appointment::STATUS_CONFIRMED];
         $appointments = AppointmentRepository::CUSTOM_DATE_APPOINTMENTS($custom_date->format('Y-m-d'),$appointment_statuses);
 
         $total = count($appointments);
 
-        $statuses = $appointments->pluck('status')->unique();
-        $date = $custom_date->format('Y-m-d');
-        $page_title = "Patients {$list_type} list";
+        if($total > 0){
+            $administrators = User::role(Collect([User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE]))->get();
 
-        $pdf = PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif'])->loadView('pdf.appointment.today', compact('appointments', 'statuses', 'date', 'total', 'page_title'));
+            $statuses = $appointments->pluck('status')->unique();
+            $date = $custom_date->format('Y-m-d');
+            $page_title = "Patients {$list_type} list";
 
-        $file_name = Str::slug($page_title . '-'.$custom_date->timestamp);
-        Storage::put("downloads/appointments/{$file_name}.pdf", $pdf->output(), 'public');
-        $attachment = asset("downloads/appointments/{$file_name}.pdf");
-        foreach ($administrators->pluck('email') as $administrator){
-            Log::info('Sending List to: '.$administrator);
-            Mail::to($administrator)->send(new SendPatientsList($attachment, $list_type === 'actual'));
+            $pdf = PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif'])->loadView('pdf.appointment.today', compact('appointments', 'statuses', 'date', 'total', 'page_title'));
+
+            $file_name = Str::slug($page_title . '-'.$custom_date->timestamp);
+            Storage::put("downloads/appointments/{$file_name}.pdf", $pdf->output(), 'public');
+            $attachment = asset("downloads/appointments/{$file_name}.pdf");
+            foreach ($administrators->pluck('email') as $administrator){
+                Log::info('Sending List to: '.$administrator);
+                Mail::to($administrator)->send(new SendPatientsList($attachment, $list_type === 'actual'));
+            }
+
+            Log::notice($this->argument('list'));
+
+            return 1;
+        }else{
+
+            Log::notice('No Appointments for this date: ' . $custom_date->format('Y-m-d'));
+            return 0;
         }
 
-        Log::notice($this->argument('list'));
-
-        return 1;
     }
 }
