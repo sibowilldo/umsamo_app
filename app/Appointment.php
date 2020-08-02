@@ -7,12 +7,13 @@ use Dyrynda\Database\Casts\EfficientUuid;
 use Dyrynda\Database\Support\GeneratesUuid;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Appointment extends Model
 {
 
-    use GeneratesUuid;
+    use GeneratesUuid, SoftDeletes;
 
     const STATUS_ACTIVE = 11;
     const STATUS_CANCELLED = 12;
