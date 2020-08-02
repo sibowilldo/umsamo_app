@@ -21,7 +21,7 @@ class SendPatientList extends Command
      *
      * @var string
      */
-    protected $signature = 'patient:send {list=preliminary}';
+    protected $signature = 'patient:send {list=preliminary} {date?}';
 
     /**
      * The console command description.
@@ -44,11 +44,19 @@ class SendPatientList extends Command
      * Execute the console command.
      *
      * @return int
+     * @throws \Exception
      */
     public function handle()
     {
         $list_type = $this->argument('list');
         $custom_date = $list_type === 'preliminary'? Carbon::tomorrow(): Carbon::today();
+
+        if($this->argument('date')){
+            try {
+                $custom_date = new Carbon($this->argument('date'));
+            }catch (\Exception $e){
+            }
+        }
         $appointment_statuses = [Appointment::STATUS_CONFIRMED];
         $appointments = AppointmentRepository::CUSTOM_DATE_APPOINTMENTS($custom_date->format('Y-m-d'),$appointment_statuses);
 
@@ -75,7 +83,6 @@ class SendPatientList extends Command
 
             return 1;
         }else{
-
             Log::notice('No Appointments for this date: ' . $custom_date->format('Y-m-d'));
             return 0;
         }
