@@ -11,24 +11,29 @@ class CronController extends Controller
     public function getPublicHolidays()
     {
         try {
-            $key = config('app.holiday_api_key');
-            $year = now()->format('Y');
-            $request_url = 'https://calendarific.com/api/v2/holidays?api_key='.$key.'&country=ZA&year='. $year;
+            if(true){ //ToDo: could be moved to settings
+                return [];
+            }else{
+                $key = config('app.holiday_api_key');
+                $year = now()->format('Y');
+                $request_url = 'https://calendarific.com/api/v2/holidays?api_key='.$key.'&country=ZA&year='. $year;
 
-            cache()->remember('public_holidays', now()->addYear(), function () use ($request_url){
-                $response = Http::get($request_url);
-                return $response->json();
-            });
+                cache()->remember('public_holidays', now()->addYear(), function () use ($request_url){
+                    $response = Http::get($request_url);
+                    return $response->json();
+                });
 
-            $disabled_dates = EventDate::where('date_time', '>', Carbon::today())->pluck('date_time')->toArray();
-            foreach(cache('public_holidays')['response']['holidays'] as $entry){
-                if($entry['type'][0] === 'National holiday'){
-                    array_push($disabled_dates, new Carbon($entry['date']['iso']));
+                $disabled_dates = EventDate::where('date_time', '>', Carbon::today())->pluck('date_time')->toArray();
+                foreach(cache('public_holidays')['response']['holidays'] as $entry){
+                    if($entry['type'][0] === 'National holiday'){
+                        array_push($disabled_dates, new Carbon($entry['date']['iso']));
+                    }
                 }
-            }
-            sort($disabled_dates);
+                sort($disabled_dates);
 
-            return response()->json($disabled_dates, 200);
+                return response()->json($disabled_dates, 200);
+            }
+
         } catch (\Exception $e) {
             return $e;
         }
