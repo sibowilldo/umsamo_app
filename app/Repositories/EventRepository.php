@@ -29,10 +29,12 @@ class EventRepository
         $values=[];
         try {
             $disabled_dates = EventDate::whereDate('date_time', '>', Carbon::now())->pluck('date_time')->toArray();
-            foreach(cache('public_holidays')['response']['holidays'] as $entry){
-                if($entry['type'][0] === 'National holiday'){
-                    array_push($disabled_dates, new Carbon($entry['date']['iso']));
-                }
+            if(false){
+//                foreach(cache('public_holidays')['response']['holidays'] as $entry){
+//                    if($entry['type'][0] === 'National holiday'){
+//                        array_push($disabled_dates, new Carbon($entry['date']['iso']));
+//                    }
+//                }
             }
 
             if($is_auto){
