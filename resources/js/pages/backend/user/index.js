@@ -105,16 +105,6 @@ var UserIndexScript = function () {
                 }
             ],
             initComplete: function () {
-                // this.api().columns().every(function() {
-                //     var column = this;
-                //     switch ($(column.header()).text()) {
-                //         case 'Address':
-                //             column.data().unique().sort().each(function(d, j) {
-                //                 $('.datatable-input[data-col-index="4"]').append(`<option value='${d}'>${d}</option>`);
-                //             });
-                //             break;
-                //     }
-                // });
             },
         });
 
@@ -138,13 +128,11 @@ var UserIndexScript = function () {
                     return new Promise(function (resolve) {
                         axios.delete(url)
                             .then(function (response) {
-                                swal.fire({
+                                Toast.fire({
                                     'icon': 'info',
                                     title: 'User Deleted Successfully!',
-                                    text: response.data.message,
-                                    preConfirm: function(){
-                                        table.draw();
-                                    }});
+                                    text: response.data.message});
+                                table.draw();
                             })
                             .catch(function (error) {
                                 if(error.response.data.code === 409){
@@ -209,6 +197,7 @@ var UserIndexScript = function () {
         $('#kt_datepicker').datepicker({
             todayHighlight: true,
             autoclose:true,
+            orientation: "bottom left",
             format: 'yyyy-mm-dd',
             templates: {
                 leftArrow: '<i class="la la-angle-left"></i>',

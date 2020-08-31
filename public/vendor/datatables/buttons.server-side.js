@@ -11,10 +11,10 @@
         } else {
             params.visible_columns = null;
         }
-        
+
         return params;
     };
-    
+
     var _getVisibleColumns = function () {
 
         var visible_columns = [];
@@ -85,15 +85,15 @@
         if (url.indexOf('?') > -1) {
             return url + '&' + $.param(params);
         }
-        
+
         return url + '?' + $.param(params);
     };
 
     DataTable.ext.buttons.excel = {
-        className: 'buttons-excel',
+        className: 'buttons-excel btn btn-light-primary btn-sm font-weight-bold',
 
         text: function (dt) {
-            return '<i class="fa fa-file-excel-o"></i> ' + dt.i18n('buttons.excel', 'Excel');
+            return '<i class="la la-file-excel"></i> ' + dt.i18n('buttons.excel', 'Excel');
         },
 
         action: function (e, dt, button, config) {
@@ -103,10 +103,10 @@
     };
 
     DataTable.ext.buttons.postExcel = {
-        className: 'buttons-excel',
+        className: 'buttons-excel btn btn-light-primary btn-sm font-weight-bold',
 
         text: function (dt) {
-            return '<i class="fa fa-file-excel-o"></i> ' + dt.i18n('buttons.excel', 'Excel');
+            return '<i class="la la-file-excel"></i> ' + dt.i18n('buttons.excel', 'Excel');
         },
 
         action: function (e, dt, button, config) {
@@ -116,12 +116,12 @@
             _downloadFromUrl(url, params);
         }
     };
-    
+
     DataTable.ext.buttons.postExcelVisibleColumns = {
-        className: 'buttons-excel',
+        className: 'buttons-excel btn btn-light-primary btn-sm font-weight-bold',
 
         text: function (dt) {
-            return '<i class="fa fa-file-excel-o"></i> ' + dt.i18n('buttons.excel', 'Excel (only visible columns)');
+            return '<i class="la la-file-excel"></i> ' + dt.i18n('buttons.excel', 'Excel (only visible columns)');
         },
 
         action: function (e, dt, button, config) {
@@ -135,7 +135,7 @@
     DataTable.ext.buttons.export = {
         extend: 'collection',
 
-        className: 'buttons-export',
+        className: 'buttons-export btn btn-light-primary btn-sm font-weight-bold',
 
         text: function (dt) {
             return '<i class="fa fa-download"></i> ' + dt.i18n('buttons.export', 'Export') + '&nbsp;<span class="caret"/>';
@@ -145,10 +145,10 @@
     };
 
     DataTable.ext.buttons.csv = {
-        className: 'buttons-csv',
+        className: 'buttons-csv btn btn-light-primary btn-sm font-weight-bold',
 
         text: function (dt) {
-            return '<i class="fa fa-file-excel-o"></i> ' + dt.i18n('buttons.csv', 'CSV');
+            return '<i class="la la-file-csv"></i>  ' + dt.i18n('buttons.csv', 'CSV');
         },
 
         action: function (e, dt, button, config) {
@@ -158,10 +158,10 @@
     };
 
     DataTable.ext.buttons.postCsvVisibleColumns = {
-        className: 'buttons-csv',
+        className: 'buttons-csv btn btn-light-primary btn-sm font-weight-bold',
 
         text: function (dt) {
-            return '<i class="fa fa-file-excel-o"></i> ' + dt.i18n('buttons.csv', 'CSV (only visible columns)');
+            return '<i class="la la-file-csv"></i> ' + dt.i18n('buttons.csv', 'CSV (only visible columns)');
         },
 
         action: function (e, dt, button, config) {
@@ -171,12 +171,12 @@
             _downloadFromUrl(url, params);
         }
     };
-    
+
     DataTable.ext.buttons.postCsv = {
-        className: 'buttons-csv',
+        className: 'buttons-csv btn btn-light-primary btn-sm font-weight-bold',
 
         text: function (dt) {
-            return '<i class="fa fa-file-excel-o"></i> ' + dt.i18n('buttons.csv', 'CSV');
+            return '<i class="la la-file-csv"></i> ' + dt.i18n('buttons.csv', 'CSV');
         },
 
         action: function (e, dt, button, config) {
@@ -188,10 +188,10 @@
     };
 
     DataTable.ext.buttons.pdf = {
-        className: 'buttons-pdf',
+        className: 'buttons-pdf btn btn-light-primary btn-sm font-weight-bold',
 
         text: function (dt) {
-            return '<i class="fa fa-file-pdf-o"></i> ' + dt.i18n('buttons.pdf', 'PDF');
+            return '<i class="la la-file-pdf"></i> ' + dt.i18n('buttons.pdf', 'PDF');
         },
 
         action: function (e, dt, button, config) {
@@ -201,10 +201,10 @@
     };
 
     DataTable.ext.buttons.postPdf = {
-        className: 'buttons-pdf',
+        className: 'buttons-pdf btn btn-light-primary btn-sm font-weight-bold',
 
         text: function (dt) {
-            return '<i class="fa fa-file-pdf-o"></i> ' + dt.i18n('buttons.pdf', 'PDF');
+            return '<i class="la la-file-pdf"></i> ' + dt.i18n('buttons.pdf', 'PDF');
         },
 
         action: function (e, dt, button, config) {
@@ -216,10 +216,10 @@
     };
 
     DataTable.ext.buttons.print = {
-        className: 'buttons-print',
+        className: 'buttons-print btn btn-light-primary btn-sm font-weight-bold',
 
         text: function (dt) {
-            return  '<i class="fa fa-print"></i> ' + dt.i18n('buttons.print', 'Print');
+            return  '<i class="flaticon2-print"></i> ' + dt.i18n('buttons.print', 'Print');
         },
 
         action: function (e, dt, button, config) {
@@ -229,7 +229,7 @@
     };
 
     DataTable.ext.buttons.reset = {
-        className: 'buttons-reset',
+        className: 'buttons-reset btn btn-light-danger btn-sm font-weight-bold',
 
         text: function (dt) {
             return '<i class="fa fa-undo"></i> ' + dt.i18n('buttons.reset', 'Reset');
@@ -243,7 +243,7 @@
     };
 
     DataTable.ext.buttons.reload = {
-        className: 'buttons-reload',
+        className: 'buttons-reload btn btn-light-primary btn-sm font-weight-bold',
 
         text: function (dt) {
             return '<i class="fa fa-refresh"></i> ' + dt.i18n('buttons.reload', 'Reload');
@@ -255,7 +255,7 @@
     };
 
     DataTable.ext.buttons.create = {
-        className: 'buttons-create',
+        className: 'buttons-create btn btn-light-success btn-sm font-weight-bold',
 
         text: function (dt) {
             return '<i class="fa fa-plus"></i> ' + dt.i18n('buttons.create', 'Create');
@@ -268,8 +268,9 @@
 
     if (typeof DataTable.ext.buttons.copyHtml5 !== 'undefined') {
         $.extend(DataTable.ext.buttons.copyHtml5, {
+            className: 'btn btn-light-primary btn-sm font-weight-bold',
             text: function (dt) {
-                return '<i class="fa fa-copy"></i> ' + dt.i18n('buttons.copy', 'Copy');
+                return '<i class="la la-copy"></i> ' + dt.i18n('buttons.copy', 'Copy');
             }
         });
     }

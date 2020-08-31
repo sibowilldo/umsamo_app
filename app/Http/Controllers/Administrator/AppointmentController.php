@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Administrator;
 
 use App\Appointment;
+use App\DataTables\AppointmentsDataTable;
 use App\Http\Controllers\Controller;
+use App\Status;
 use Auth;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
@@ -17,46 +20,35 @@ class AppointmentController extends Controller
         $this->appointment_types = Appointment::types();
     }
 
-    public function today()
-    {
-        $appointment_types = $this->appointment_types;
-         $page_title = "Today's Appointments";
-         $page_description = "Showing only Today's Appointments " . Carbon::today()->format('M d, Y');
-         $appointments = Appointment::with(['status:id,title,color', 'familyAppointments', 'familyAppointments.user', 'familyAppointments.status:id,title,color'])
-                         ->get()
-                         ->where('event_date.date_time', '=', Carbon::today()->format('Y-m-d H:i:s'));
 
-         $appointment_groups = $appointments->pluck('appointmentable_type')->unique();
-         $statuses = $appointments->pluck('status')->unique();
-         return response()->view('backend.appointment.today', compact('appointment_types','appointments','statuses', 'appointment_groups', 'page_description', 'page_title'));
+    /**
+     * @param AppointmentsDataTable $dataTable
+     * @return mixed
+     */
+    public function index(AppointmentsDataTable $dataTable)
+    {
+
+        $page_title = "Appointments";
+        $statuses = Status::where('model_type', 'App\Appointment')->select(['title', 'id'])->get();
+
+        return $dataTable->render('backend.admin.appointment.index', compact('page_title', 'statuses'));
     }
 
-    public function upcoming()
+
+    /**
+     * Updates the status of the resource
+     *
+     * @param Request $request
+     * @param Appointment $appointment
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function status(Request $request, Appointment $appointment)
     {
-        $appointment_types = $this->appointment_types;
-        $page_title = "Upcoming Appointments";
-        $page_description = "Showing only upcoming Appointments";
-        $appointments = Appointment::with(['status:id,title,color', 'familyAppointments', 'familyAppointments.user', 'familyAppointments.status:id,title,color'])
-            ->get()
-            ->where('event_date.date_time', '>', Carbon::today()->format('Y-m-d H:i:s'));
+        if($request->status_id === $appointment->status_id){
+            return response()->json(['message' => 'Nothing updated!'], 201);
+        }
+        $appointment->update(['status_id' => $request->status_id]);
 
-        $appointment_groups = $appointments->pluck('appointmentable_type')->unique();
-        $statuses = $appointments->pluck('status')->unique();
-        return response()->view('backend.appointment.upcoming', compact('appointment_types','appointments','statuses', 'appointment_groups', 'page_description', 'page_title'));
-    }
-
-    public function historical()
-    {
-        $appointment_types = $this->appointment_types;
-        $page_title = "Historical Appointments";
-        $page_description = "Showing only past Appointments";
-        $appointments = Appointment::with(['status:id,title,color', 'familyAppointments', 'familyAppointments.user', 'familyAppointments.status:id,title,color'])
-            ->get()
-            ->where('event_date.date_time', '<', Carbon::today()->format('Y-m-d H:i:s'));
-
-        $appointment_groups = $appointments->pluck('appointmentable_type')->unique();
-        $statuses = $appointments->pluck('status')->unique();
-
-        return response()->view('backend.appointment.historical', compact('appointment_types','appointments','statuses', 'appointment_groups', 'page_description', 'page_title'));
+        return response()->json(['title' => 'Status Updated!', 'message' => 'Appointment updated successfully'], 201);
     }
 }

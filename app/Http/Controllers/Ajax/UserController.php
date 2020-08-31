@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Html\Button;
 
 class UserController extends Controller
 {
@@ -34,7 +35,7 @@ class UserController extends Controller
         return Datatables::of($users->role('client'))
                 ->addColumn('action', function ($user) {
                     $edit_url = route('users.edit', $user->uuid);
-                    $delete_url = route('ajax.users.destroy', $user->uuid);
+                    $delete_url = route('api.users.destroy', $user->uuid);
                     $edit = "<a href='{$edit_url}' class='btn btn-icon btn-sm btn-clean'><i class='la la-edit'></i></a>";
                     $delete = "<button type='button' data-url='{$delete_url}' class='btn btn-icon btn-sm btn-clean deleteBtn'><i class='la la-trash-alt'></i></button>";
                     return $edit . $delete;})
@@ -94,6 +95,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $request['ignore_logout'] = true;
         $data = $request->only(['id_number','date_of_birth','first_name','last_name','gender','address','city','province','postal_code']);
         Validator::make($data, [
             'id_number' => ['required', 'string', Rule::unique('profiles')->ignore($user->profile->id)],
@@ -108,15 +110,14 @@ class UserController extends Controller
         ])->validate();
 
         if($user->email !== $request->email){
-            $user = UserRepository::UPDATE_EMAIL($user, $request->only('email'));
+            $user = UserRepository::UPDATE_EMAIL($user, $request->only('email', 'ignore_logout' ));
         }
         if($user->profile->cell_number !== $request->cell_number){
             $profile = ProfileRepository::UPDATE_CELL($user->profile, $request->only('cell_number'));
         }
-        array_push($data, ['ignore_logout', true]);
         $update_response = ProfileRepository::UPDATE_PROFILE($user, $data);
 
-        return response()->json(['title' => $update_response['title'], 'message' => $update_response['message'], 'url' => route('users.edit', $user->uuid)], 201);
+        return response()->json(['title' => $update_response['title'], 'message' => $update_response['message'], 'url' => route('users.index')], 201);
     }
 
     /**

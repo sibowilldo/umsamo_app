@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Appointment;
 use App\Comment;
+use App\Event;
 use App\EventDate;
 use App\Family;
 use App\Repositories\AppointmentRepository;
@@ -12,6 +13,8 @@ use App\Repositories\UserRepository;
 use App\User;
 use Auth;
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
+use DatePeriod;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -35,7 +38,7 @@ class AppointmentController extends Controller
 
         $appointments = AppointmentRepository::GET_APPOINTMENTS($user,
             ['status','event_date','event_date.event','event_date.event.status', 'appointmentable'],
-            ['uuid','reference', 'event_date_id','appointmentable_type', 'appointmentable_id', 'status_id','type', 'created_at']);
+            ['uuid','reference', 'event_date_id','appointmentable_type', 'appointmentable_id', 'status_id','type', 'created_at'])->get();
 
         $statuses = $appointments->pluck('status')->unique();
 
@@ -67,8 +70,9 @@ class AppointmentController extends Controller
         DB::transaction(function() use ($request){
 
             $event_date = EventDate::findOrFail($request->event_date);
+            $confirmed_appointments = $event_date->appointments()->whereIn('status_id', [Appointment::STATUS_CONFIRMED, Appointment::STATUS_RESCHEDULED]);
 
-            abort_if($event_date->limit < 1, 403, 'The date you\'ve selected is full and is no longer accepting appointments, please select a different date .' );
+            abort_if( $confirmed_appointments->count() >= $event_date->limit, 403, $event_date->date_time->format('M d, Y') . " has no available spots for consultation appointments. Please select another date for Consultations." );
 
             $user = $request->has('id_number')
                 ? UserRepository::NEW_USER($request->only('address', 'cell_number', 'city','date_of_birth', 'email', 'first_name', 'gender', 'id_number', 'last_name', 'postal_code', 'province'))
@@ -151,7 +155,7 @@ class AppointmentController extends Controller
     {
         Gate::authorize('update', $appointment);
 
-        $appointment->update(['status_id' => Appointment::STATUS_CANCELLED ]);
+        $appointment->update(['status_id' => Appointment::STATUS_CANCELLED]);
 
         return response()->json([
             "message"=> 'Your appointment was cancelled successfully',

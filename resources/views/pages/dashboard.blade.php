@@ -28,7 +28,11 @@
 
     {{--Begin::Content Section--}}
     @section('content')
-        @include('pages.widgets.client._make-appointment')
+        <div class="row mb-10">
+            <div class="col-lg-12">
+                @include('pages.widgets.client._make-appointment')
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-8 col-xxl-8">
                 @include('pages.widgets._upcoming-appointments', ['class' => 'card-stretch min-h-550px gutter-b'])

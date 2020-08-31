@@ -81,20 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 46);
+/******/ 	return __webpack_require__(__webpack_require__.s = 253);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 46:
+/***/ 253:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__("EuGe");
+module.exports = __webpack_require__(254);
 
 
 /***/ }),
 
-/***/ "EuGe":
+/***/ 254:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -186,17 +186,7 @@ var UserIndexScript = function () {
           return "\n                                    <span class=\"switch switch-sm switch-icon\">\n                                        <label>\n                                            <input type=\"checkbox\" ".concat(data ? 'checked' : '', " data-user=\"").concat(user.uuid, "\" name=\"lock-user\" class=\"toggle-lock\">\n                                            <span></span>\n                                        </label>\n                                    </span>");
         }
       }],
-      initComplete: function initComplete() {// this.api().columns().every(function() {
-        //     var column = this;
-        //     switch ($(column.header()).text()) {
-        //         case 'Address':
-        //             column.data().unique().sort().each(function(d, j) {
-        //                 $('.datatable-input[data-col-index="4"]').append(`<option value='${d}'>${d}</option>`);
-        //             });
-        //             break;
-        //     }
-        // });
-      }
+      initComplete: function initComplete() {}
     });
     table.on('click', '.deleteBtn', function () {
       var deleteBtn = $(this);
@@ -217,14 +207,12 @@ var UserIndexScript = function () {
         preConfirm: function preConfirm() {
           return new Promise(function (resolve) {
             axios["delete"](url).then(function (response) {
-              swal.fire({
+              Toast.fire({
                 'icon': 'info',
                 title: 'User Deleted Successfully!',
-                text: response.data.message,
-                preConfirm: function preConfirm() {
-                  table.draw();
-                }
+                text: response.data.message
               });
+              table.draw();
             })["catch"](function (error) {
               if (error.response.data.code === 409) {
                 swal.fire({
@@ -291,6 +279,7 @@ var UserIndexScript = function () {
     $('#kt_datepicker').datepicker({
       todayHighlight: true,
       autoclose: true,
+      orientation: "bottom left",
       format: 'yyyy-mm-dd',
       templates: {
         leftArrow: '<i class="la la-angle-left"></i>',

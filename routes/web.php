@@ -57,22 +57,20 @@ Route::middleware(['auth', 'verified', 'cell_number_verified', 'is_locked'])->gr
 
     //Administrator Prefixed Controllers
     Route::middleware(['role:kingpin|administrator'])->prefix('administrator')->namespace('Administrator')->group(function(){
-        Route::get('appointments/today', 'AppointmentController@today')->name('appointments.today');
-        Route::get('appointments/upcoming', 'AppointmentController@upcoming')->name('appointments.upcoming');
-        Route::get('appointments/historical', 'AppointmentController@historical')->name('appointments.historical');
+        Route::apiResource('appointments', 'AppointmentController', ['as'=>'api']);
+        Route::apiResource('family-appointments', 'FamilyAppointmentsController', ['as'=>'api']);
+//        Patch
+        Route::patch('appointments/{appointment}/status', 'AppointmentController@status')->name('api.appointments.status');
     });
 
     //Ajax Controllers
     Route::prefix('ajax')->namespace('Ajax')->group(function(){
-        Route::apiResource('users', 'UserController')->names([ 'index' => 'ajax.users.index',
-            'store' => ' ajax.users.store',
-            'show' => 'ajax.users.show', 'update' => 'ajax.users.update', 'destroy' => 'ajax.users.destroy'
-        ]);
+        Route::apiResource('statuses', 'StatusController', ['as'=>'api']);
+        Route::apiResource('users', 'UserController', ['as'=>'api']);
+        Route::patch('users/toggle-lock/{user}', 'UserController@toggleLock')->name('api.users.toggle');
 //        Get
         Route::get('event-dates', 'EventDateController@index')->name('ajax.event-dates.index');
         Route::get('families/{family}/members', 'FamilyController@members')->name('families.members');
-//        Patch
-        Route::patch('users/toggle-lock/{user}', 'UserController@toggleLock')->name('user.toggle.lock');
 
     });
 

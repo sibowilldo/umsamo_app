@@ -17,7 +17,7 @@
                                 </div>
                                 <div class="wizard-label text-left">
                                     <h3 class="wizard-title">Personal Details</h3>
-                                    <div class="wizard-desc">Let us know who you are</div>
+                                    <div class="wizard-desc">Patient Personal Details</div>
                                 </div>
                             </div>
                         </div>
@@ -30,7 +30,7 @@
                                 </div>
                                 <div class="wizard-label text-left">
                                     <h3 class="wizard-title">Account Settings</h3>
-                                    <div class="wizard-desc">Setup Your Account Details</div>
+                                    <div class="wizard-desc">Patient's Account related details</div>
                                 </div>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="wizard-label text-left">
                                     <h3 class="wizard-title">Completed!</h3>
-                                    <div class="wizard-desc">Review and, Submit</div>
+                                    <div class="wizard-desc">Review and, Save</div>
                                 </div>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                 <!--begin: Wizard Body-->
                 <div class="wizard-body p-lg-20 p-md-5 p-sm-10">
                     <!--begin: Wizard Form-->
-                    <form class="form" id="editPatientForm" action="{{ route('ajax.users.update', $user->uuid) }}" method="post">
+                    <form class="form" id="editPatientForm" action="{{ route('api.users.update', $user->uuid) }}" method="post">
                         <!--begin: Wizard Step 1-->
                         <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
                             <h4 class="mb-10 font-weight-bold text-dark">Personal Details</h4>

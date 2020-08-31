@@ -21,6 +21,7 @@
   padding: 2rem 0.5rem;
 }
 .wizard.wizard-3 .wizard-nav .wizard-steps .wizard-step .wizard-label .wizard-title {
+  font-family: Barlow;
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
