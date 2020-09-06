@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Administrator;
 
 use App\Appointment;
 use App\DataTables\AppointmentsDataTable;
+use App\EventDate;
 use App\Http\Controllers\Controller;
 use App\Status;
 use Auth;
@@ -48,6 +49,9 @@ class AppointmentController extends Controller
             return response()->json(['message' => 'Nothing updated!'], 201);
         }
         $appointment->update(['status_id' => $request->status_id]);
+        if($appointment->status_id === Appointment::STATUS_CANCELLED && $appointment->event_date->status_id === EventDate::STATUS_FULL){
+            $appointment->event_date->update(['status_id' => EventDate::STATUS_ACTIVE]);
+        }
 
         return response()->json(['title' => 'Status Updated!', 'message' => 'Appointment updated successfully'], 201);
     }
