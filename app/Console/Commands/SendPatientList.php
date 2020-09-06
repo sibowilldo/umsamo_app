@@ -4,12 +4,13 @@ namespace App\Console\Commands;
 
 use App\Appointment;
 use App\Mail\SendPatientsList;
+use App\Notifications\Slack\SystemNotifications;
 use App\Repositories\AppointmentRepository;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use PDF;
@@ -21,7 +22,7 @@ class SendPatientList extends Command
      *
      * @var string
      */
-    protected $signature = 'patient:send {list=preliminary} {date?}';
+    protected $signature = 'patient:send {list=preliminary} {--date= : Date Format Y-m-d}';
 
     /**
      * The console command description.
@@ -51,9 +52,9 @@ class SendPatientList extends Command
         $list_type = $this->argument('list');
         $custom_date = $list_type === 'preliminary'? Carbon::tomorrow(): Carbon::today();
 
-        if($this->argument('date')){
+        if($this->option('date')){
             try {
-                $custom_date = new Carbon($this->argument('date'));
+                $custom_date = new Carbon($this->option('date'));
             }catch (\Exception $e){
             }
         }
@@ -71,19 +72,20 @@ class SendPatientList extends Command
 
             $pdf = PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif'])->loadView('pdf.appointment.today', compact('appointments', 'statuses', 'date', 'total', 'page_title'));
 
-            $file_name = Str::slug($page_title . '-'.$custom_date->timestamp);
+            $file_name = Str::slug($page_title . '-'.$custom_date->format('Ymdhis'));
             Storage::put("downloads/appointments/{$file_name}.pdf", $pdf->output(), 'public');
             $attachment = asset("downloads/appointments/{$file_name}.pdf");
             foreach ($administrators->pluck('email') as $administrator){
-                Log::info('Sending List to: '.$administrator);
                 Mail::to($administrator)->send(new SendPatientsList($attachment, $list_type === 'actual'));
             }
 
-            Log::notice($this->argument('list'));
-
+            Notification::route('slack', 'https://hooks.slack.com/services/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')
+                ->notify(new SystemNotifications($this->argument('list') . ' appointments list sent to: ' . implode(', ', $administrators->pluck('email')->toArray())));
             return 1;
         }else{
-            Log::notice('No Appointments for this date: ' . $custom_date->format('Y-m-d'));
+
+            Notification::route('slack', 'https://hooks.slack.com/services/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')
+                ->notify(new SystemNotifications('No Appointments for this date: ' . $custom_date->format('Y-m-d')));
             return 0;
         }
 
