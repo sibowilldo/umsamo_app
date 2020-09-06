@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Appointment;
 use App\Comment;
-use App\Event;
 use App\EventDate;
 use App\Family;
 use App\Repositories\AppointmentRepository;
@@ -13,11 +12,8 @@ use App\Repositories\UserRepository;
 use App\User;
 use Auth;
 use Carbon\Carbon;
-use Carbon\CarbonInterval;
-use DatePeriod;
 use DB;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response as HTTPResponse;
 
@@ -156,7 +152,7 @@ class AppointmentController extends Controller
         Gate::authorize('update', $appointment);
 
         $appointment->update(['status_id' => Appointment::STATUS_CANCELLED]);
-
+        $appointment->event_date->update(['status_id' => EventDate::STATUS_ACTIVE]);
         return response()->json([
             "message"=> 'Your appointment was cancelled successfully',
             "url" => route('appointments.index')
