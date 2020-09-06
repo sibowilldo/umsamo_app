@@ -81,20 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 19);
+/******/ 	return __webpack_require__(__webpack_require__.s = 199);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 19:
+/***/ 199:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__("CPRG");
+module.exports = __webpack_require__(200);
 
 
 /***/ }),
 
-/***/ "CPRG":
+/***/ 200:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -108,23 +108,15 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 
 var DashboardAdmin = function () {
   // Base elements
-  var _wizardEl;
-
-  var _formEl;
-
-  var _wizard;
-
-  var _validations = [];
-
   var _appointment_datepicker;
 
+  var _appointment_type_select;
+
+  var _consultation_full_message_alert = $('#consultation-full-message');
+
+  var _consultation_option;
+
   var _datepicker_card = new KTCard('datepicker-card');
-
-  var _event_date = $('input[name=event_date]');
-
-  var _event_dates = {};
-
-  var _step_3_validation;
 
   var _datepicker_options = {
     viewMode: 'days',
@@ -141,6 +133,23 @@ var DashboardAdmin = function () {
       down: 'flaticon2-down'
     }
   };
+
+  var _event_date = $('input[name=event_date]');
+
+  var _event_dates = {};
+
+  var _formEl;
+
+  var _step_1_validation;
+
+  var _step_3_validation;
+
+  var _wizard;
+
+  var _wizardEl;
+
+  var _validations = [];
+  var _consultation_full_message = 'has no available spots for consultation appointments. Please choose a different date to make a Consultation Appointment.';
 
   var generateLuhnDigit = function generateLuhnDigit(inputString) {
     var total = 0;
@@ -208,8 +217,9 @@ var DashboardAdmin = function () {
           KTUtil.scrollTop();
         } else {
           swal.fire({
-            text: "Sorry, looks like there are some errors detected, please try again.",
-            icon: "error",
+            title: 'The given data was invalid.',
+            text: "Sorry, looks like you missed something, please check the form for further details and try again.",
+            icon: "warning",
             buttonsStyling: false,
             confirmButtonText: "Ok, got it!",
             customClass: {
@@ -247,8 +257,8 @@ var DashboardAdmin = function () {
               var pair = _step.value;
 
               if (pair[0] === "appointment_type") {
-                output += "<tr><th scope=\"row\">".concat(pair[0].toUpperCase().replace(/_/g, ' '), "</th><td>").concat($('input[name=appointment_type]:checked').data('value'), "</td></tr>");
-              } else if (pair[1] !== "") {
+                output += "<tr><th scope=\"row\">".concat(pair[0].toUpperCase().replace(/_/g, ' '), "</th><td>").concat($('select[name=appointment_type]').find(':selected').data('value'), "</td></tr>");
+              } else if (pair[1] !== "" && pair[0] !== "_token") {
                 output += "<tr><th scope=\"row\">".concat(pair[0].toUpperCase().replace(/_/g, ' '), "</th><td>").concat(pair[1], "</td></tr>");
               }
             }
@@ -275,7 +285,7 @@ var DashboardAdmin = function () {
   var initValidation = function initValidation() {
     // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
     // Step 1
-    _validations.push(FormValidation.formValidation(_formEl, {
+    _step_1_validation = FormValidation.formValidation(_formEl, {
       fields: {
         event_date: {
           validators: {
@@ -287,7 +297,7 @@ var DashboardAdmin = function () {
         appointment_type: {
           validators: {
             notEmpty: {
-              message: 'Please choose Appointment type'
+              message: 'Choose Appointment type; if none is available, Please select a different date.'
             }
           }
         }
@@ -296,7 +306,13 @@ var DashboardAdmin = function () {
         trigger: new FormValidation.plugins.Trigger(),
         bootstrap: new FormValidation.plugins.Bootstrap()
       }
-    })); // Step 2
+    });
+
+    _validations.push(_step_1_validation);
+
+    _appointment_type_select.on('changed.bs.select', function (e, index, isSelected, previousValue) {
+      _validations[0].revalidateField('appointment_type');
+    }); // Step 2
 
 
     _validations.push(FormValidation.formValidation(_formEl, {
@@ -439,23 +455,29 @@ var DashboardAdmin = function () {
   };
 
   var initEventDates = function initEventDates() {
+    var _consultation_option = $('#consulting_option');
+
+    var available_spaces = 0;
     axios.get('ajax/event-dates').then(function (response) {
       _event_dates = response.data.data;
 
       _appointment_datepicker.on('dp.show', function (e) {
         var limit_label = $('#limit_value');
-        var consultation_option = $('#consultation_option');
         limit_label.text('');
 
         _event_dates.some(function (item) {
           var selected_date = moment(item.date_time);
+          available_spaces = item.limit - (item.confirmed_appointments_count < 0 ? 0 : item.confirmed_appointments_count);
           $('input[name=event_date]').attr('data-id', item.id);
-          limit_label.html("<strong>".concat(selected_date.format('MMM DD, YYYY'), "</strong> has\n                                        <strong>").concat(item.limit, "</strong> ").concat(item.limit === 1 ? 'spot' : 'spots', "\n                                        available for consultation."));
+          limit_label.html("<strong>".concat(selected_date.format('MMM DD, YYYY'), "</strong> has\n                                        <strong>").concat(available_spaces, "</strong> ").concat(available_spaces === 1 ? 'spot' : 'spots', "\n                                        available for consultation."));
 
           _event_date.val(selected_date.format('YYYY-MM-DD'));
 
-          if (item.limit < 1) {
-            consultation_option.attr('disabled', 'disabled').parent().addClass('radio-disabled');
+          if (available_spaces < 1) {
+            _consultation_full_message_alert.removeClass('d-none flipOutX');
+
+            _consultation_full_message_alert.find('.alert-text').html("<b>".concat(selected_date.format('MMM DD, YYYY'), "</b> ").concat(_consultation_full_message));
+
             return true;
           }
         });
@@ -480,6 +502,12 @@ var DashboardAdmin = function () {
       });
     })["finally"](function () {
       initBootstrapCalendar();
+
+      if (available_spaces < 1) {
+        _appointment_type_select.find('option[value=2]').prop('disabled', true).attr('data-subtext', 'DISABLED: No Spots Available');
+
+        _appointment_type_select.selectpicker('refresh');
+      }
     });
   };
 
@@ -546,22 +574,37 @@ var DashboardAdmin = function () {
 
     _appointment_datepicker.on('dp.change', function (e) {
       var limit_label = $('#limit_value');
-      var consultation_option = $('#consultation_option');
       limit_label.text('');
 
       _event_dates.some(function (item) {
         var selected_date = moment(item.date_time);
+        var available_spaces = item.limit - (item.confirmed_appointments_count < 0 ? 0 : item.confirmed_appointments_count);
 
         if (selected_date.format('YYYY-MM-DD') === e.date.format('YYYY-MM-DD')) {
           $('input[name=event_date]').attr('data-id', item.id);
-          limit_label.html("<strong>".concat(selected_date.format('MMM DD, YYYY'), "</strong> has\n                                            <strong>").concat(item.limit, "</strong> ").concat(item.limit === 1 ? 'spot' : 'spots', "\n                                            available for consultation."));
+          limit_label.html("<strong>".concat(selected_date.format('MMM DD, YYYY'), "</strong> has\n                                            <strong>").concat(available_spaces, "</strong> ").concat(available_spaces === 1 ? 'spot' : 'spots', "\n                                            available for consultation."));
 
-          if (item.limit < 1) {
-            consultation_option.attr('disabled', 'disabled').parent().addClass('radio-disabled');
+          if (available_spaces < 1) {
+            _consultation_full_message_alert.removeClass('d-none flipOutX').addClass('flipInX');
+
+            _consultation_full_message_alert.find('.alert-text').html("<b>".concat(selected_date.format('MMM DD, YYYY'), "</b> ").concat(_consultation_full_message));
+
+            _appointment_type_select.selectpicker('val', '');
+
+            _consultation_option.attr('disabled', 'disabled').attr('data-subtext', 'DISABLED: No Spots Available');
+
+            _appointment_type_select.selectpicker('refresh');
+
             return selected_date.format('YYYY-MM-DD') === e.date.format('YYYY-MM-DD');
           }
         } else {
-          consultation_option.removeAttr('disabled').prop('checked', false).parent().removeClass('radio-disabled');
+          _consultation_full_message_alert.addClass('flipOutX');
+
+          _appointment_type_select.selectpicker('val', '');
+
+          _consultation_option.removeAttr('disabled').attr('data-subtext', '');
+
+          _appointment_type_select.selectpicker('refresh');
         }
       });
 
@@ -571,7 +614,7 @@ var DashboardAdmin = function () {
 
   var handleAuthRegisterFormSubmit = function handleAuthRegisterFormSubmit() {
     var submitButton = $('#make_appointment');
-    submitButton.click(function (e) {
+    submitButton.on('click', function (e) {
       e.preventDefault();
       var formEntries = new FormData(_formEl);
       var formData = {};
@@ -638,9 +681,13 @@ var DashboardAdmin = function () {
   return {
     // public functions
     init: function init() {
-      _wizardEl = KTUtil.getById('kt_wizard_v2');
-      _formEl = KTUtil.getById('registerPatientForm');
       _appointment_datepicker = $('.datepicker');
+      _appointment_type_select = $('#appointment_type').selectpicker({
+        style: 'form-control-solid text-dark-75'
+      });
+      _consultation_option = _appointment_type_select.find('option[value=2]');
+      _formEl = KTUtil.getById('registerPatientForm');
+      _wizardEl = KTUtil.getById('kt_wizard_v2');
       initEventDates();
       initReactiveFormFields();
       initWizard();

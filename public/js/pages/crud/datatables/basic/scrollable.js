@@ -81,12 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 79);
+/******/ 	return __webpack_require__(__webpack_require__.s = 727);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "+y62":
+/***/ 727:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(728);
+
+
+/***/ }),
+
+/***/ 728:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -469,14 +477,6 @@ var KTDatatablesBasicScrollable = function () {
 jQuery(document).ready(function () {
   KTDatatablesBasicScrollable.init();
 });
-
-/***/ }),
-
-/***/ 79:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("+y62");
-
 
 /***/ })
 

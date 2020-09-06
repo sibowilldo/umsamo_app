@@ -20,6 +20,7 @@ class Appointment extends Model
     const STATUS_CONFIRMED = 13;
     const STATUS_DELETED = 14;
     const STATUS_PENDING = 15;
+    const STATUS_RESCHEDULED = 32;
 
     const TYPE_CLEANSING = 1;
     const TYPE_CONSULTING = 2;
@@ -27,7 +28,7 @@ class Appointment extends Model
     const MORPH_TYPE_USER = 'App\User';
     const MORPH_TYPE_FAMILY = 'App\Family';
 
-    protected $with = ['event_date', 'appointmentable'];
+    protected $with = ['event_date', 'appointmentable','status:id,title,color'];
 
     protected $dateFormat = 'Y-m-d H:i:s';
     /**
@@ -116,6 +117,18 @@ class Appointment extends Model
     {
 
         return $this->event_date->date_time->lessThan(Carbon::today());
+    }
+
+    public function getAppointmentUserAttribute()
+    {
+        switch ($this->appointmentable_type){
+            case self::MORPH_TYPE_USER :
+                return $this->appointmentable;
+                break;
+            case self::MORPH_TYPE_FAMILY :
+                return $this->appointmentable->users;
+                break;
+        }
     }
 
     public static function APPOINTMENT_TYPES(int $int)

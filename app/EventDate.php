@@ -28,4 +28,11 @@ class EventDate extends Model
     {
         return $this->hasMany(Appointment::class);
     }
+
+    public function scopeConfirmedAppointments($query)
+    {
+        return $query->withCount(['appointments as confirmed_appointments_count' => function($q){
+            $q->whereIn('status_id', [Appointment::STATUS_CONFIRMED, Appointment::STATUS_RESCHEDULED]);
+        }]);
+    }
 }

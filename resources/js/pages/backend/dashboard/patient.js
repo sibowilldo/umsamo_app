@@ -2,18 +2,12 @@
 // Class definition
 var DashboardClient = function () {
     // Base elements
-    var _appointment_datepicker;
-    var _datepicker_card = new KTCard('datepicker-card');
-    var _event_date = $('input[name=event_date]');
-    var _event_dates = {};
-    var _with_family;
-    var _family_member;
-    var _formEl;
-    var _wizardEl;
-    var _wizard;
-    var _validations = [];
-    var _step_3_validation;
-    var _datepicker_options = {
+    let _appointment_datepicker;
+    let _appointment_type_select;
+    let _consultation_full_message_alert = $('#consultation-full-message');
+    let _consultation_option;
+    let _datepicker_card = new KTCard('datepicker-card');
+    let _datepicker_options = {
         viewMode: 'days',
         format: 'YYYY-MM-DD',
         inline: true,
@@ -28,6 +22,18 @@ var DashboardClient = function () {
             down: 'flaticon2-down',
         }
     }
+    let _event_date = $('input[name=event_date]');
+    let _event_dates = {};
+    let _family_member;
+    let _formEl;
+    let _step_1_validation;
+    let _step_3_validation;
+    let _with_family;
+    let _wizardEl;
+    let _wizard;
+    let _validations = [];
+
+    const _consultation_full_message = 'has no available spots for consultation appointments. Please choose a different date to make a Consultation Appointment.';
 
     var generateLuhnDigit = function(inputString) {
         var total = 0;
@@ -95,8 +101,9 @@ var DashboardClient = function () {
                     KTUtil.scrollTop();
                 } else {
                     swal.fire({
-                        text: "Sorry, looks like there are some errors detected, please try again.",
-                        icon: "error",
+                        title: 'The given data was invalid.',
+                        text: "Sorry, looks like you missed something, please check the form for further details and try again.",
+                        icon: "warning",
                         buttonsStyling: false,
                         confirmButtonText: "Ok, got it!",
                         customClass: {
@@ -133,9 +140,9 @@ var DashboardClient = function () {
                             output +=`<tr><th scope="row">${pair[0].toUpperCase().replace(/_/g, ' ')}</th><td>${$('input[name=family]:checked').data('family-name')}</td></tr>`
                         }else
                         if(pair[0]  === "appointment_type"){
-                            output +=`<tr><th scope="row">${pair[0].toUpperCase().replace(/_/g, ' ')}</th><td>${$('input[name=appointment_type]:checked').data('value')}</td></tr>`
+                            output +=`<tr><th scope="row">${pair[0].toUpperCase().replace(/_/g, ' ')}</th><td>${$('select[name=appointment_type]').find(':selected').data('value')}</td></tr>`
                         }else
-                        if(pair[1]!==""){
+                        if(pair[1]!=="" && pair[0] !== "_token"){
                             output +=`<tr><th scope="row">${pair[0].toUpperCase().replace(/_/g, ' ')}</th><td>${pair[1]}</td></tr>`
                         }
                     }
@@ -157,10 +164,11 @@ var DashboardClient = function () {
             KTUtil.scrollTop();
         });
     }
+
     var initValidation = function () {
         // Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
         // Step 1
-        _validations.push(FormValidation.formValidation(
+        _step_1_validation = FormValidation.formValidation(
             _formEl,
             {
                 fields: {
@@ -174,7 +182,7 @@ var DashboardClient = function () {
                     appointment_type:{
                         validators :{
                             notEmpty: {
-                                message: 'Please choose Appointment type'
+                                message: 'Choose Appointment type; if none is available, Please select a different date.'
                             }
                         }
                     }
@@ -184,7 +192,11 @@ var DashboardClient = function () {
                     bootstrap: new FormValidation.plugins.Bootstrap(),
                 }
             }
-        ));
+        );
+        _validations.push(_step_1_validation);
+        _appointment_type_select.on('changed.bs.select', (e, index, isSelected, previousValue)=>{
+            _validations[0].revalidateField('appointment_type');
+        })
         // Step 2
         _step_3_validation = FormValidation.formValidation(
             _formEl,
@@ -236,26 +248,27 @@ var DashboardClient = function () {
     }
 
     var initEventDates = function(){
+        let consultation_option = $('#consulting_option');
+        let available_spaces = 0;
         axios.get('ajax/event-dates')
             .then(response=>{
                 _event_dates =  response.data.data;
                 _appointment_datepicker.on('dp.show', function(e){
                     let limit_label = $('#limit_value');
-                    let consultation_option = $('#consultation_option')
                     limit_label.text('');
-
                     _event_dates.some(function(item){
+                        available_spaces =  item.limit - (item.confirmed_appointments_count < 0?0:item.confirmed_appointments_count);
                         let selected_date = moment(item.date_time);
                         $('input[name=event_date]').attr('data-id', item.id);
-
                         limit_label.html(`<strong>${selected_date.format('MMM DD, YYYY')}</strong> has
-                                        <strong>${item.limit}</strong> ${item.limit === 1?'spot':'spots'}
+                                        <strong>${available_spaces}</strong> ${available_spaces === 1?'spot':'spots'}
                                         available for consultation.`);
-
                         _event_date.val(selected_date.format('YYYY-MM-DD'));
 
-                        if(item.limit < 1){
-                            consultation_option.attr('disabled', 'disabled').parent().addClass('radio-disabled');
+                        if(available_spaces < 1){
+                            _consultation_full_message_alert.removeClass('d-none flipOutX');
+                            _consultation_full_message_alert.find('.alert-text')
+                                .html(`<b>${selected_date.format('MMM DD, YYYY')}</b> ${_consultation_full_message}`);
                             return true;
                         }
                     })
@@ -282,6 +295,10 @@ var DashboardClient = function () {
             })
             .finally(()=>{
                 initBootstrapCalendar();
+                if(available_spaces < 1){
+                    _appointment_type_select.find('option[value=2]').prop('disabled', true).attr('data-subtext', 'DISABLED: No Spots Available');
+                    _appointment_type_select.selectpicker('refresh');
+                }
             });
     };
 
@@ -311,7 +328,8 @@ var DashboardClient = function () {
             if(event_dates.length > 0){
                 _datepicker_options.enabledDates = event_dates;
             }
-        }else{
+        }
+        else{
             _datepicker_options.enabledDates = [moment().day(-1)];
             $('#next_step').attr('disabled', 'disabled').addClass('btn-light').removeClass('btn-primary');
         }
@@ -321,24 +339,32 @@ var DashboardClient = function () {
 
         _appointment_datepicker.on('dp.change', function(e){
             let limit_label = $('#limit_value');
-            let consultation_option = $('#consultation_option')
             limit_label.text('');
 
             _event_dates.some(function(item){
-                let selected_date = moment(item.date_time)
+                let selected_date = moment(item.date_time);
+                const available_spaces =  item.limit - (item.confirmed_appointments_count < 0?0:item.confirmed_appointments_count);
                 if(selected_date.format('YYYY-MM-DD') === e.date.format('YYYY-MM-DD')){
                     $('input[name=event_date]').attr('data-id', item.id);
 
                     limit_label.html(`<strong>${selected_date.format('MMM DD, YYYY')}</strong> has
-                                            <strong>${item.limit}</strong> ${item.limit === 1?'spot':'spots'}
+                                            <strong>${available_spaces}</strong> ${available_spaces === 1?'spot':'spots'}
                                             available for consultation.`);
-                    if(item.limit < 1){
-                        consultation_option.attr('disabled', 'disabled').parent().addClass('radio-disabled');
+                    if(available_spaces < 1){
+                        _consultation_full_message_alert.removeClass('d-none flipOutX').addClass('flipInX');
+                        _consultation_full_message_alert.find('.alert-text')
+                            .html(`<b>${selected_date.format('MMM DD, YYYY')}</b> ${_consultation_full_message}`);
+                        _appointment_type_select.selectpicker('val','');
+                        _consultation_option.attr('disabled', 'disabled').attr('data-subtext', 'DISABLED: No Spots Available');
+                        _appointment_type_select.selectpicker('refresh');
                         return selected_date.format('YYYY-MM-DD') === e.date.format('YYYY-MM-DD');
                     }
                     _event_date.val(e.date.format('YYYY-MM-DD'));
                 }else{
-                    consultation_option.removeAttr('disabled').prop('checked', false).parent().removeClass('radio-disabled')
+                    _consultation_full_message_alert.addClass('flipOutX');
+                    _appointment_type_select.selectpicker('val','');
+                    _consultation_option.removeAttr('disabled').attr('data-subtext', '');
+                    _appointment_type_select.selectpicker('refresh');
                 }
             })
         });
@@ -346,7 +372,7 @@ var DashboardClient = function () {
 
     var handleAuthRegisterFormSubmit = function(){
         let submitButton = $('#make_appointment');
-        submitButton.click(function(e) {
+        submitButton.on('click',(e) => {
             e.preventDefault();
             let formEntries = new FormData(_formEl);
             let formData = {};
@@ -414,11 +440,13 @@ var DashboardClient = function () {
     return {
         // public functions
         init: function () {
-            _wizardEl = KTUtil.getById('kt_wizard_v2');
-            _formEl = KTUtil.getById('makeAppointment');
-            _family_member =$('#family_member');
-            _with_family = $('input[name=with_family]');
             _appointment_datepicker = $('.datepicker');
+            _appointment_type_select = $('#appointment_type').selectpicker({style:'form-control-solid text-dark-75'});
+            _consultation_option = _appointment_type_select.find('option[value=2]');
+            _family_member =$('#family_member');
+            _formEl = KTUtil.getById('makeAppointment');
+            _with_family = $('input[name=with_family]');
+            _wizardEl = KTUtil.getById('kt_wizard_v2');
 
             initEventDates();
             initReactiveFormFields();

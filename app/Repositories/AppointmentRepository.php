@@ -9,6 +9,7 @@ use App\EventDate;
 use App\Status;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -19,16 +20,16 @@ use phpDocumentor\Reflection\Types\This;
 class AppointmentRepository
 {
     /**
-     * @param User $user
+     * @param $appointmentable
      * @param array $relationships
      * @param array $columns
-     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function GET_APPOINTMENTS($appointmentable, $relationships = [], $columns = [])
     {
         return Auth::user()->hasAnyRole([User::SUPER_ADMIN_ROLE, User::ADMIN_ROLE])
-            ? Appointment::with($relationships)->select($columns)->get()
-            : $appointmentable->appointments()->with($relationships)->select($columns)->get();
+            ? Appointment::with($relationships)->select($columns)
+            : $appointmentable->appointments()->with($relationships)->select($columns);
     }
 
     /**
@@ -60,7 +61,11 @@ class AppointmentRepository
     {
         do
         {
-            $reference = Str::upper($prepend .'-'. sprintf('%04d', rand(0000, 9999)) . '-'. Str::random(4));
+            $now = Carbon::now();
+            $ref_ymd = $now->format('ymdh');
+            $ref_hms = $now->format('ms');
+            $ref_rand_str = Str::random(3);
+            $reference = Str::upper(sprintf("%s-%d-%04d%s", $prepend, $ref_ymd, $ref_hms,$ref_rand_str));// Str::upper($prepend .'-'. sprintf('%04d', rand(0000, 9999)) . '-'. Str::random(4));
             $result = Appointment::where('reference', $reference)->first();
         }
         while($result);

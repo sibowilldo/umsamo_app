@@ -57289,6 +57289,7 @@ code {
   font-size: 1rem;
   font-weight: 400;
   color: #464E5F;
+  font-family: Barlow;
 }
 .form-group .invalid-feedback,
 .form-group .valid-feedback {
@@ -74892,6 +74893,10 @@ canvas {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: Barlow;
 }
 
 body {

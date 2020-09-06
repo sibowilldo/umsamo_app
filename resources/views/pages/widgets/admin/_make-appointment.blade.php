@@ -58,7 +58,7 @@
                         <div class="row">
                             <div class="col-xxl-12">
                                 <form class="form" id="registerPatientForm" method="post" action="{{ route('appointments.store') }}">
-                                {{--@csrf--}}
+                                @csrf
                                 <!--begin: Wizard Step 1-->
                                     <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
                                         <!--begin::Section-->
@@ -75,21 +75,29 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label for="appointment_type" class="font-weight-bolder">Select Appointment Date from Calendar:</label>
+                                                    <label for="appointment_type" class="font-weight-bolder">Choose a date from the Calendar:</label>
                                                     <input type="text" name="event_date" data-id="" class="form-control form-control-solid mb-5" value="" placeholder="" readonly/>
                                                     <span class="form-text text-info" id="limit_value"></span>
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="radio-list">
-                                                        <label for="appointment_type" class="font-weight-bolder">Select Appointment Type:</label>
-                                                        @foreach($appointment_types as $type)
-                                                            <label class="radio  {{ $type['id'] == 1 ? 'radio-disabled':'' }}">
-                                                                <input type="radio" id="{{ \Str::lower($type['title']) }}_option" name="appointment_type" data-value="{{ $type['title'] }}" value="{{ $type['id'] }}" {{ $type['id'] == 1 ? 'disabled':'' }}/>
-                                                                {{ $type['title'] }} {{ $type['id'] == 1 ? '(Currently unavailable)':'' }}
-                                                                <span></span>
-                                                            </label>
-                                                        @endforeach
-                                                    </div>
+                                                    <label for="appointment_type" class="font-weight-bolder">
+                                                        Choose Appointment Type:
+                                                    </label>
+                                                        <select name="appointment_type" id="appointment_type" class="form-control text-dark form-control-solid kt-selectpicker" title="Choose one of the following...">
+                                                            @foreach($appointment_types as $type)
+                                                                <option value="{{ $type['id'] }}" {{ $type['id'] == 1 ? 'disabled':'' }} data-value="{{ $type['title'] }}" data-subtext="{{ $type['id'] == 1 ? 'DISABLED: Currently Unavailable':'' }}">
+                                                                    {{ $type['title'] }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="alert alert-custom alert-notice alert-primary fade show rounded d-none mb-10 animated" role="alert" id="consultation-full-message">
+                                                    <div class="alert-icon">{{ Metronic::getSVG('media/svg/icons/Code/Info-circle.svg', 'svg-icon svg-icon-light svg-icon-2x') }}</div>
+                                                    <div class="alert-text"></div>
                                                 </div>
                                             </div>
                                         </div>

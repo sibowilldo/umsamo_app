@@ -17,6 +17,7 @@ class FamilyAppointment extends Model
 
     protected $dates = ['deleted_at'];
     protected $fillable = ['user_id','family_id','appointment_id','status_id'];
+    protected $with = ['user','appointment', 'status', 'family'];
 
 
     public function user()

@@ -29,25 +29,17 @@ return [
             'title' => 'Appointments',
             'root' => true,
             'icon' => 'media/svg/icons/Home/Clock.svg', // or can be 'flaticon-home' or any flaticon-*
-            'bullet' => 'line',
+            'bullet' => 'dot',
             'submenu' => [
                 [
-                    'title' => 'Today\'s List',
+                    'title' => 'Individual',
                     'roles' => [User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE],
-                    'icon' => 'media/svg/icons/Home/Clock.svg',
-                    'page' => 'appointments.today',
+                    'page' => 'api.appointments.index',
                 ],
                 [
-                    'title' => 'Upcoming',
+                    'title' => 'Family',
                     'roles' => [User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE],
-                    'icon' => 'media/svg/icons/Home/Clock.svg',
-                    'page' => 'appointments.upcoming',
-                ],
-                [
-                    'title' => 'Historical',
-                    'roles' => [User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE],
-                    'icon' => 'media/svg/icons/Home/Clock.svg',
-                    'page' => 'appointments.historical',
+                    'page' => 'api.family-appointments.index',
                 ],
                 [
                     'title' => 'All Appointments',

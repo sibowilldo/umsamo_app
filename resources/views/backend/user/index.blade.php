@@ -101,7 +101,7 @@
 @section('scripts')
     <script src="{{ asset('js/pages/crud/forms/widgets/bootstrap-datepicker.js') }}"></script>
     <script src="{{ asset('plugins/custom/datatables/datatables.bundle.js') }}"></script>
-        <script src="{{ asset('js/pages/backend/user/index.js') }}" type="text/javascript" defer></script>
+    <script src="{{ asset('js/pages/backend/user/index.js') }}" type="text/javascript" defer></script>
 @endsection
 
 @section('styles')

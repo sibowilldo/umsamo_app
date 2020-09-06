@@ -361,7 +361,9 @@ var KTWizard2 = function () {
                     }else {
                         window.swal.fire({icon: 'error', title: error.response.statusText,text: "Please try again!"})
                     }
-                })
+                }).finally(()=>{
+                submitButton.removeClass('spinner-white spinner spinner-left').addClass('px-9').removeAttr('disabled').text('Submit');
+            })
         });
     };
 

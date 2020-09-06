@@ -56,7 +56,6 @@ class EventController extends Controller
 
         $event = Event::create($request->only('title', 'description', 'item_id', 'status_id'));
 
-
         Region::first()->events()->attach($event->id);
 
         foreach ($repo_event_dates as $event_date){
