@@ -152,7 +152,9 @@ class AppointmentController extends Controller
         Gate::authorize('update', $appointment);
 
         $appointment->update(['status_id' => Appointment::STATUS_CANCELLED]);
-        $appointment->event_date->update(['status_id' => EventDate::STATUS_ACTIVE]);
+        if($appointment->event_date->status_id === EventDate::STATUS_FULL){
+            $appointment->event_date->update(['status_id' => EventDate::STATUS_ACTIVE]);
+        }
         return response()->json([
             "message"=> 'Your appointment was cancelled successfully',
             "url" => route('appointments.index')
