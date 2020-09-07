@@ -57,14 +57,15 @@ Route::middleware(['auth', 'verified', 'cell_number_verified', 'is_locked'])->gr
 
     //Administrator Prefixed Controllers
     Route::middleware(['role:kingpin|administrator'])->prefix('administrator')->namespace('Administrator')->group(function(){
-        Route::apiResource('appointments', 'AppointmentController', ['as'=>'api']);
-        Route::apiResource('family-appointments', 'FamilyAppointmentsController', ['as'=>'api']);
+        Route::apiResource('appointments', 'AppointmentController', ['as'=>'admin']);
+        Route::apiResource('family-appointments', 'FamilyAppointmentsController', ['as'=>'admin']);
 //        Patch
         Route::patch('appointments/{appointment}/status', 'AppointmentController@status')->name('api.appointments.status');
     });
 
     //Ajax Controllers
     Route::prefix('ajax')->namespace('Ajax')->group(function(){
+        Route::apiResource('appointments', 'AppointmentController', ['as'=>'api']);
         Route::apiResource('statuses', 'StatusController', ['as'=>'api']);
         Route::apiResource('users', 'UserController', ['as'=>'api']);
         Route::patch('users/toggle-lock/{user}', 'UserController@toggleLock')->name('api.users.toggle');

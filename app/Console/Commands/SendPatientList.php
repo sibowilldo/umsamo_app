@@ -83,7 +83,6 @@ class SendPatientList extends Command
                 ->notify(new SystemNotifications($this->argument('list') . ' appointments list sent to: ' . implode(', ', $administrators->pluck('email')->toArray())));
             return 1;
         }else{
-
             Notification::route('slack', 'https://hooks.slack.com/services/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')
                 ->notify(new SystemNotifications('No Appointments for this date: ' . $custom_date->format('Y-m-d')));
             return 0;
