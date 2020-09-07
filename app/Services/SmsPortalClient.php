@@ -26,10 +26,7 @@ class SmsPortalClient
     protected function getAuthToken(): string
     {
         try{
-            Log::info('SMS CRED INFO: ' . config('app.smsportal_client_id'));
-            Log::info('api_secret: ' . config('app.smsportal_api_secret'));
-            Log::info('test_mode: ' . config('app.smsportal_test_mode'));
-            Log::info('Trying to authorize SMS');
+            Log::info(sprintf('Tying to authorize SMS Portal. Client: %s , API: %s , Test Mode: %s', config('app.smsportal_client_id'), config('app.smsportal_api_secret'), config('app.smsportal_test_mode')));
             $response = Http::withBasicAuth( config('app.smsportal_client_id'), config('app.smsportal_api_secret'))
                 ->withHeaders(['content-type' => 'application/json'])
                 ->get('https://rest.smsportal.com/v1/Authentication');
@@ -39,11 +36,10 @@ class SmsPortalClient
                 Log::info('Response Successful');
                 return $response['token'];
             }else{
-                Log::error('Response Unsuccessful');
              $response->throw();
             }
         } catch (RequestException $e) {
-            Log::error('SMSPortal Auth Get Token', $e->getTrace());
+            Log::critical('SMSPortal response: Could not get Token', $e->getTrace());
         }
     }
 
@@ -57,10 +53,8 @@ class SmsPortalClient
             ]
         ];
 
-        Log::error('Response Sending Message with token: ' . $this->_token);
+        Log::info('Sending SMS with token: ' . $this->_token);
         try {
-
-            Log::info("Environment : ". config('app.env') );
             if(config('app.env') == 'production'){
                 $response = Http::withToken($this->_token)
                     ->post('https://rest.smsportal.com/v1/BulkMessages', [
@@ -74,11 +68,11 @@ class SmsPortalClient
                     $response->throw();
                 }
             }else{
-                Log::info('Fake Sending SMS ');
+                Log::info('Fake Sending SMS because environment is: '.config('app.env'));
                 return true;
             }
         }catch (RequestException $e){
-            Log::error('SMSPortal Send SMS ', $e->getTrace());
+            Log::critical('Error sending SMS: ', $e->getTrace());
             return false;
         }
     }
