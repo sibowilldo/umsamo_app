@@ -67,12 +67,15 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $messages = [
+            'unique_encrypted' => 'The :attribute has already been taken.'
+        ];
         return Validator::make($data, [
-            'id_number' => ['required', 'string', 'unique:profiles'],
-            'cell_number' => ['required', 'string', 'unique:profiles'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'id_number' => ['required', 'string', 'unique_encrypted:profiles,id_number'],
+            'cell_number' => ['required', 'string', 'unique_encrypted:profiles,cell_number'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique_encrypted:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        ], $messages);
     }
 
 

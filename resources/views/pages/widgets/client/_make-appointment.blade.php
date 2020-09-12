@@ -141,7 +141,7 @@
                                             <!--begin::Alert-->
                                             <div class="alert alert-custom alert-outline-danger fade show shadow-xs" role="alert">
                                                 <div class="alert-icon">{{ Metronic::getSvg('media/svg/icons/Code/Warning-2.svg', 'svg-icon-3x svg-icon svg-icon-danger') }}</div>
-                                                <div class="alert-text text-dark-75">Your Account is not associated with any Family Accounts. Please create one from the Profile page, before trying to make an Appointment for a Family.</div>
+                                                <div class="alert-text text-dark-75">Your Account is not associated with any Family Accounts. Please create one from the Profile page, before you try to make an Appointment for a Family.</div>
                                             </div>
                                             <!--end::Alert-->
                                         </div>

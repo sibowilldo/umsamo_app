@@ -50,10 +50,13 @@ class UserRepository
 
     public static function UPDATE_EMAIL(User $user, array $data) : User
     {
+        $messages = [
+            'unique_encrypted' => 'The :attribute has already been taken.'
+        ];
 
         Validator::make($data, [
-            'email' => ['required', 'string', 'unique:users'],
-        ])->validate();
+            'email' => ['required', 'string', 'unique_encrypted:users,email'],
+        ], $messages)->validate();
 
         $user->email = $data['email'];
         $user->email_verified_at = null;
