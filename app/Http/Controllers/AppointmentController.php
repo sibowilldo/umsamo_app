@@ -31,10 +31,10 @@ class AppointmentController extends Controller
 
         $appointment_types = Appointment::types();
         $user = User::with(['families', 'families.appointments'])->findOrFail(Auth::id());
-
-        $appointments = AppointmentRepository::GET_APPOINTMENTS($user,
-            ['status','event_date','event_date.event','event_date.event.status', 'appointmentable'],
-            ['uuid','reference', 'event_date_id','appointmentable_type', 'appointmentable_id', 'status_id','type', 'created_at'])->get();
+        $appointmentables = [];
+        array_push($appointmentables, $user->id);
+        array_push($appointmentables, $user->families->pluck('id')->toArray());
+        $appointments = Appointment::whereIn('appointmentable_id', $appointmentables )->get();
 
         $statuses = $appointments->pluck('status')->unique();
 
