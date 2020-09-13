@@ -11,6 +11,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class PagesController extends Controller
@@ -18,6 +19,7 @@ class PagesController extends Controller
 
     public function index()
     {
+
         $provinces = Region::$provinces;
         $appointment_types = Appointment::types();
         $user = Auth::user();

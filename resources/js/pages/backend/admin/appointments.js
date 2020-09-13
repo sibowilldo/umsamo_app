@@ -12,9 +12,9 @@ let AdminAppointmentIndexScript = function () {
             {data: 'type', name: 'type'},
             {data: 'appointmentable.profile.fullname'},
             {data: 'status_id', name: 'status_id'},
-            {data: 'appointmentable.profile.id_number', name: 'appointmentable.profile.id_number'},
+            {data: 'appointmentable.profile.id_number', name: 'id_number'},
             {data: 'appointmentable.email', name: 'appointmentable.email'},
-            {data: 'appointmentable.profile.cell_number'},
+            {data: 'appointmentable.profile.cell_number', name: 'cell_number'},
             {data: 'action', name: 'action'},
         ]
         var table = $('#appointments-table').DataTable({

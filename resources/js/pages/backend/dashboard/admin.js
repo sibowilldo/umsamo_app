@@ -510,7 +510,9 @@ var DashboardAdmin = function () {
                         error_title = `${error.response.status} ${error.response.statusText}`;
                         if(error.response.hasOwnProperty('data')){
                             error_messages = `${error.response.data.message}`;
-                            if(error.response.data.hasOwnProperty('error')){
+                            if(error.response.data.hasOwnProperty('errors')){
+                                error_title = error.response.data.message;
+                                error_messages ='';
                                 let errorBag = error.response.data.errors
                                 Object.entries(errorBag).forEach(function(item, index){
                                     error_messages += `<div>${item[1][0]}</div>`;

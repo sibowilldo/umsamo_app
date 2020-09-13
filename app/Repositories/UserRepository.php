@@ -20,10 +20,15 @@ class UserRepository
     public static function NEW_USER(array $data)
     {
         Validator::make($data, [
-            'id_number' => ['required', 'string', 'unique:profiles,id'],
-            'cell_number' => ['required', 'string', 'unique:profiles,id'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,uuid'],
-        ])->validate();
+            'id_number' => ['required', 'string', 'unique_encrypted:profiles,id'],
+            'cell_number' => ['required', 'string', 'unique_encrypted:profiles,id'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique_encrypted:users,uuid'],
+        ], ['unique_encrypted' => 'The :attribute is already taken.'])->validate();
+
+        $user = User::where('email', $data['email'])->first();
+        if($user){
+            return $user;
+        }
 
         $user = User::firstOrCreate(
             ['email' => $data['email']],

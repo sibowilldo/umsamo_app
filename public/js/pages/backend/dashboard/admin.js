@@ -660,7 +660,9 @@ var DashboardAdmin = function () {
           if (error.response.hasOwnProperty('data')) {
             error_messages = "".concat(error.response.data.message);
 
-            if (error.response.data.hasOwnProperty('error')) {
+            if (error.response.data.hasOwnProperty('errors')) {
+              error_title = error.response.data.message;
+              error_messages = '';
               var errorBag = error.response.data.errors;
               Object.entries(errorBag).forEach(function (item, index) {
                 error_messages += "<div>".concat(item[1][0], "</div>");
