@@ -13,11 +13,11 @@
             <form class="kt-form kt-form--fit mb-15">
                 <div class="row mb-6">
                     <div class="col-lg-3 mb-lg-0 mb-6">
-                        <label>ID Number:</label>
-                        <input type="text" class="form-control datatable-input" placeholder="E.g: 7705269904089" data-col-index="0" />
+                        <label>First Name:</label>
+                        <input type="text" class="form-control datatable-input" placeholder="E.g: Thabile" data-col-index="0" />
                     </div>
                     <div class="col-lg-3 mb-lg-0 mb-6">
-                        <label>Surname: <span class="text-muted font-size-xs">(First Name not yet implemented)</span></label>
+                        <label>Surname:</label>
                         <input type="text" class="form-control datatable-input" placeholder="E.g: Shabangu" data-col-index="1" />
                     </div>
                     <div class="col-lg-3 mb-lg-0 mb-6">

@@ -7,7 +7,7 @@ var UserIndexScript = function () {
     var initUserIndex = function () {
         var $ = jQuery.noConflict();
         var columns = [
-            {data: 'profile.id_number', name: 'profile.id_number'},
+            {data: 'profile.fullname', name: 'profile.first_name'},
             {data: 'profile.fullname', name: 'profile.last_name'},
             {data: 'email', name: 'email'},
             {data: 'profile.cell_number', name: 'profile.cell_number'},

@@ -81,20 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 253);
+/******/ 	return __webpack_require__(__webpack_require__.s = 47);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 253:
+/***/ 47:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(254);
+module.exports = __webpack_require__("EuGe");
 
 
 /***/ }),
 
-/***/ 254:
+/***/ "EuGe":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -106,8 +106,8 @@ var UserIndexScript = function () {
   var initUserIndex = function initUserIndex() {
     var $ = jQuery.noConflict();
     var columns = [{
-      data: 'profile.id_number',
-      name: 'profile.id_number'
+      data: 'profile.fullname',
+      name: 'profile.first_name'
     }, {
       data: 'profile.fullname',
       name: 'profile.last_name'
