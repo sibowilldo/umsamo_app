@@ -63,7 +63,7 @@ class Appointment extends Model
     protected $appends = ['has_passed'];
 
     public static function types(){
-        return collect([['id' => 1, 'title' => 'Cleansing'], ['id' => 2, 'title' => 'Consulting']]);
+        return collect([['id' => 2, 'title' => 'Consulting'],['id' => 1, 'title' => 'Cleansing']]);
     }
 
     public function attachments()
