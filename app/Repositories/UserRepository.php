@@ -22,9 +22,11 @@ class UserRepository
     {
 
         $user = User::where('email', $data['email'])->first();
-        $profile = $user->profile()->where('id_number' , $data['id_number'])->where('cell_number', $data['cell_number'])->first();
-        if($user && $profile){
-            return $user;
+        if($user){
+            $profile = $user->profile()->where('id_number' , $data['id_number'])->where('cell_number', $data['cell_number'])->first();
+            if($profile){
+                return $user;
+            }
         }
 
         Validator::make($data, [
