@@ -18,17 +18,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Magros\Encryptable\Encryptable;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
-    use Notifiable, SoftDeletes, GeneratesUuid, HasRoles;
+    use Notifiable, SoftDeletes, GeneratesUuid, HasRoles, Encryptable;
 
     const CLIENT_ROLE = 'client';
     const ADMIN_ROLE = 'administrator';
     const SUPER_ADMIN_ROLE = 'kingpin';
 
-    protected $with = ['profile'];
     /**
      * The attributes that are mass assignable.
      *
@@ -37,6 +37,15 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     protected $fillable = [
         'email', 'password', 'email_verified_at'
     ];
+
+    /**
+     * The attributes that are encrypted
+     *
+     * @var array
+     */
+    protected $encryptable = ['email'];
+
+    protected $with = ['profile'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -159,5 +168,4 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     {
         return 'https://hooks.slack.com/services/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';
     }
-
 }

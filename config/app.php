@@ -190,6 +190,7 @@ return [
         App\Providers\MetronicServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Dyrynda\Database\LaravelEfficientUuidServiceProvider::class,
+        \Magros\Encryptable\EncryptServiceProvider::class,
         /*
          * Application Service Providers...
          */

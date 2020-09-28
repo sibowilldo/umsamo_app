@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 
+use App\Profile;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -19,11 +20,21 @@ class UserRepository
      */
     public static function NEW_USER(array $data)
     {
+
+        $user = User::where('email', $data['email'])->first();
+        if($user){
+            $profile = $user->profile()->where('id_number' , $data['id_number'])->where('cell_number', $data['cell_number'])->first();
+            if($profile){
+                return $user;
+            }
+        }
+
         Validator::make($data, [
-            'id_number' => ['required', 'string', 'unique:profiles,id'],
-            'cell_number' => ['required', 'string', 'unique:profiles,id'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,uuid'],
-        ])->validate();
+            'id_number' => ['required', 'string', 'unique_encrypted:profiles,id_number,id'],
+            'cell_number' => ['required', 'string', 'unique_encrypted:profiles,cell_number,id'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique_encrypted:users,email,uuid'],
+        ], ['unique_encrypted' => 'The :attribute is already taken.'])->validate();
+
 
         $user = User::firstOrCreate(
             ['email' => $data['email']],
@@ -50,10 +61,13 @@ class UserRepository
 
     public static function UPDATE_EMAIL(User $user, array $data) : User
     {
+        $messages = [
+            'unique_encrypted' => 'The :attribute has already been taken.'
+        ];
 
         Validator::make($data, [
-            'email' => ['required', 'string', 'unique:users'],
-        ])->validate();
+            'email' => ['required', 'string', 'unique_encrypted:users,email'],
+        ], $messages)->validate();
 
         $user->email = $data['email'];
         $user->email_verified_at = null;

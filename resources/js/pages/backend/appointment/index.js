@@ -15,53 +15,43 @@ var AppointmentIndexScript = function() {
                 key: 'generalSearch'
             },
             layout :{
-                scroll: true,
+                scroll:true,
                 height: 500,
                 spinner: {
                     type: 'loader',
                 }
             },
-            rows: {
-                autoHide: false
-            },
             columns: [
+                {
+                    field: 'scheduledFor',
+                    title: 'SCHEDULED FOR',
+                    width: 150
+                },
                 {
                     field: 'reference',
                     title: 'REFERENCE',
                     type: 'number',
                     autoHide: false,
-                    textAlign: 'center'
-                },
-                {
-                    field: 'scheduledFor',
-                    title: 'SCHEDULED FOR',
-                    autoHide: false,
-                    textAlign: 'center'
+                    width: 150
                 },
                 {
                     field: 'status',
                     title: 'STATUS',
                     autoHide: false,
-                    width: 150,
                 },
                 {
                     field: 'type',
                     title: 'TYPE',
-                    autoHide: false,
-                    width: 150,
                 },
                 {
                     field: 'reserved',
                     title: 'RESERVED',
-                    autoHide: true,
-                    width: 100
                 },
                 {
                     field: 'action',
                     title: 'ACTION',
                     textAlign: 'right',
                     sortable: false,
-                    autoHide: false,
                 }
             ],
         });
@@ -71,7 +61,8 @@ var AppointmentIndexScript = function() {
         });
 
         $('#kt_datatable_search_type').on('change', function() {
-            datatable.search($(this).val().toLowerCase(), 'TYPE');
+            let selected = $(this).find("option:selected").text().toLowerCase() === 'all' ? null: $(this).find("option:selected").text().toLowerCase();
+            datatable.search(selected, 'TYPE');
         });
 
         $('#kt_datatable_search_status, #kt_datatable_search_type').selectpicker();
@@ -84,6 +75,7 @@ var AppointmentIndexScript = function() {
             let cancelBtn = $(this);
             var record = cancelBtn.data("record");
             var url = cancelBtn.data("url");
+
             swal.fire({
                 icon: 'info',
                 title: 'Are you sure?',

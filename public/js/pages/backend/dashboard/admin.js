@@ -81,20 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 199);
+/******/ 	return __webpack_require__(__webpack_require__.s = 20);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 199:
+/***/ 20:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(200);
+module.exports = __webpack_require__("CPRG");
 
 
 /***/ }),
 
-/***/ 200:
+/***/ "CPRG":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -660,7 +660,9 @@ var DashboardAdmin = function () {
           if (error.response.hasOwnProperty('data')) {
             error_messages = "".concat(error.response.data.message);
 
-            if (error.response.data.hasOwnProperty('error')) {
+            if (error.response.data.hasOwnProperty('errors')) {
+              error_title = error.response.data.message;
+              error_messages = '';
               var errorBag = error.response.data.errors;
               Object.entries(errorBag).forEach(function (item, index) {
                 error_messages += "<div>".concat(item[1][0], "</div>");

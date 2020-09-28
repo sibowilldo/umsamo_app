@@ -81,20 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 195);
+/******/ 	return __webpack_require__(__webpack_require__.s = 18);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 195:
+/***/ 18:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(196);
+module.exports = __webpack_require__("8s/r");
 
 
 /***/ }),
 
-/***/ 196:
+/***/ "8s/r":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -121,48 +121,39 @@ var AppointmentIndexScript = function () {
           type: 'loader'
         }
       },
-      rows: {
-        autoHide: false
-      },
       columns: [{
+        field: 'scheduledFor',
+        title: 'SCHEDULED FOR',
+        width: 150
+      }, {
         field: 'reference',
         title: 'REFERENCE',
         type: 'number',
         autoHide: false,
-        textAlign: 'center'
-      }, {
-        field: 'scheduledFor',
-        title: 'SCHEDULED FOR',
-        autoHide: false,
-        textAlign: 'center'
+        width: 150
       }, {
         field: 'status',
         title: 'STATUS',
-        autoHide: false,
-        width: 150
+        autoHide: false
       }, {
         field: 'type',
-        title: 'TYPE',
-        autoHide: false,
-        width: 150
+        title: 'TYPE'
       }, {
         field: 'reserved',
-        title: 'RESERVED',
-        autoHide: true,
-        width: 100
+        title: 'RESERVED'
       }, {
         field: 'action',
         title: 'ACTION',
         textAlign: 'right',
-        sortable: false,
-        autoHide: false
+        sortable: false
       }]
     });
     $('#kt_datatable_search_status').on('change', function () {
       datatable.search($(this).val().toLowerCase(), 'STATUS');
     });
     $('#kt_datatable_search_type').on('change', function () {
-      datatable.search($(this).val().toLowerCase(), 'TYPE');
+      var selected = $(this).find("option:selected").text().toLowerCase() === 'all' ? null : $(this).find("option:selected").text().toLowerCase();
+      datatable.search(selected, 'TYPE');
     });
     $('#kt_datatable_search_status, #kt_datatable_search_type').selectpicker();
     datatable.on('datatable-on-init, datatable-on-layout-updated', function () {

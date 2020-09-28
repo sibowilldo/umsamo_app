@@ -33,6 +33,8 @@ var DashboardClient = function () {
     let _wizard;
     let _validations = [];
 
+    let _chart;
+    let _chartValue = 0;
     const _consultation_full_message = 'has no available spots for consultation appointments. Please choose a different date to make a Consultation Appointment.';
 
     var generateLuhnDigit = function(inputString) {
@@ -264,6 +266,9 @@ var DashboardClient = function () {
                                         <strong>${available_spaces}</strong> ${available_spaces === 1?'spot':'spots'}
                                         available for consultation.`);
                         _event_date.val(selected_date.format('YYYY-MM-DD'));
+                        _chartValue = Math.ceil(100-((available_spaces/item.limit)*100));
+                        _chart.updateSeries([_chartValue])
+                        $('#date_chart_label').html(`<b class="text-info d-block">${selected_date.format('MMM DD, YYYY')}</b> is ${_chartValue}% full for Consultation Appointments`)
 
                         if(available_spaces < 1){
                             _consultation_full_message_alert.removeClass('d-none flipOutX');
@@ -300,7 +305,95 @@ var DashboardClient = function () {
                     _appointment_type_select.selectpicker('refresh');
                 }
             });
-    };
+    }
+
+    //
+    var initChart = function() {
+
+        const _chartElement = document.getElementById("consultation_chart");
+        let _chartOptions =  {
+            series: [0],
+            chart: {
+                height: 270,
+                type: 'radialBar',
+                offsetY: -20,
+                animations: {
+                    enabled: true,
+                    easing: 'easeinout',
+                    speed: 1000,
+                    animateGradually: {
+                        enabled: true,
+                        delay: 150
+                    },
+                    dynamicAnimation: {
+                        enabled: true,
+                        speed: 1200
+                    }
+                }
+            },
+            plotOptions: {
+                radialBar: {
+                    startAngle: -135,
+                    endAngle: 135,
+                    hollow: {
+                        margin: 0,
+                        size: '70%',
+                        background: '#fff',
+                        position: 'front',
+                        dropShadow: {
+                            enabled: true,
+                            top: 0,
+                            left: 0,
+                            blur: 10,
+                            opacity: 0.1
+                        }
+                    },
+                    dataLabels: {
+                        name: {
+                            fontSize: '14px',
+                            color: undefined,
+                            fontWeight: 500,
+                            offsetY: 70
+                        },
+                        value: {
+                            offsetY:0,
+                            fontSize: '30px',
+                            fontWeight: 900,
+                            color: undefined,
+                            formatter: function (val) {
+                                return val + "%";
+                            }
+                        }
+                    }
+                }
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shade: 'dark',
+                    type: 'horizontal',
+                    shadeIntensity: 0.5,
+                    gradientToColors: ['#F64E60'],
+                    inverseColors: false,
+                    opacityFrom: 1,
+                    opacityTo: 1,
+                    stops: [0, 100]
+                },
+            },
+            colors: ['#1BC5BD'],
+            stroke: {
+                lineCap: 'round',
+                dashArray: 0,
+            },
+            labels: ["Full"]
+        };
+        if (!_chartElement) {
+            return;
+        }
+
+        _chart = new ApexCharts(_chartElement, _chartOptions);
+        _chart.render();
+    }
 
     var initReactiveFormFields = function () {
         // minimum setup
@@ -350,6 +443,8 @@ var DashboardClient = function () {
                     limit_label.html(`<strong>${selected_date.format('MMM DD, YYYY')}</strong> has
                                             <strong>${available_spaces}</strong> ${available_spaces === 1?'spot':'spots'}
                                             available for consultation.`);
+                    _chartValue = Math.ceil(100-((available_spaces/item.limit)*100));
+                    _chart.updateSeries([_chartValue])
                     if(available_spaces < 1){
                         _consultation_full_message_alert.removeClass('d-none flipOutX').addClass('flipInX');
                         _consultation_full_message_alert.find('.alert-text')
@@ -360,6 +455,7 @@ var DashboardClient = function () {
                         return selected_date.format('YYYY-MM-DD') === e.date.format('YYYY-MM-DD');
                     }
                     _event_date.val(e.date.format('YYYY-MM-DD'));
+                    $('#date_chart_label').html(`<b class="text-info d-block">${e.date.format('MMM DD, YYYY')}</b>  is ${_chartValue}% full for Consultation Appointments`)
                 }else{
                     _consultation_full_message_alert.addClass('flipOutX');
                     _appointment_type_select.selectpicker('val','');
@@ -449,6 +545,7 @@ var DashboardClient = function () {
             _wizardEl = KTUtil.getById('kt_wizard_v2');
 
             initEventDates();
+            initChart();
             initReactiveFormFields();
 
             initWizard();
@@ -457,6 +554,7 @@ var DashboardClient = function () {
         }
     };
 }();
+
 jQuery(document).ready(function () {
     DashboardClient.init();
     $('input[name=cell_number]').inputmask('(999) 999-9999');

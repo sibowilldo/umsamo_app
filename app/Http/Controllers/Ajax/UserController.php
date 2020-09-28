@@ -42,6 +42,9 @@ class UserController extends Controller
                 ->editColumn('created_at', function ($user) {
                     return $user->created_at ? with(new Carbon($user->created_at))->format('Y-m-d') : '';
                 })
+                ->filterColumn('email', function ($query, $keyword) {
+                    $query->where('email', $keyword);
+                })
                 ->filter(function ($query) use ($request) {
                     if (!$request->has('joined_between')) {
                         return;

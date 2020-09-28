@@ -19,7 +19,7 @@
                     <div class="col-lg-3 mb-lg-0 mb-6">
                         <label>Email Address:</label>
                         <input type="email" class="form-control datatable-input" placeholder="E.g: karabo88@example.com"
-                               data-col-index="7"/>
+                               data-col-index="6"/>
                     </div>
                     <div class="col-lg-3 mb-lg-0 mb-6">
                         <label>Type:</label>

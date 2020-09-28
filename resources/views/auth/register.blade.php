@@ -103,8 +103,8 @@
                             <!--begin::Form group-->
                                 <div class="form-group">
                                     <label class="checkbox mb-0">
-                                        <input type="checkbox" name="agree" />I Agree the
-                                        <a href="#">terms and conditions</a>.
+                                        <input type="checkbox" name="agree" />I agree to the
+                                        <a href="https://umsamo.org.za/" target="_blank">terms and conditions</a>.
                                         <span></span></label>
                                 </div>
                                 <!--end::Form group-->

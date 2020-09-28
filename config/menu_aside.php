@@ -34,12 +34,12 @@ return [
                 [
                     'title' => 'Individual',
                     'roles' => [User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE],
-                    'page' => 'api.appointments.index',
+                    'page' => 'admin.appointments.index',
                 ],
                 [
                     'title' => 'Family',
                     'roles' => [User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE],
-                    'page' => 'api.family-appointments.index',
+                    'page' => 'admin.family-appointments.index',
                 ],
                 [
                     'title' => 'All Appointments',

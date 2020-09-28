@@ -1,6 +1,24 @@
 @extends('layout.default')
 
 @section('content')
+{{--    <div class="card card-custom">--}}
+{{--        <div class="card-header">--}}
+{{--            <div class="card-title">--}}
+{{--                <h3 class="card-label">--}}
+{{--                    Basic Calendar--}}
+{{--                </h3>--}}
+{{--            </div>--}}
+{{--            <div class="card-toolbar">--}}
+{{--                <a href="#" class="btn btn-light-primary font-weight-bold">--}}
+{{--                    <i class="ki ki-plus "></i> Add Event--}}
+{{--                </a>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="card-body">--}}
+{{--            <div id="kt_calendar"></div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+
     <div class="card card-custom">
         <div class="card-header flex-wrap pt-6 pb-0">
             <div class="card-title">
@@ -150,143 +168,97 @@
     </div>
 @endsection
 
+
 @section('scripts')
-    <script>
-        "use strict";
-        // Class definition
 
-        var AppointmentIndexScript = function() {
-            // Private functions
+    <script src="{{ asset('plugins/custom/fullcalendar/fullcalendar.bundle.js') }}"></script>
 
-            // Module
-            var initAppointmentIndex = function() {
-                var datatable = $('#kt_datatable').KTDatatable({
-                    data: {
-                        saveState: {cookie: false},
-                    },
-                    search: {
-                        input: $('#kt_datatable_search_query'),
-                        key: 'generalSearch'
-                    },
-                    layout :{
-                        scroll:true,
-                        height: 500,
-                        spinner: {
-                            type: 'loader',
-                        }
-                    },
-                    columns: [
-                        {
-                            field: 'scheduledFor',
-                            title: 'SCHEDULED FOR',
-                            width: 150
-                        },
-                        {
-                            field: 'reference',
-                            title: 'REFERENCE',
-                            type: 'number',
-                            autoHide: false,
-                            width: 150
-                        },
-                        {
-                            field: 'status',
-                            title: 'STATUS',
-                            autoHide: false,
-                        },
-                        {
-                            field: 'type',
-                            title: 'TYPE',
-                        },
-                        {
-                            field: 'reserved',
-                            title: 'RESERVED',
-                        },
-                        {
-                            field: 'action',
-                            title: 'ACTION',
-                            textAlign: 'right',
-                            sortable: false,
-                        }
-                    ],
-                });
+{{--    <script>--}}
+{{--        var KTCalendarBasic = function() {--}}
 
-                $('#kt_datatable_search_status').on('change', function() {
-                    datatable.search($(this).val().toLowerCase(), 'STATUS');
-                });
+{{--            return {--}}
+{{--                //main function to initiate the module--}}
+{{--                init: function() {--}}
+{{--                    let todayDate = moment().startOf('day');--}}
+{{--                    let YM = todayDate.format('YYYY-MM');--}}
+{{--                    let YESTERDAY = todayDate.clone().subtract(1, 'day').format('YYYY-MM-DD');--}}
+{{--                    let TODAY = todayDate.format('YYYY-MM-DD');--}}
+{{--                    let TOMORROW = todayDate.clone().add(1, 'day').format('YYYY-MM-DD');--}}
+{{--                    let events = [];--}}
+{{--                    let calendarEl = document.getElementById('kt_calendar');--}}
+{{--                    let calendar = new FullCalendar.Calendar(calendarEl, {--}}
+{{--                        plugins: [ 'bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list' ],--}}
+{{--                        themeSystem: 'bootstrap',--}}
 
-                $('#kt_datatable_search_type').on('change', function() {
-                    let selected = $(this).find("option:selected").text().toLowerCase() === 'all' ? null: $(this).find("option:selected").text().toLowerCase();
-                    datatable.search(selected, 'TYPE');
-                });
+{{--                        isRTL: KTUtil.isRTL(),--}}
 
-                $('#kt_datatable_search_status, #kt_datatable_search_type').selectpicker();
+{{--                        header: {--}}
+{{--                            left: 'prev,next today',--}}
+{{--                            center: 'title',--}}
+{{--                            right: 'dayGridMonth,timeGridWeek,timeGridDay'--}}
+{{--                        },--}}
 
-                datatable.on('datatable-on-init, datatable-on-layout-updated', function(){
-                    $('[data-toggle="tooltip"]').tooltip()
-                });
+{{--                        height: 800,--}}
+{{--                        contentHeight: 780,--}}
+{{--                        aspectRatio: 3,  // see: https://fullcalendar.io/docs/aspectRatio--}}
 
-                datatable.on('click', '.cancelBtn', function(){
-                    let cancelBtn = $(this);
-                    var record = cancelBtn.data("record");
-                    var url = cancelBtn.data("url");
+{{--                        nowIndicator: true,--}}
+{{--                        now: TODAY + 'T09:25:00', // just for demo--}}
 
-                    swal.fire({
-                        icon: 'info',
-                        title: 'Are you sure?',
-                        text: "Confirm that you would like to cancel this Appointment",
-                        showCancelButton: true,
-                        confirmButtonText: 'Yes, Cancel Appointment!',
-                        cancelButtonText: 'No, Leave it!',
-                        showLoaderOnConfirm: true,
-                        customClass: {
-                            confirmButton: 'btn btn-success',
-                            cancelButton: 'btn btn-secondary'
-                        },
-                        buttonsStyling: false,
-                        preConfirm:  function () {
-                            return new Promise(function (resolve) {
-                                axios.patch(url, {
-                                    id: record
-                                })
-                                    .then(function (response) {
-                                        swal.fire({
-                                            'icon': 'info',
-                                            title: 'Appointment Cancelled Successfully!',
-                                            text: response.data.message,
-                                            preConfirm: function(){
-                                                window.location.replace(response.data.url);
-                                            }});
-                                    })
-                                    .catch(function (error) {
-                                        if(error.response.data.code === 409){
-                                            swal.fire({icon: 'error', title: error.response.data.title,text: error.response.data.message});
-                                            return;
-                                        }
-                                        swal.fire({icon: 'error', title: error.response.statusText,text: error.response.data.message});
-                                    });
-                            });
-                        },
-                        allowOutsideClick: false
-                    });
-                });
-            };
+{{--                        views: {--}}
+{{--                            dayGridMonth: { buttonText: 'month' },--}}
+{{--                            timeGridWeek: { buttonText: 'week' },--}}
+{{--                            timeGridDay: { buttonText: 'day' }--}}
+{{--                        },--}}
+{{--                        defaultView: 'dayGridMonth',--}}
+{{--                        defaultDate: TODAY,--}}
 
-            return {
-                // Public functions
-                init: function() {
-                    initAppointmentIndex();
-                },
-            };
-        }();
+{{--                        editable: true,--}}
+{{--                        eventLimit: true, // allow "more" link when too many events--}}
+{{--                        navLinks: true,--}}
+{{--                        events: events,--}}
+{{--                        eventRender: function(info) {--}}
+{{--                            var element = $(info.el);--}}
 
-        jQuery(document).ready(function() {
-            AppointmentIndexScript.init();
-        });
+{{--                            if (info.event.extendedProps && info.event.extendedProps.description) {--}}
+{{--                                if (element.hasClass('fc-day-grid-event')) {--}}
+{{--                                    element.data('content', info.event.extendedProps.description);--}}
+{{--                                    element.data('placement', 'top');--}}
+{{--                                    KTApp.initPopover(element);--}}
+{{--                                } else if (element.hasClass('fc-time-grid-event')) {--}}
+{{--                                    element.find('.fc-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');--}}
+{{--                                } else if (element.find('.fc-list-item-title').lenght !== 0) {--}}
+{{--                                    element.find('.fc-list-item-title').append('<div class="fc-description">' + info.event.extendedProps.description + '</div>');--}}
+{{--                                }--}}
+{{--                            }--}}
+{{--                        }--}}
+{{--                    });--}}
 
-    </script>
-{{--    <script src="{{ asset('js/pages/backend/appointment/index.js') }}" type="text/javascript" defer></script>--}}
+{{--                    axios.get('ajax/appointments')--}}
+{{--                        .then((response) => {--}}
+{{--                            events = response.data.data--}}
+{{--                            console.log(response.data)--}}
+{{--                        })--}}
+{{--                        .catch((error) => {--}}
+
+{{--                        }).finally(()=>{--}}
+{{--                        console.log('Rendering')--}}
+{{--                        calendar.render();--}}
+{{--                    })--}}
+
+{{--                }--}}
+{{--            };--}}
+{{--        }();--}}
+
+{{--        jQuery(document).ready(function() {--}}
+{{--            KTCalendarBasic.init();--}}
+{{--        });--}}
+{{--    </script>--}}
+
+    <script src="{{ asset('js/pages/backend/appointment/index.js') }}" type="text/javascript" defer></script>
 @endsection
 
 @section('styles')
+    <link rel="stylesheet" href="{{ asset('plugins/custom/fullcalendar/fullcalendar.bundle.css') }}">
 @endsection
 

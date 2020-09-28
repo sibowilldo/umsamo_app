@@ -5,10 +5,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Magros\Encryptable\Encryptable;
 
 class Profile extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, Encryptable;
     /**
      * The attributes that are mass assignable.
      *
@@ -30,6 +31,14 @@ class Profile extends Model
         'profile_completed_at',
         'cell_number_verified_at'
     ];
+
+
+    /**
+     * The attributes that are encrypted
+     *
+     * @var array
+     */
+    protected $encryptable = ['id_number','cell_number'];
 
     /**
      * The attributes that should be cast to native types.

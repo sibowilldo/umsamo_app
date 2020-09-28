@@ -71,9 +71,12 @@ class ProfileRepository
      */
     public static function UPDATE_CELL(Profile $profile, array $data) : Profile
     {
+        $messages = [
+            'unique_encrypted' => 'The :attribute has already been taken.'
+        ];
         Validator::make($data, [
-            'cell_number' => ['required', 'string', 'unique:profiles'],
-        ])->validate();
+            'cell_number' => ['required', 'string', 'unique_encrypted:profiles,cell_number'],
+        ], $messages)->validate();
         $profile->update($data);
         $profile->cell_number_verified_at = null;
         $profile->save();

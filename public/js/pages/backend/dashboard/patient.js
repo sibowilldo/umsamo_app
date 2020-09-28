@@ -81,20 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 203);
+/******/ 	return __webpack_require__(__webpack_require__.s = 22);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 203:
+/***/ 22:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(204);
+module.exports = __webpack_require__("2qjB");
 
 
 /***/ }),
 
-/***/ 204:
+/***/ "2qjB":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -153,6 +153,10 @@ var DashboardClient = function () {
   var _wizard;
 
   var _validations = [];
+
+  var _chart;
+
+  var _chartValue = 0;
   var _consultation_full_message = 'has no available spots for consultation appointments. Please choose a different date to make a Consultation Appointment.';
 
   var generateLuhnDigit = function generateLuhnDigit(inputString) {
@@ -404,6 +408,12 @@ var DashboardClient = function () {
 
           _event_date.val(selected_date.format('YYYY-MM-DD'));
 
+          _chartValue = Math.ceil(100 - available_spaces / item.limit * 100);
+
+          _chart.updateSeries([_chartValue]);
+
+          $('#date_chart_label').html("<b class=\"text-info d-block\">".concat(selected_date.format('MMM DD, YYYY'), "</b> is ").concat(_chartValue, "% full for Consultation Appointments"));
+
           if (available_spaces < 1) {
             _consultation_full_message_alert.removeClass('d-none flipOutX');
 
@@ -441,6 +451,96 @@ var DashboardClient = function () {
         _appointment_type_select.selectpicker('refresh');
       }
     });
+  }; //
+
+
+  var initChart = function initChart() {
+    var _chartElement = document.getElementById("consultation_chart");
+
+    var _chartOptions = {
+      series: [0],
+      chart: {
+        height: 270,
+        type: 'radialBar',
+        offsetY: -20,
+        animations: {
+          enabled: true,
+          easing: 'easeinout',
+          speed: 1000,
+          animateGradually: {
+            enabled: true,
+            delay: 150
+          },
+          dynamicAnimation: {
+            enabled: true,
+            speed: 1200
+          }
+        }
+      },
+      plotOptions: {
+        radialBar: {
+          startAngle: -135,
+          endAngle: 135,
+          hollow: {
+            margin: 0,
+            size: '70%',
+            background: '#fff',
+            position: 'front',
+            dropShadow: {
+              enabled: true,
+              top: 0,
+              left: 0,
+              blur: 10,
+              opacity: 0.1
+            }
+          },
+          dataLabels: {
+            name: {
+              fontSize: '14px',
+              color: undefined,
+              fontWeight: 500,
+              offsetY: 70
+            },
+            value: {
+              offsetY: 0,
+              fontSize: '30px',
+              fontWeight: 900,
+              color: undefined,
+              formatter: function formatter(val) {
+                return val + "%";
+              }
+            }
+          }
+        }
+      },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shade: 'dark',
+          type: 'horizontal',
+          shadeIntensity: 0.5,
+          gradientToColors: ['#F64E60'],
+          inverseColors: false,
+          opacityFrom: 1,
+          opacityTo: 1,
+          stops: [0, 100]
+        }
+      },
+      colors: ['#1BC5BD'],
+      stroke: {
+        lineCap: 'round',
+        dashArray: 0
+      },
+      labels: ["Full"]
+    };
+
+    if (!_chartElement) {
+      return;
+    }
+
+    _chart = new ApexCharts(_chartElement, _chartOptions);
+
+    _chart.render();
   };
 
   var initReactiveFormFields = function initReactiveFormFields() {
@@ -492,6 +592,9 @@ var DashboardClient = function () {
         if (selected_date.format('YYYY-MM-DD') === e.date.format('YYYY-MM-DD')) {
           $('input[name=event_date]').attr('data-id', item.id);
           limit_label.html("<strong>".concat(selected_date.format('MMM DD, YYYY'), "</strong> has\n                                            <strong>").concat(available_spaces, "</strong> ").concat(available_spaces === 1 ? 'spot' : 'spots', "\n                                            available for consultation."));
+          _chartValue = Math.ceil(100 - available_spaces / item.limit * 100);
+
+          _chart.updateSeries([_chartValue]);
 
           if (available_spaces < 1) {
             _consultation_full_message_alert.removeClass('d-none flipOutX').addClass('flipInX');
@@ -508,6 +611,8 @@ var DashboardClient = function () {
           }
 
           _event_date.val(e.date.format('YYYY-MM-DD'));
+
+          $('#date_chart_label').html("<b class=\"text-info d-block\">".concat(e.date.format('MMM DD, YYYY'), "</b>  is ").concat(_chartValue, "% full for Consultation Appointments"));
         } else {
           _consultation_full_message_alert.addClass('flipOutX');
 
@@ -612,6 +717,7 @@ var DashboardClient = function () {
       _with_family = $('input[name=with_family]');
       _wizardEl = KTUtil.getById('kt_wizard_v2');
       initEventDates();
+      initChart();
       initReactiveFormFields();
       initWizard();
       initValidation();

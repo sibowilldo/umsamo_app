@@ -81,20 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 193);
+/******/ 	return __webpack_require__(__webpack_require__.s = 17);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 193:
+/***/ 17:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(194);
+module.exports = __webpack_require__("PQsw");
 
 
 /***/ }),
 
-/***/ 194:
+/***/ "PQsw":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -123,12 +123,13 @@ var AdminAppointmentIndexScript = function () {
       name: 'status_id'
     }, {
       data: 'appointmentable.profile.id_number',
-      name: 'appointmentable.profile.id_number'
+      name: 'id_number'
     }, {
       data: 'appointmentable.email',
       name: 'appointmentable.email'
     }, {
-      data: 'appointmentable.profile.cell_number'
+      data: 'appointmentable.profile.cell_number',
+      name: 'cell_number'
     }, {
       data: 'action',
       name: 'action'

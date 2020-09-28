@@ -53,6 +53,12 @@
                                 <!--begin::Section-->
                                 <div class="row">
                                     <div class="col-lg-4 col-sm-6 col-md-6">
+                                        <div class="form-group text-center">
+                                            <div id="consultation_chart" style="height: 100px"></div>
+                                            <label id="date_chart_label" class="font-weight-bolder text-dark-50"> </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <div class="card card-stretch min-h-300px" id="datepicker-card">
                                                 <div class="card-body p-5">
@@ -62,7 +68,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-sm-6 col-md-6">
+                                    <div class="col-lg-4 col-sm-6 col-md-6  align-items-center">
                                         <div class="form-group">
                                             <label for="appointment_type" class="font-weight-bolder">Choose a date from the Calendar:</label>
                                             <input type="text" name="event_date" data-id="" class="form-control form-control-solid mb-5" value="" placeholder="" readonly/>
@@ -84,7 +90,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <div class="alert alert-custom alert-notice alert-primary fade show rounded d-none mb-10 animated" role="alert" id="consultation-full-message">
+                                        <div class="alert alert-custom alert-notice text-white bg-radial-gradient-warning fade show rounded d-none mb-10 animated" role="alert" id="consultation-full-message">
                                             <div class="alert-icon">{{ Metronic::getSVG('media/svg/icons/Code/Info-circle.svg', 'svg-icon svg-icon-light svg-icon-2x') }}</div>
                                             <div class="alert-text"></div>
                                         </div>
@@ -141,7 +147,7 @@
                                             <!--begin::Alert-->
                                             <div class="alert alert-custom alert-outline-danger fade show shadow-xs" role="alert">
                                                 <div class="alert-icon">{{ Metronic::getSvg('media/svg/icons/Code/Warning-2.svg', 'svg-icon-3x svg-icon svg-icon-danger') }}</div>
-                                                <div class="alert-text text-dark-75">Your Account is not associated with any Family Accounts. Please create one from the Profile page, before trying to make an Appointment for a Family.</div>
+                                                <div class="alert-text text-dark-75">Your Account is not associated with any Family Accounts. Please create one from the Profile page, before you try to make an Appointment for a Family.</div>
                                             </div>
                                             <!--end::Alert-->
                                         </div>

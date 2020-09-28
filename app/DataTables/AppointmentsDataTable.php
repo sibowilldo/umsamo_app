@@ -36,12 +36,12 @@ class AppointmentsDataTable extends DataTable
             ->editColumn('status_id', function ($appointment) use ($statuses){
                 return ['title' => $appointment->status->title, 'statuses' => $statuses];
             })
-            ->editColumn('action', function ($appointment){
+            ->addColumn('action', function ($appointment){
 
             })
             ->filterColumn('appointmentable.email', function ($query, $keywords){
                 $query->whereHasMorph('appointmentable','App\User', function (Builder $builder) use ($keywords){
-                    return $builder->where('email', 'like', "%$keywords%");
+                    return $builder->where('email', 'like',  "$keywords");
                 });
             })
             ->filterColumn('event_date.date_time', function ($query, $keywords){
@@ -105,9 +105,9 @@ class AppointmentsDataTable extends DataTable
             Column::make('type'),
             Column::make('Status')->printable(true)->data('status.title'),
             Column::make('appointmentable.profile.fullname')->title('Full Name'),
-            Column::make('appointmentable.profile.id_number')->title('ID No.'),
+            Column::make('ID No')->data('appointmentable.profile.id_number')->title('ID No.'),
             Column::make('appointmentable.email')->title('Email'),
-            Column::make('appointmentable.profile.cell_number')->title('Cell No.'),
+            Column::make('Cell No.')->data('appointmentable.profile.cell_number')->title('Cell No.'),
             Column::computed('action')
             ->exportable(false)
             ->printable(false)

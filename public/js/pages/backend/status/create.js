@@ -81,20 +81,12 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 239);
+/******/ 	return __webpack_require__(__webpack_require__.s = 40);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 239:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(240);
-
-
-/***/ }),
-
-/***/ 240:
+/***/ "+L5k":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -194,6 +186,14 @@ var StatusCreateScript = function () {
 jQuery(document).ready(function () {
   StatusCreateScript.init();
 });
+
+/***/ }),
+
+/***/ 40:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("+L5k");
+
 
 /***/ })
 
