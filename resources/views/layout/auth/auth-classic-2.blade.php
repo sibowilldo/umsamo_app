@@ -103,6 +103,8 @@
 <!--begin::Page Scripts(used by this page)-->
 @yield('scripts')
 <!--end::Page Scripts-->
+
+<script src="{{ asset('js/plugins/tawk-to.js') }}" type="text/javascript" defer></script>
 </body>
 <!--end::Body-->
 </html>
