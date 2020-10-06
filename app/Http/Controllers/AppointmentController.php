@@ -33,7 +33,9 @@ class AppointmentController extends Controller
         $user = User::with(['families', 'families.appointments'])->findOrFail(Auth::id());
         $appointmentables = [];
         array_push($appointmentables, $user->id);
-        array_push($appointmentables, $user->families->pluck('id')->toArray());
+        if(count($user->families)){
+	    array_push($appointmentables, $user->families->pluck('id')->toArray());
+	}
         $appointments = Appointment::whereIn('appointmentable_id', $appointmentables )->get();
 
         $statuses = $appointments->pluck('status')->unique();
