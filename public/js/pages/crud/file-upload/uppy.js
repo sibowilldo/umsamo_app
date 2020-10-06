@@ -81,10 +81,18 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 99);
+/******/ 	return __webpack_require__(__webpack_require__.s = 100);
 /******/ })
 /************************************************************************/
 /******/ ({
+
+/***/ 100:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("8QtA");
+
+
+/***/ }),
 
 /***/ "8QtA":
 /***/ (function(module, exports, __webpack_require__) {
@@ -468,14 +476,6 @@ var KTUppy = function () {
 KTUtil.ready(function () {
   KTUppy.init();
 });
-
-/***/ }),
-
-/***/ 99:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__("8QtA");
-
 
 /***/ })
 

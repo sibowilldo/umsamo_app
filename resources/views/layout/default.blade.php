@@ -155,6 +155,9 @@
                 border-bottom: 1px solid #fff;
             }
         </style>
+    @if(Auth::user()->hasRole('client'))
+        <script src="{{ asset('js/plugins/tawk-to.js') }}" type="text/javascript" defer></script>
+    @endif
     </body>
 </html>
 

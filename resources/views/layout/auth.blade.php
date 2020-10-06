@@ -97,6 +97,10 @@
 
 {{-- Includable JS --}}
 @yield('scripts')
+
+<!--Start of Tawk.to Script-->
+<script src="{{ asset('js/plugins/tawk-to.js') }}" type="text/javascript"></script>
+<!--End of Tawk.to Script-->
 </body>
 <!--end::Body-->
 </html>

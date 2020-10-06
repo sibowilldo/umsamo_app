@@ -81,48 +81,34 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 151);
+/******/ 	return __webpack_require__(__webpack_require__.s = 49);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 151:
+/***/ 49:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__("WI4y");
+module.exports = __webpack_require__("bTN3");
 
 
 /***/ }),
 
-/***/ "WI4y":
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "bTN3":
+/***/ (function(module, exports) {
 
-"use strict";
- // Class definition
+var Tawk_API = Tawk_API || {},
+    Tawk_LoadStart = new Date();
 
-var KTContactsListColumns = function () {
-  // Private functions
-  var initAside = function initAside() {
-    // Mobile offcanvas for mobile mode
-    var offcanvas = new KTOffcanvas('kt_contact_aside', {
-      overlay: true,
-      baseClass: 'kt-app__aside',
-      closeBy: 'kt_contact_aside_close',
-      toggleBy: 'kt_subheader_mobile_toggle'
-    });
-  };
-
-  return {
-    // public functions
-    init: function init() {
-      initAside();
-    }
-  };
-}();
-
-KTUtil.ready(function () {
-  KTContactsListColumns.init();
-});
+(function () {
+  var s1 = document.createElement("script"),
+      s0 = document.getElementsByTagName("script")[0];
+  s1.async = true;
+  s1.src = 'https://embed.tawk.to/5f7a16d54704467e89f4910a/default';
+  s1.charset = 'UTF-8';
+  s1.setAttribute('crossorigin', '*');
+  s0.parentNode.insertBefore(s1, s0);
+})();
 
 /***/ })
 
