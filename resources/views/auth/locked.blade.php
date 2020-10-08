@@ -95,5 +95,6 @@
     <script src="{{ asset($script) }}" type="text/javascript"></script>
 @endforeach
 <!--end:Verify-->
+<script src="{{ asset('js/plugins/tawk-to.js') }}" type="text/javascript" defer></script>
 </body>
 </html>

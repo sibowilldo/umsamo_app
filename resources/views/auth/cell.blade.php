@@ -112,7 +112,7 @@
 @endforeach
 
 <script src="{{ asset('js/pages/auth/otp.js') }}" type="text/javascript"></script>
-
 <!--end:Verify-->
+<script src="{{ asset('js/plugins/tawk-to.js') }}" type="text/javascript" defer></script>
 </body>
 </html>

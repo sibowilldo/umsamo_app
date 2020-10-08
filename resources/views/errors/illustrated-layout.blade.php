@@ -482,5 +482,7 @@
 
             </div>
         </div>
+
+        <script src="{{ asset('js/plugins/tawk-to.js') }}" type="text/javascript" defer></script>
     </body>
 </html>
