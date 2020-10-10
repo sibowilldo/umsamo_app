@@ -2,6 +2,18 @@
 
 return [
 
+    'chat' => [
+        'error_pages' => [
+            'enabled' => false
+        ],
+        'guest_pages' => [
+            'enabled' => false
+        ],
+        'logged_in_pages' => [
+            'enabled' => false
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

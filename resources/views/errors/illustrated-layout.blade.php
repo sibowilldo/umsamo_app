@@ -483,6 +483,8 @@
             </div>
         </div>
 
-        <script src="{{ asset('js/plugins/tawk-to.js') }}" type="text/javascript" defer></script>
+        @if(config('app.chat.error_pages.enabled'))
+            <script src="{{ asset('js/plugins/tawk-to.js') }}" type="text/javascript" defer></script>
+        @endif
     </body>
 </html>

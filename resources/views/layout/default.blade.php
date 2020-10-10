@@ -155,7 +155,7 @@
                 border-bottom: 1px solid #fff;
             }
         </style>
-    @if(Auth::user()->hasRole('client'))
+    @if(Auth::user()->hasRole('client') && config('app.chat.logged_in_pages.enabled'))
         <script src="{{ asset('js/plugins/tawk-to.js') }}" type="text/javascript" defer></script>
     @endif
     </body>
