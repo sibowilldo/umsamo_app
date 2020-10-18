@@ -104,7 +104,7 @@
                                 <div class="form-group">
                                     <label class="checkbox mb-0">
                                         <input type="checkbox" name="agree" />I agree to the
-                                        <a href="https://umsamo.org.za/" target="_blank">terms and conditions</a>.
+                                        <a href="#!" target="_blank"   data-toggle="modal" data-target="#terms-of-use">terms and conditions</a>.
                                         <span></span></label>
                                 </div>
                                 <!--end::Form group-->
@@ -157,6 +157,7 @@
         <!--end: Wizard-->
     </div>
 
+    @include('layout.partials._terms-of-use')
     <!--end::Signup-->
 @endsection
 

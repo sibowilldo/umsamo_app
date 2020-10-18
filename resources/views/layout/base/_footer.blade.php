@@ -13,6 +13,8 @@
         <div class="nav nav-dark order-1 order-md-2">
             <a href="https://umsamo.org.za/our-origin" target="_blank" class="nav-link pr-3 pl-0">Our Origin</a>
             <a href="https://umsamo.org.za/contact-us" target="_blank" class="nav-link pl-3 pr-0">Contact</a>
+            <a href="#!" target="_blank" class="nav-link pl-3 pr-0"  data-toggle="modal" data-target="#terms-of-use">Terms of use</a>
         </div>
     </div>
+    @include('layout.partials._terms-of-use')
 </div>
