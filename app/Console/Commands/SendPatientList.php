@@ -62,7 +62,6 @@ class SendPatientList extends Command
         $appointments = AppointmentRepository::CUSTOM_DATE_APPOINTMENTS($custom_date->format('Y-m-d'),$appointment_statuses);
 
         $total = count($appointments);
-
         if($total > 0){
             $administrators = User::role(Collect([User::ADMIN_ROLE, User::SUPER_ADMIN_ROLE]))->get();
 
@@ -82,11 +81,8 @@ class SendPatientList extends Command
             Notification::route('slack', 'https://hooks.slack.com/services/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')
                 ->notify(new SystemNotifications($this->argument('list') . ' appointments list sent to: ' . implode(', ', $administrators->pluck('email')->toArray())));
             return 1;
-        }else{
-            Notification::route('slack', 'https://hooks.slack.com/services/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')
-                ->notify(new SystemNotifications('No Appointments for this date: ' . $custom_date->format('Y-m-d')));
-            return 0;
         }
+        return 0;
 
     }
 }

@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 return [
     'exception_message' => 'رسالة استثناء: :message',

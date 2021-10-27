@@ -117,10 +117,10 @@
                                         <div class="form-group radio-inline d-none family_container">
                                             <label class="font-weight-bolder d-block">Preferred Family</label>
                                             @foreach($user->families as $family)
-                                                    <label class="radio {{ count($family->users) > 1?:'radio-disabled' }}">
-                                                        <input type="radio" name="family" value="{{ $family->id }}" {{ count($family->users) > 1?:'disabled' }} data-family-name="{{ $family->name }}"/> <strong>{{ $family->name }}</strong> {{ count($family->users) > 1?'':'(To Enable, please invite members to Join.)' }}
-                                                        <span></span>
-                                                    </label>
+                                                <label class="radio {{ count($family->users) > 1?:'radio-disabled' }}">
+                                                    <input type="radio" name="family" value="{{ $family->id }}" {{ count($family->users) > 1?:'disabled' }} data-family-name="{{ $family->name }}"/> <strong>{{ $family->name }}</strong> {{ count($family->users) > 1?'':'(To Enable, please invite members to Join.)' }}
+                                                    <span></span>
+                                                </label>
                                             @endforeach
                                         </div>
                                         <!--end::Input-->
@@ -132,7 +132,7 @@
                                                 <optgroup label="{{ $family->name }} ({{ $family->users_count-1 }} other {{ $family->users_count===1?'member':'members' }})">
                                                     @foreach($family->users as $member)
                                                         @if($member->id !== $user->id)
-                                                        <option  value="{{ $member->uuid }}">{{ $member->profile->fullname }}</option>
+                                                        <option  value="{{ $member->uuid }}" {{ $member->pivot->joined_at?: 'disabled' }} data-subtext="{{$member->pivot->joined_at?'':'DISABLED: Member has not accepted invite'}}">{{ $member->profile->fullname }}</option>
                                                         @endif
                                                     @endforeach
                                                 </optgroup>

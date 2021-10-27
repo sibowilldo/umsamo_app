@@ -93,7 +93,7 @@
 @endforeach
 
 <script src="{{ asset('js/pages/auth/verify.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/plugins/tawk-to.js') }}" type="text/javascript" defer></script>
+{{-- <script src="{{ asset('js/plugins/tawk-to.js') }}" type="text/javascript" defer></script> --}}
 <!--end:Verify-->
 </body>
 </html>

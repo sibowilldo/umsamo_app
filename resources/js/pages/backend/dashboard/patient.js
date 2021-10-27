@@ -309,7 +309,6 @@ var DashboardClient = function () {
 
     //
     var initChart = function() {
-
         const _chartElement = document.getElementById("consultation_chart");
         let _chartOptions =  {
             series: [0],
@@ -558,4 +557,10 @@ var DashboardClient = function () {
 jQuery(document).ready(function () {
     DashboardClient.init();
     $('input[name=cell_number]').inputmask('(999) 999-9999');
+
+    if(sessionStorage.getItem('termsShown') === null){
+        sessionStorage.setItem('termsShown', 'true');
+    }else{
+        $("#terms-notification").remove();
+    }
 });

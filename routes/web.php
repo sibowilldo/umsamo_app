@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Administrator\FamilyAppointmentsController;
+use App\Http\Controllers\Administrator\CalendarController;
+use App\Http\Controllers\EventDateController;
+use App\Http\Controllers\Ajax\EventDateController as AjaxEventDateController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -58,7 +62,8 @@ Route::middleware(['auth', 'verified', 'cell_number_verified', 'is_locked'])->gr
     //Administrator Prefixed Controllers
     Route::middleware(['role:kingpin|administrator'])->prefix('administrator')->namespace('Administrator')->group(function(){
         Route::apiResource('appointments', 'AppointmentController', ['as'=>'admin']);
-        Route::apiResource('family-appointments', 'FamilyAppointmentsController', ['as'=>'admin']);
+        Route::resource('calendar', CalendarController::class, ['as' => 'admin']);
+        Route::apiResource('family-appointments', FamilyAppointmentsController::class, ['as'=>'admin']);
 //        Patch
         Route::patch('appointments/{appointment}/status', 'AppointmentController@status')->name('api.appointments.status');
     });
@@ -66,11 +71,12 @@ Route::middleware(['auth', 'verified', 'cell_number_verified', 'is_locked'])->gr
     //Ajax Controllers
     Route::prefix('ajax')->namespace('Ajax')->group(function(){
         Route::apiResource('appointments', 'AppointmentController', ['as'=>'api']);
+        Route::apiResource('calendar', 'CalendarController', ['as'=>'api']);
         Route::apiResource('statuses', 'StatusController', ['as'=>'api']);
         Route::apiResource('users', 'UserController', ['as'=>'api']);
         Route::patch('users/toggle-lock/{user}', 'UserController@toggleLock')->name('api.users.toggle');
 //        Get
-        Route::get('event-dates', 'EventDateController@index')->name('ajax.event-dates.index');
+        Route::get('event-dates', [AjaxEventDateController::class, 'index'])->name('ajax.event-dates.index');
         Route::get('families/{family}/members', 'FamilyController@members')->name('families.members');
 
     });

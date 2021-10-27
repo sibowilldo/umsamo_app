@@ -11,7 +11,7 @@
     $head-space-y: 0.75rem;
     $head-list-space-x: 1.25rem;
 
-    .fc-unthemed {
+    .fc-theme-standard {
         // Day
         .fc-day-grid td:not(.fc-axis) {
             padding: $cell-space-y $cell-space-x;
@@ -27,7 +27,7 @@
         }
 
         .fc-scroller {
-            .fc-content-col {
+            .fc-event-title-container-col {
                 padding: $cell-space-y $cell-space-x;
                 //use this for scheduler fix:  padding: 0.0rem 0.2rem 0.0rem 0.2rem;
 
@@ -35,7 +35,7 @@
         }
 
         // Header
-        th.fc-day-header {
+        th.fc-day-header, th.fc-col-header-cell.fc-day {
             padding: $head-space-y $head-space-x;
             font-size: 1rem;
             font-weight: 500;
@@ -69,7 +69,7 @@
         }
 
         // Past
-        td.fc-past {
+        td.fc-event-past {
 
         }
 
@@ -89,7 +89,7 @@
             padding: 0;
             @include border-radius($border-radius);
 
-            .fc-content {
+            .fc-event-title-container {
                 padding: 0.55rem 0.55rem 0.55rem 2rem;
 
                 &:before {
@@ -104,8 +104,8 @@
                 }
             }
 
-            &.fc-not-start.fc-end {
-                .fc-content {
+            &.fc-not-start.fc-event-end {
+                .fc-event-title-container {
                     padding-left: 0.5rem;
                 }
             }
@@ -116,7 +116,7 @@
                 font-weight: 500;
             }
 
-            .fc-title {
+            .fc-event-title {
                 font-size: 0.9rem;
                 font-weight: 400;
             }
@@ -151,7 +151,7 @@
                     margin-top: 0.35rem;
                 }
 
-                .fc-title {
+                .fc-event-title {
                     font-weight: 400;
                 }
             }
@@ -170,7 +170,7 @@
                         @include border-bottom-right-radius(0);
                     }
 
-                    &.fc-not-start.fc-end {
+                    &.fc-not-start.fc-event-end {
                         @include border-top-left-radius(0);
                         @include border-bottom-left-radius(0);
                     }
@@ -239,7 +239,7 @@
     }
 
     @include media-breakpoint-down(lg) {
-        .fc-unthemed {
+        .fc-theme-standard {
             // toolbar
             .fc-toolbar {
                 margin-bottom: 1.5rem;
@@ -279,14 +279,14 @@
 @mixin fullcalendar-theme() {
     $border-width: 6px;
 
-    .fc-unthemed {
+    .fc-theme-standard {
         // General elements
-        th, td, thead, tbody, .fc-divider, .fc-row, .fc-content, .fc-popover, .fc-list-view, .fc-list-heading td {
+        th, td, thead, tbody, .fc-divider, .fc-row, .fc-event-title-container, .fc-popover, .fc-list-view, .fc-list-heading td {
             border-color: $gray-200;
         }
 
         // Past
-        td.fc-past {
+        td.fc-event-past {
 
         }
 
@@ -314,8 +314,8 @@
                 border-left: 1px solid $gray-100;
             }
 
-            &.fc-start {
-                .fc-content:before {
+            &.fc-event-start {
+                .fc-event-title-container:before {
                     background: $gray-200;
                 }
             }
@@ -326,7 +326,7 @@
                 color: $dark-75;
             }
 
-            .fc-title {
+            .fc-event-title {
                 color: $dark-75;
             }
         }
@@ -351,8 +351,8 @@
         .fc-event-dot {
             @each $name, $color in $theme-colors {
                 &.fc-event-#{$name} {
-                    &.fc-start {
-                        .fc-content {
+                    &.fc-event-start {
+                        .fc-event-title-container {
                             &:before {
                                 background: $color;
                             }
@@ -361,12 +361,12 @@
                 }
 
                 &.fc-event-solid-#{$name} {
-                    &.fc-start,
+                    &.fc-event-start,
                     &.fc-not-start.fc-not-end,
-                    &.fc-not-start.fc-end {
+                    &.fc-not-start.fc-event-end {
                         background: $color;
 
-                        .fc-title {
+                        .fc-event-title {
                             color: theme-inverse-color($name);
                         }
 
@@ -409,7 +409,7 @@
                     }
                 }
 
-                .fc-title {
+                .fc-event-title {
                     color: $dark-75;
                 }
             }
@@ -418,7 +418,7 @@
                 .fc-event,
                 .fc-event-dot {
                     &.fc-not-start.fc-not-end {
-                        .fc-content:before {
+                        .fc-event-title-container:before {
                             background: $gray-200;
                         }
                     }
@@ -426,7 +426,7 @@
                     @each $name, $color in $theme-colors {
                         &.fc-event-#{$name} {
                             &.fc-not-start.fc-not-end {
-                                .fc-content:before {
+                                .fc-event-title-container:before {
                                     background: $color;
                                 }
                             }
@@ -436,7 +436,7 @@
                             &.fc-not-start.fc-not-end {
                                 background: $color;
 
-                                .fc-title {
+                                .fc-event-title {
                                     color: theme-inverse-color($name);
                                 }
 

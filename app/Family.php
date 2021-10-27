@@ -4,6 +4,7 @@ namespace App;
 
 use Dyrynda\Database\Support\GeneratesUuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,7 +18,9 @@ class Family extends Model
     protected $with = ['users'];
     protected $withCount = ['users'];
 
-
+    /**
+     * @return BelongsToMany
+     */
     public function users()
     {
         return $this->belongsToMany(User::class)->withPivot(['is_head', 'joined_at']);

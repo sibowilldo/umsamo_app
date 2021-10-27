@@ -13,6 +13,7 @@ use App\User;
 use Auth;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response as HTTPResponse;
@@ -22,19 +23,25 @@ class AppointmentController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function index()
     {
 
         $page_title = "Appointments";
-
         $appointment_types = Appointment::types();
-        $user = User::with(['families', 'families.appointments'])->findOrFail(Auth::id());
-        $appointmentables = [];
-        array_push($appointmentables, $user->id);
-        array_push($appointmentables, $user->families->pluck('id')->toArray());
-        $appointments = Appointment::whereIn('appointmentable_id', $appointmentables )->get();
+        $user = Auth::user();
+        $appointments = Appointment::whereHasMorph('appointmentable', ['App\User'],
+            function(Builder $builder) use ($user) {
+                $builder->where('id', $user->id);
+            })->orWhereHasMorph('appointmentable', ['App\Family'],
+            function(Builder $builder) use ($user) {
+                if(count($user->families)){
+                    $builder->whereIn('id', $user->families->pluck('id'));
+                }
+            })->get();
 
         $statuses = $appointments->pluck('status')->unique();
 
@@ -124,7 +131,12 @@ class AppointmentController extends Controller
      */
     public function edit(Appointment $appointment)
     {
-        //
+        $appointment_types = Appointment::types();
+        $page_title = "View Appointment";
+        $comments = Comment::where('appointment_id', $appointment->id)->with(['status', 'user'])->get();
+
+        return response()->view('backend.appointment.edit', compact('appointment_types','appointment', 'comments', 'page_title'));
+
     }
 
     /**

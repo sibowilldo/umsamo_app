@@ -10,9 +10,6 @@ use App\Region;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 class PagesController extends Controller
 {
@@ -20,15 +17,19 @@ class PagesController extends Controller
     public function index()
     {
 
+        $user = Auth::user();
+        $page_title = 'Dashboard';
+        $page_description = "Welcome {$user->profile->fullname}";
         $provinces = Region::$provinces;
         $appointment_types = Appointment::types();
-        $user = Auth::user();
 
         $family_appointments = [];
         $appointments = [];
         $members = [];
         $comments = [];
+
         if($user->hasAnyRole(User::SUPER_ADMIN_ROLE, User::ADMIN_ROLE)){
+            $dashboard_view = 'backend.dashboard.administrator';
             $event_date = EventDate::where('date_time', '=', Carbon::today()->format('Y-m-d H:i:s'))
                 ->with(['appointments' => function($q){
                     $q->limit(9);
@@ -39,6 +40,7 @@ class PagesController extends Controller
             }
         }
         else{
+            $dashboard_view = 'backend.dashboard.client';
             $user = User::where('id',$user->id)->with(['appointments', 'appointments.status:id,title,color',
                             'comments.status:id,title,color','comments.appointment',
                             'familyAppointments','familyAppointments.status', 'familyAppointments.appointment',
@@ -48,13 +50,10 @@ class PagesController extends Controller
 
             $family_appointments = $user->familyAppointments;
             $appointments =$user->appointments->where('event_date.date_time', '>=', Carbon::today()->format('Y-m-d'))->sortBy('event_date.date_time')->take(5);
+
         }
+        return response()->view($dashboard_view, compact('user', 'members', 'family_appointments','appointment_types', 'appointments', 'comments', 'page_title', 'page_description', 'provinces'));
 
-//        return response()->json($appointments->pluck('appointmentable'));
-        $page_title = 'Dashboard';
-        $page_description = "Welcome {$user->profile->fullname}";
-
-        return response()->view('pages.dashboard', compact('user', 'members', 'family_appointments','appointment_types', 'appointments', 'comments', 'page_title', 'page_description', 'provinces'));
     }
 
     // Quicksearch Result
