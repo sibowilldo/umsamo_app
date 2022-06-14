@@ -10,7 +10,7 @@
     "require": {
         "php": "^7.3",
         "barryvdh/laravel-dompdf": "^1.0.2",
-        "doctrine/dbal": "^2.10",
+        "doctrine/dbal": "^3.3",
         "dyrynda/laravel-cascade-soft-deletes": "^4.2",
         "dyrynda/laravel-efficient-uuid": "^4.0",
         "dyrynda/laravel-model-uuid": "^6.1",
