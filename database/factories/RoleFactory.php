@@ -1,12 +1,17 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+class RoleFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
 
-use App\Model;
-use Faker\Generator as Faker;
+    public function definition()
+    {
 
-$factory->define(Model::class, function (Faker $faker) {
-    return [
-        //
-    ];
-});
+        return [
+            //
+        ];
+    }
+}

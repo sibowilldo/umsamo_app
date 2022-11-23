@@ -9,6 +9,7 @@ use Dyrynda\Database\Support\GeneratesUuid;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -24,6 +25,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
 {
     use Notifiable, SoftDeletes, GeneratesUuid, HasRoles, Encryptable;
+    use HasFactory;
 
     const CLIENT_ROLE = 'client';
     const ADMIN_ROLE = 'administrator';

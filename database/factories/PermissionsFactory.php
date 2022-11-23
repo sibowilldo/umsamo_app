@@ -1,12 +1,19 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Model;
-use Faker\Generator as Faker;
+class PermissionsFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
 
-$factory->define(Model::class, function (Faker $faker) {
+    public function definition()
+    {
+
     return [
         //
     ];
-});
+
+    }
+}

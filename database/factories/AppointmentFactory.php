@@ -1,24 +1,29 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-
-use App\Appointment;
-use Faker\Generator as Faker;
+use App\EventDate;
+use App\Region;
+use App\Status;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-$factory->define(Appointment::class, function (Faker $faker) {
-    $event_dates = \App\EventDate::pluck('id');
-    $statuses = \App\Status::where('model_type', 'App\Appointment')->pluck('id');
-    $regions = \App\Region::pluck('id');
+class AppointmentFactory extends Factory{
+
+    public function definition()
+    {
+        // TODO: Implement definition() method.
+        $event_dates = EventDate::pluck('id');
+        $statuses = Status::where('model_type', 'App\Appointment')->pluck('id');
+        $regions = Region::pluck('id');
 
 
-    return [
-        'uuid' => $faker->uuid,
-        'reference' => Str::upper($faker->randomElement(['FAM-', 'SLF-']) . sprintf('%03d', rand(000, 999)) . '-'. Str::random(4)),
-        'event_date_id' => $faker->randomElement($event_dates),
-        'status_id' => $faker->randomElement($statuses),
-        'type' => $faker->randomElement([1,2]),
-        'with_family' => $faker->boolean(0),
-        'region_id' => $faker->randomElement($regions),
-    ];
-});
+        return [
+            'uuid' => $this->faker->uuid,
+            'reference' => Str::upper($this->faker->randomElement(['FAM-', 'SLF-']) . sprintf('%03d', rand(000, 999)) . '-'. Str::random(4)),
+            'event_date_id' => $this->faker->randomElement($event_dates),
+            'status_id' => $this->faker->randomElement($statuses),
+            'type' => $this->faker->randomElement([1,2]),
+            'with_family' => $this->faker->boolean(0),
+            'region_id' => $this->faker->randomElement($regions),
+        ];
+    }
+}

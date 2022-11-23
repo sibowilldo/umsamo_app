@@ -14,7 +14,6 @@
         "dyrynda/laravel-cascade-soft-deletes": "^4.2",
         "dyrynda/laravel-efficient-uuid": "^4.5",
         "dyrynda/laravel-model-uuid": "^6.6",
-        "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.5",
         "laracasts/flash": "^3.2",

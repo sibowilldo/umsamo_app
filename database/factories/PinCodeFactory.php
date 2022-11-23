@@ -1,15 +1,21 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+class PinCodeFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
 
-use App\PinCode;
-use Faker\Generator as Faker;
-
-$factory->define(PinCode::class, function (Faker $faker) {
+    public function definition()
+    {
     return [
-        'user_id' => factory(\App\User::class),
-        'code' => $faker->word,
-        'expires_at' => $faker->dateTime(),
-        'is_active' => $faker->boolean,
+        'user_id' => \App\User::factory(1),
+        'code' => $this->faker->word,
+        'expires_at' => $this->faker->dateTime(),
+        'is_active' => $this->faker->boolean,
     ];
-});
+
+
+    }
+}

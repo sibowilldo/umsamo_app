@@ -1,11 +1,16 @@
 <?php
 
 use App\Appointment;
-use App\Attachment;
+use App\Comment;
+use App\Event;
+use App\EventDate;
+use App\Item;
+use App\Profile;
 use App\Region;
+use App\Status;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use Faker as Faker;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -22,27 +27,27 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionsSeeder::class);
 
         //Statuses
-        factory(App\Status::class, 31)->create();
+        Status::factory(31)->create();
 
         //Profile & User
 //        factory(App\Profile::class, 15)->create();
 
         //Items
-        factory(App\Item::class, 5)->create();
+        Item::factory(5)->create();
 
         //Events & Regions
-        factory(App\Region::class, 3)->create();
+        Region::factory(3)->create();
 
         //Assign users to roles
-        factory(App\User::class, 700)->create()->each(function ($user){
-            $user->profile()->save(factory(App\Profile::class)->make());
+        User::factory( 700)->create()->each(function ($user){
+            $user->profile()->save(Profile::factory(1)->make());
             $user->assignRole('client');
         });
 
 
         $faker = Faker\Factory::create();
 
-        $admin = \App\User::create([
+        $admin = User::create([
             'uuid' => $faker->uuid,
             'email' => 'sibongiseni.msomis@gmail.com',
             'email_verified_at' => now(),
@@ -67,7 +72,7 @@ class DatabaseSeeder extends Seeder
             'cell_number_verified_at' => now()
         ]);
 
-        $kingpin = \App\User::create([
+        $kingpin = User::create([
             'uuid' => $faker->uuid,
             'email' => 'sibongiseni.msomi@outlook.com',
             'email_verified_at' => now(),
@@ -92,20 +97,18 @@ class DatabaseSeeder extends Seeder
             'cell_number_verified_at' => now()
         ]);
 
-        Region::all()->each(function ($region) {
-            $region->events()->attach(factory(App\Event::class, 4)->create());
-        });
+
+        Region::all()->each(fn($region) => $region->events()->attach(Event::factory(4)->create()));
+
         //Event Dates
-        factory(App\EventDate::class, 15)->create();
+        EventDate::factory(15)->create();
 
 
         /**
          * Create 100 Appointments and attach a random number of Attachments between 0-3, then assignment those
          * Appointments to a variable for later use.
          */
-        \App\User::all()->each(function ($user){
-                $user->appointments()->save(factory(App\Appointment::class)->make());
-            });
+        User::all()->each(fn($user) => $user->appointments()->save(Appointment::factory(1)->make()));
 
         /**
          * Create 100 Appointments and attach a random number of Attachments between 0-3, then assignment those
@@ -122,7 +125,7 @@ class DatabaseSeeder extends Seeder
 //        });
 
         //Comments
-        factory(App\Comment::class, 500)->create();
+        Comment::factory(500)->create();
 
     }
 }

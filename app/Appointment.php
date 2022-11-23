@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Dyrynda\Database\Casts\EfficientUuid;
 use Dyrynda\Database\Support\GeneratesUuid;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,6 +15,7 @@ class Appointment extends Model
 {
 
     use GeneratesUuid, SoftDeletes;
+    use HasFactory;
 
     const STATUS_ACTIVE = 11;
     const STATUS_CANCELLED = 12;

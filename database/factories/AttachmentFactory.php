@@ -1,13 +1,19 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Attachment;
-use Faker\Generator as Faker;
+class AttachmentFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
 
-$factory->define(Attachment::class, function (Faker $faker) {
-    return [
-        'uuid' => $faker->uuid,
-        'url' => ''//$faker->file(storage_path('app/private/attachments'), public_path('storage/attachments'), false),
-    ];
-});
+    public function definition()
+    {
+
+        return [
+            'uuid' => $this->faker->uuid,
+            'url' => ''//$faker->file(storage_path('app/private/attachments'), public_path('storage/attachments'), false),
+        ];
+    }
+}

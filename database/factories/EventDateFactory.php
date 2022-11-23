@@ -1,11 +1,14 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+class EventDateFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
 
-use App\EventDate;
-use Faker\Generator as Faker;
-
-$factory->define(EventDate::class, function (Faker $faker) {
+    public function definition()
+    {
     $statuses = App\Status::where('model_type', 'App\EventDate')->pluck('id');
     $events = App\Event::pluck('id');
 
@@ -13,6 +16,9 @@ $factory->define(EventDate::class, function (Faker $faker) {
         'event_id' => $events[rand(0, count($events)-1)],
         'status_id' => $statuses[rand(0, count($statuses)-1)],
         'date_time' => date('Y-m-d', strtotime('now +' . $this->faker->unique()->numberBetween(1, 15) . ' days')),
-        'limit' => $faker->numberBetween(10,50),
+        'limit' => $this->faker->numberBetween(10,50),
     ];
-});
+
+
+    }
+}

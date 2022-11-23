@@ -1,18 +1,23 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+class AttachmentMetaFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
 
-use App\AttachmentMeta;
-use Faker\Generator as Faker;
+    public function definition()
+    {
+        $data = [];
+        $data['ext'] = $this->faker->fileExtension;
+        $data['mime-type'] = $this->faker->mimeType;
+        $data['size'] = (round($this->faker->numberBetween(500000, 10000000) / 1e+6,  2) ). ' Megabytes';
 
-$factory->define(AttachmentMeta::class, function (Faker $faker) {
+        return [
+            "metadata" => $data
+        ];
 
-    $data = [];
-    $data['ext'] = $faker->fileExtension;
-    $data['mime-type'] = $faker->mimeType;
-    $data['size'] = (round($faker->numberBetween(500000, 10000000) / 1e+6,  2) ). ' Megabytes';
 
-    return [
-        "metadata" => $data
-    ];
-});
+    }
+}

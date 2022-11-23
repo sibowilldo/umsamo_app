@@ -1,17 +1,22 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+class RegionFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
 
-use App\Region;
-use Faker\Generator as Faker;
-use Grimzy\LaravelMysqlSpatial\Types\Point;
-
-$factory->define(Region::class, function (Faker $faker) {
+    public function definition()
+    {
     return [
-        'name' => $faker->city,
-        'description' => $faker->realText(),
-        'contact_number' => $faker->mobileNumber,
-        'province' => $faker->state,
-        'address' => $faker->streetAddress,
+        'name' => $this->faker->city,
+        'description' => $this->faker->realText(),
+        'contact_number' => $this->faker->mobileNumber,
+        'province' => $this->faker->state,
+        'address' => $this->faker->streetAddress,
     ];
-});
+
+
+    }
+}

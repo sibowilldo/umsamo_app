@@ -4,11 +4,13 @@ namespace App;
 
 use Dyrynda\Database\Casts\EfficientUuid;
 use Dyrynda\Database\Support\GeneratesUuid;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Attachment extends Model
 {
     use GeneratesUuid;
+    use HasFactory;
     /**
      * The attributes that are mass assignable.
      *

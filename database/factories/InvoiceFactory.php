@@ -1,17 +1,23 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+class InvoiceFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
 
-use App\Invoice;
-use Faker\Generator as Faker;
+    public function definition()
+    {
+        return [
+            'uuid' => $this->faker->uuid,
+            'user_id' => factory(\App\User::class),
+            'status_id' => factory(\App\Status::class),
+            'amount' => $this->faker->randomFloat(2, 0, 99999999999.99),
+            'discount' => $this->faker->randomFloat(2, 0, 99999999999.99),
+            'notes' =>  $this->faker->realText(),
+        ];
 
-$factory->define(Invoice::class, function (Faker $faker) {
-    return [
-        'uuid' => $faker->uuid,
-        'user_id' => factory(\App\User::class),
-        'status_id' => factory(\App\Status::class),
-        'amount' => $faker->randomFloat(2, 0, 99999999999.99),
-        'discount' => $faker->randomFloat(2, 0, 99999999999.99),
-        'notes' =>  $faker->realText(),
-    ];
-});
+
+    }
+}

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class PinCode extends Model
@@ -10,6 +11,7 @@ class PinCode extends Model
     const VERIFY_OTP_TYPE = 1;
     const FAMILY_INVITE_TYPE = 2;
     const ACCOUNT_LOCKED_TYPE = 3;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.

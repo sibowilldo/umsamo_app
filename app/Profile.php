@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -10,6 +11,7 @@ use Magros\Encryptable\Encryptable;
 class Profile extends Model
 {
     use SoftDeletes, Encryptable;
+    use HasFactory;
     /**
      * The attributes that are mass assignable.
      *

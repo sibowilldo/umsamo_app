@@ -2,10 +2,12 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class EventDate extends Model
 {
+    use HasFactory;
 
     const STATUS_ACTIVE = 8;
     const STATUS_FULL = 9;

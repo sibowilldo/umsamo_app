@@ -2,12 +2,14 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class FamilyAppointment extends Model
 {
     use SoftDeletes;
+    use HasFactory;
 
     public const STATUS_CANCELLED=27;
     public const STATUS_CONFIRMED=28;

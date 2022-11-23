@@ -2,12 +2,15 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
     use SoftDeletes;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -40,19 +43,19 @@ class Comment extends Model
         'message'
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(\App\User::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function status()
+    public function status(): BelongsTo
     {
-        return $this->belongsTo(\App\Status::class);
+        return $this->belongsTo(Status::class);
     }
 
-    public function appointment()
+    public function appointment(): BelongsTo
     {
-        return $this->belongsTo(\App\Appointment::class);
+        return $this->belongsTo(Appointment::class);
     }
 
 }

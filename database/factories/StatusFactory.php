@@ -1,11 +1,15 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Status;
-use Faker\Generator as Faker;
+class StatusFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
 
-$factory->define(Status::class, function (Faker $faker) {
+    public function definition()
+    {
 
     $statuses = [
         //Event Statuses
@@ -59,9 +63,12 @@ $factory->define(Status::class, function (Faker $faker) {
 
     return [
         'title' => $status['title'],
-        'description' => $faker->realText(),
+        'description' => $this->faker->realText(),
         'model_type' => $status['model_type'],
         'is_active' => true,
         'color' => $status['color']
     ];
-});
+
+
+    }
+}
