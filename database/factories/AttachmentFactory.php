@@ -1,7 +1,10 @@
 <?php
 
+namespace Database\Factories;
 
-class AttachmentFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class AttachmentFactory extends Factory{
     /**
      * The name of the factory's corresponding model.
      *

@@ -1,6 +1,11 @@
 <?php
 
-class InvoiceFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+namespace Database\Factories;
+use App\Status;
+use App\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class InvoiceFactory extends Factory{
     /**
      * The name of the factory's corresponding model.
      *
@@ -11,8 +16,8 @@ class InvoiceFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
     {
         return [
             'uuid' => $this->faker->uuid,
-            'user_id' => factory(\App\User::class),
-            'status_id' => factory(\App\Status::class),
+            'user_id' => factory(User::class),
+            'status_id' => factory(Status::class),
             'amount' => $this->faker->randomFloat(2, 0, 99999999999.99),
             'discount' => $this->faker->randomFloat(2, 0, 99999999999.99),
             'notes' =>  $this->faker->realText(),

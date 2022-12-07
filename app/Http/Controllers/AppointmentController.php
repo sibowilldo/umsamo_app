@@ -34,8 +34,8 @@ class AppointmentController extends Controller
         $appointmentables = [];
         array_push($appointmentables, $user->id);
         if(count($user->families)){
-	    array_push($appointmentables, $user->families->pluck('id')->toArray());
-	}
+            array_push($appointmentables, $user->families->pluck('id')->toArray());
+        }
         $appointments = Appointment::whereIn('appointmentable_id', $appointmentables )->get();
 
         $statuses = $appointments->pluck('status')->unique();

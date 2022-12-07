@@ -1,17 +1,26 @@
 <?php
 
-class ProfileFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+namespace Database\Factories;
+
+use App\Profile;
+use App\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
+
+class ProfileFactory extends Factory{
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
+    protected $model = Profile::class;
 
     public function definition()
     {
 
     $id_number =  $this->faker->idNumber;
     return [
+        'user_id' => User::factory(),
         'avatar' => 'media/users/blank.png',
         'id_number' => $id_number,
         'first_name' => $this->faker->firstName,

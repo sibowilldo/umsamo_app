@@ -1,12 +1,16 @@
 <?php
+namespace Database\Factories;
 
+use App\Appointment;
 use App\EventDate;
 use App\Region;
 use App\Status;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-class AppointmentFactory extends Factory{
+class AppointmentFactory extends Factory
+{
+    protected $model = Appointment::class;
 
     public function definition()
     {

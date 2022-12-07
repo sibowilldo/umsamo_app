@@ -16,7 +16,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class FamilyAppointmentsDataTable extends DataTable
 {
-    protected $printPreview = 'backend.admin.family-appointment.print';
+    protected string $printPreview = 'backend.admin.family-appointment.print';
     /**
      * Build DataTable class.
      *
@@ -102,7 +102,7 @@ class FamilyAppointmentsDataTable extends DataTable
      *
      * @return string
      */
-    protected function filename()
+    protected function filename(): string
     {
         return 'FamilyAppointments_' . date('YmdHis');
     }

@@ -1,6 +1,12 @@
 <?php
 
-class EventDateFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+namespace Database\Factories;
+
+use App\Event;
+use App\Status;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class EventDateFactory extends Factory{
     /**
      * The name of the factory's corresponding model.
      *
@@ -9,8 +15,8 @@ class EventDateFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
 
     public function definition()
     {
-    $statuses = App\Status::where('model_type', 'App\EventDate')->pluck('id');
-    $events = App\Event::pluck('id');
+    $statuses = Status::where('model_type', 'App\EventDate')->pluck('id');
+    $events = Event::pluck('id');
 
     return [
         'event_id' => $events[rand(0, count($events)-1)],

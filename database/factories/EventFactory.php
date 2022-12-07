@@ -1,7 +1,12 @@
 <?php
+namespace Database\Factories;
 
+use App\Item;
+use App\Status;
 
-class EventFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class EventFactory extends Factory{
     /**
      * The name of the factory's corresponding model.
      *
@@ -10,14 +15,14 @@ class EventFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
 
     public function definition()
     {
-    $items = App\Item::pluck('id');
-    $statuses = App\Status::where('model_type', 'App\Event')->pluck('id');
+    $items = Item::pluck('id');
+    $statuses = Status::where('model_type', 'App\Event')->pluck('id');
 
     return [
         'uuid' => $this->faker->uuid,
         'status_id' => $statuses[rand(0, count($statuses)-1)],
         'item_id' => $items[rand(0, count($items)-1)],
-        'title' => "$this->faker->dayOfWeek of $this->faker->monthName",
+        'title' => sprintf('%s of %s',$this->faker->dayOfWeek, $this->faker->monthName),
         'description' => $this->faker->realText(),
     ];
 

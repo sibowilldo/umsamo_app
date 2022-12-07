@@ -444,17 +444,16 @@ class MetroMenu
     // Check for active Vertical Menu item
     public static function isActiveVerMenuItem($item, $page, $rec = 0)
     {
-        if (@$item['redirect'] === true) {
-            return false;
-        }
+         if (is_array($item)) {
+            if (@$item['redirect'] === true) {
+                return false;
+            }
 
-        self::checkRecursion($rec);
+            self::checkRecursion($rec);
 
-        if (isset($item['page']) && route($item['page']) == url($page)) {
-            return true;
-        }
-
-        if (is_array($item)) {
+            if (isset($item['page']) && route($item['page']) == url($page)) {
+                return true;
+            }
             foreach ($item as $each) {
                 if (self::isActiveVerMenuItem($each, $page, $rec++)) {
                     return true;
@@ -468,17 +467,17 @@ class MetroMenu
     // Check for active Horizontal Menu item
     public static function isActiveHorMenuItem($item, $page, $rec = 0)
     {
-        if (@$item['redirect'] === true) {
-            return false;
-        }
-
-        self::checkRecursion($rec);
-
-        if (isset($item['page']) && route($item['page'])== url($page)) {
-            return true;
-        }
 
         if (is_array($item)) {
+            if (@$item['redirect'] === true) {
+                return false;
+            }
+
+            self::checkRecursion($rec);
+
+            if (isset($item['page']) && route($item['page'])== url($page)) {
+                return true;
+            }
             foreach ($item as $each) {
                 if (self::isActiveHorMenuItem($each, $page, $rec++)) {
                     return true;

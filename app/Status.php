@@ -11,8 +11,7 @@ use Illuminate\Support\Str;
 
 class Status extends Model
 {
-    use SoftDeletes, CascadeSoftDeletes;
-    use HasFactory;
+    use SoftDeletes, CascadeSoftDeletes, HasFactory;
 
     /**
      *

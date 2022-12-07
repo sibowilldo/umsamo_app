@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
         //Statuses
         Status::factory(31)->create();
 
+
         //Profile & User
 //        factory(App\Profile::class, 15)->create();
 
@@ -36,13 +37,18 @@ class DatabaseSeeder extends Seeder
         Item::factory(5)->create();
 
         //Events & Regions
-        Region::factory(3)->create();
+        Region::factory(3)->hasEvents(4)->create();
+
+//        Region::all()->each(fn($region) => $region->events()->attach(Event::factory(4)->create()));
+
+        //Event Dates
+        EventDate::factory(15)->create();
 
         //Assign users to roles
-        User::factory( 700)->create()->each(function ($user){
-            $user->profile()->save(Profile::factory(1)->make());
-            $user->assignRole('client');
-        });
+        User::factory( 10)
+            ->hasProfile(1)
+            ->hasAppointments(3)
+            ->create()->each(fn($user) => $user->assignRole('client'));
 
 
         $faker = Faker\Factory::create();
@@ -98,17 +104,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        Region::all()->each(fn($region) => $region->events()->attach(Event::factory(4)->create()));
-
-        //Event Dates
-        EventDate::factory(15)->create();
-
 
         /**
          * Create 100 Appointments and attach a random number of Attachments between 0-3, then assignment those
          * Appointments to a variable for later use.
          */
-        User::all()->each(fn($user) => $user->appointments()->save(Appointment::factory(1)->make()));
+        User::all()->each(fn($user) => $user->factory()->has(Appointment::factory()->count(1)));
 
         /**
          * Create 100 Appointments and attach a random number of Attachments between 0-3, then assignment those

@@ -1,6 +1,10 @@
 <?php
 
-class AttachmentMetaFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+namespace Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class AttachmentMetaFactory extends Factory{
     /**
      * The name of the factory's corresponding model.
      *

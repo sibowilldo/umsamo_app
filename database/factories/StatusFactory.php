@@ -1,7 +1,13 @@
 <?php
+namespace Database\Factories;
 
+use App\Status;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-class StatusFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+class StatusFactory extends Factory{
+
+    protected $model = Status::class;
+
     /**
      * The name of the factory's corresponding model.
      *

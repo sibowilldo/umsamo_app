@@ -1,7 +1,15 @@
 <?php
 
+namespace Database\Factories;
 
-class ItemFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+use App\Item;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class ItemFactory extends Factory
+{
+
+    protected $model = Item::class;
+
     /**
      * The name of the factory's corresponding model.
      *

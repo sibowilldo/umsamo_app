@@ -1,6 +1,12 @@
 <?php
 
-class CommentFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+namespace Database\Factories;
+use App\Appointment;
+use App\Status;
+use App\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class CommentFactory extends Factory{
     /**
      * The name of the factory's corresponding model.
      *
@@ -10,9 +16,9 @@ class CommentFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
     public function definition()
     {
 
-    $users = \App\User::pluck('id')->toArray();
-    $statuses = \App\Status::where('model_type', 'App\Comment')->pluck('id');
-    $appointments = \App\Appointment::pluck('id');
+    $users = User::pluck('id')->toArray();
+    $statuses = Status::where('model_type', 'App\Comment')->pluck('id');
+    $appointments = Appointment::pluck('id');
 
     return [
         'user_id' => $users[rand(0, count($users)-1)],

@@ -1,7 +1,10 @@
 <?php
 
+namespace Database\Factories;
 
-class FamilyFactory extends \Illuminate\Database\Eloquent\Factories\Factory{
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class FamilyFactory extends Factory{
     /**
      * The name of the factory's corresponding model.
      *
