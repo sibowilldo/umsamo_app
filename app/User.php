@@ -168,6 +168,6 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
      */
     public function routeNotificationForSlack($notification)
     {
-        return 'https://hooks.slack.com/services/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';
+        return 'https://hooks.slack.com/services/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';
     }
 }

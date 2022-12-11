@@ -57,7 +57,7 @@ class DatabaseSeeder extends Seeder
             'uuid' => $faker->uuid,
             'email' => 'sibongiseni.msomis@gmail.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('&9I2ii5A6Oo&9'),// '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => Hash::make('password'),// '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ]);
 
@@ -82,7 +82,7 @@ class DatabaseSeeder extends Seeder
             'uuid' => $faker->uuid,
             'email' => 'sibongiseni.msomi@outlook.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('&9I2ii5A6Oo&9'),// '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => Hash::make('password'),// '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ]);
 
@@ -126,7 +126,7 @@ class DatabaseSeeder extends Seeder
 //        });
 
         //Comments
-        Comment::factory(500)->create();
+        Comment::factory(10)->create();
 
     }
 }
